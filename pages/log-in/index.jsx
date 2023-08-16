@@ -30,18 +30,18 @@ const index = () => {
                       
                         <div>
                             <label class="block mb-2 text-sm text-gray-600 ">Email address</label>
-                            <input type="email" placeholder="johnsnow@example.com" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md  focus:border-secondary focus:ring-secondary focus:outline-none focus:ring focus:ring-opacity-40" />
+                            <input type="email" placeholder="johnsnow@example.com" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md  focus:border-primary focus:ring-primary focus:outline-none focus:ring focus:ring-opacity-40" />
                         </div>
     
                         <div>
                             <label class="block mb-2 text-sm text-gray-600 ">Password</label>
-                            <input type="password" placeholder="Enter your password" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md  focus:border-secondary focus:ring-secondary focus:outline-none focus:ring focus:ring-opacity-40" />
+                            <input type="password" placeholder="Enter your password" class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md  focus:border-primary focus:ring-primary focus:outline-none focus:ring focus:ring-opacity-40" />
                         </div>
     
                         
                         <Link href="/networks">
                             <button
-                                class="flex items-center justify-between w-full px-6 py-3 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-secondary rounded-md hover:bg-black focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+                                class="flex items-center justify-between w-full px-6 py-3 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-primary rounded-md hover:bg-black focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
                             <span>log In </span>
         
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 rtl:-scale-x-100" viewBox="0 0 20 20" fill="currentColor">
@@ -54,7 +54,7 @@ const index = () => {
                         
                     </form>
                     <div class=" py-6 text-sm font-medium text-gray-500 ">
-                         Not registered? <Link href="/sign-in" class="text-secondary hover:underline ">Create account</Link>
+                         Not registered? <Link href="/sign-in" class="text-primary hover:underline ">Create account</Link>
                     </div>
                     
                 </div>
