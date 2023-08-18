@@ -33,9 +33,9 @@ function Index() {
 
 
     ];
-    const inputstyle = "pl-1  text-sm rounded-[10px] border border-stone-500 bg-background border-l-8   text-gray-400 h-8  md:h-10 lg:h-12"
-    const lableStyle = "font-dosis text-xs md:text-sm lg:text-md xl:text-lg font-medium  "
-    const selectStyle = "text-gray-700 font-dosis  text-xs md:text-sm lg:text-md xl:text-lg  font-normal"
+    const inputstyle = "pl-1  text-[0.5rem] md:text-xs lg:text-sm xl:text-md rounded-[10px] border border-stone-500 bg-background border-l-8   text-gray-400 h-8  md:h-10 lg:h-12"
+    const lableStyle = "font-dosis   text-[0.5rem] md:text-xs lg:text-sm xl:text-md font-medium  "
+    const selectStyle = "text-gray-700 font-dosis  text-[0.5rem] md:text-xs lg:text-sm xl:text-md  font-normal"
     const {
         control,
         handleSubmit,
