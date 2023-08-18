@@ -28,10 +28,10 @@ const index = () => {
                         <h3 className='text-white'>Created At: {job.jobDate}</h3>
                         <div className='  flex flex-row gap-5'>
                             <Link href={`${job.id}/edit`}>
-                                <button className=' bg-secondary transition duration-300 hover:bg-slate-200 text-primary rounded-md px-4 py2'> Edit Job</button>
+                                <button className=' bg-secondary  hover:bg-primary  hover:border-secondary  hover:border-2 hover:text-secondary transition duration-300 text-primary rounded-md px-4 py2'> Edit Job</button>
                             </Link>
                             
-                            <button className='bg-red-600 transition duration-300 hover:bg-red-500 text-secondary rounded-md px-4 py2'>Delete job</button>
+                            <button className='bg-red-600 transition duration-300 hover:bg-primary hover:text-red-600 hover:border-red-600 hover:border-2 text-secondary rounded-md px-4 py2'>Delete job</button>
 
                         </div>
                     </div>
@@ -39,7 +39,7 @@ const index = () => {
                         <h2 className='text-5xl text-secondary'>{job.numberOfCandidates}</h2>
                         <p className='text-secondary '>Candidates</p>
                         <Link href={`${job.id}/candidates`}>
-                                <button className=' bg-secondary transition duration-300 hover:bg-slate-200  text-primary rounded-md px-4 py2'>See Candidates</button>
+                                <button className=' bg-secondary  hover:bg-primary  hover:border-secondary  hover:border-2 hover:text-secondary transition duration-300  text-primary rounded-md px-4 py2'>See Candidates</button>
                         </Link>
                     </div>
                 </div>
