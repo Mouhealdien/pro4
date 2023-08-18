@@ -1,8 +1,14 @@
 import Link from "next/link";
 import React from "react";
-import Input from "../../components/Input";
+import { useForm } from "react-hook-form";
 
 const index = () => {
+
+  const { register, handleSubmit, formState: { errors } } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
   return (
     <section class="bg-white  ">
       <div class="flex justify-center min-h-screen">
@@ -12,7 +18,9 @@ const index = () => {
             backgroundImage:
               "url('https://images.unsplash.com/photo-1494621930069-4fd4b2e24a11?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=715&q=80')",
           }}
-        ></div>
+        >
+
+        </div>
 
         <div class="flex items-center w-full max-w-3xl p-8 mx-auto lg:px-12 lg:w-3/5">
           <div class="w-full">
@@ -25,31 +33,31 @@ const index = () => {
               and begin setting up your profile.
             </p>
 
-            <form className=" grid grid-cols-1 gap-6 mt-8 md:grid-cols-2">
-              <div>
-                <label class="block mb-2 text-sm text-gray-600 ">
-                  Email address
-                </label>
-                <input
-                  type="email"
-                  placeholder="johnsnow@example.com"
-                  class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md  focus:border-secondary focus:ring-secondary focus:outline-none focus:ring focus:ring-opacity-40"
-                />
-              </div>
+            <form className=" grid grid-cols-1 gap-6 mt-8 md:grid-cols-2" onSubmit={handleSubmit(onSubmit)}>
+            <div>
+              <label className="block mb-2 text-sm text-gray-600">Email address</label>
+              <input
+                type="email"
+                placeholder="johnsnow@example.com"
+                className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-primary focus:ring-primary focus:outline-none focus:ring focus:ring-opacity-40"
+                {...register('email', { required: true })}
+              />
+              {errors.email && <span className="text-red-500">Email address is required</span>}
+           </div>
 
               <div>
-                <label class="block mb-2 text-sm text-gray-600 ">
-                  Password
-                </label>
+                <label className="block mb-2 text-sm text-gray-600">Password</label>
                 <input
                   type="password"
                   placeholder="Enter your password"
-                  class="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md  focus:border-secondary focus:ring-secondary focus:outline-none focus:ring focus:ring-opacity-40"
+                  className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-primary focus:ring-primary focus:outline-none focus:ring focus:ring-opacity-40"
+                  {...register('password', { required: true })}
                 />
-              </div>
+                {errors.password && <span className="text-red-500">Password is required</span>}
+             </div>
 
-              <Link href="/networks">
-                <button class="flex items-center justify-between w-full px-6 py-3 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-primary rounded-md hover:bg-black focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+              
+                <button type="submit" class="flex items-center justify-between w-full px-6 py-3 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-primary rounded-md hover:bg-black focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
                   <span>log In </span>
 
                   <svg
@@ -65,11 +73,11 @@ const index = () => {
                     />
                   </svg>
                 </button>
-              </Link>
+              
             </form>
             <div class=" py-6 text-sm font-medium text-gray-500 ">
               Not registered?{" "}
-              <Link href="/sign-in" class="text-secondary hover:underline ">
+              <Link href="/sign-up" class="text-primary hover:underline ">
                 Create account
               </Link>
             </div>
