@@ -8,8 +8,22 @@ import { useState } from "react";
 import RadioGroup from "../../../components/RadioGroup";
 import TextArea from "../../../components/TextArea";
 import ImageUploader from "../../../components/ImageUploader";
+import DateInput from "../../../components/DateInput";
 function Index() {
-
+    const profileInfo = {
+        firstName: "Ahmad",
+        lastName: "Hashem",
+        age: 28,
+        nationality: "Syrian",
+        gender: "Male",
+        militaryStatus: "Exempt",
+        workCite: "Aleppo",
+        jobLevel: "senior",
+        currentJobStatus: "unemployed",
+        experienceYears: "1",
+        phone: "+963945674825",
+        email: "random@gmail.com",
+    }
 
     const Locationsoptions = [
         { value: 'remote', label: 'Remote' },
@@ -33,6 +47,10 @@ function Index() {
 
 
     ];
+    const jobstatus = [
+        { value: 'Unemployed', label: 'Unemployed' },
+        { value: 'Working', label: 'Working' },
+    ]
     const inputstyle = "pl-1  text-sm rounded-[10px] border border-stone-500 bg-background border-l-8   text-gray-400 h-8  md:h-10 lg:h-12"
     const lableStyle = "font-dosis text-xs md:text-sm lg:text-md xl:text-lg font-medium  "
     const selectStyle = "text-gray-700 font-dosis  text-xs md:text-sm lg:text-md xl:text-lg  font-normal"
@@ -52,11 +70,12 @@ function Index() {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="my-5 bg-white h-full   mx-10 md:mx-32 lg:mx-60 rounded-xl pt-4  pb-10 px-6 md:px-12  border-l-8   border-primary  shadow-md  shadow-slate-300">
                     <h1 className=" text-primary text-xl md:text-2xl lg:text-3xl  mt-6">
-                        Company profile
+                        Basic Info
+
 
                     </h1>
                     <h2 className="text-sm md:text-md lg:text-lg text-slate-500  mt-2 mb-12">
-                        Write below your company profile which will appear with each of your job posts. You will still have the option to hide it from any of your jobs.
+
                     </h2>
                     <hr className="mb-5"></hr>
 
@@ -64,104 +83,122 @@ function Index() {
                     <div className="flex   items-center  mx-2 md:mx-10 lg:mx-20  flex-wrap my-7 ">
                         <div className="w-1/2">
                             <Controller
-                                name="CompanyName"
+                                name="FirstName"
                                 control={control}
                                 rules={{
-                                    required: 'title is required',
+                                    required: 'FirstName is required',
                                     maxLength: {
                                         value: 20,
-                                        message: 'title should be at max 20 characters long',
+                                        message: 'FirstName should be at max 20 characters long',
                                     },
                                     minLength: {
                                         value: 5,
-                                        message: 'title should be at min 5 characters long',
+                                        message: 'FirstName should be at min 5 characters long',
                                     },
                                 }}
                                 render={({ field }) => (
                                     <Input
                                         inputProps={{
                                             ...field,
-                                            id: "CompanyName",
-                                            name: "CompanyName",
+                                            id: "FirstName",
+                                            name: "FirstName",
                                             type: "text",
-                                            placeholder: "Company Name",
+                                            placeholder: "First Name",
                                         }}
                                         inputStyle={`${inputstyle} mr-5`}
                                         lableStyle={lableStyle}
-                                        label={"Company Name"}
+                                        label={"First Name"}
                                         required={true}
                                     />
                                 )}
                             />
-                            {errors.CompanyName && (
+                            {errors.FirstName && (
                                 <p className="text-xs mb-3 text-red-700">
-                                    {`${errors.CompanyName.message}`}
+                                    {`${errors.FirstName.message}`}
                                 </p>
                             )}
                         </div>
                         <div className="w-1/2">
-
+                            <Controller
+                                name="LastName"
+                                control={control}
+                                rules={{
+                                    required: 'LastName is required',
+                                    maxLength: {
+                                        value: 20,
+                                        message: 'LastName should be at max 20 characters long',
+                                    },
+                                    minLength: {
+                                        value: 5,
+                                        message: 'LastName should be at min 5 characters long',
+                                    },
+                                }}
+                                render={({ field }) => (
+                                    <Input
+                                        inputProps={{
+                                            ...field,
+                                            id: "LastName",
+                                            name: "LastName",
+                                            type: "text",
+                                            placeholder: "Last Name",
+                                        }}
+                                        inputStyle={`${inputstyle} mr-5`}
+                                        lableStyle={lableStyle}
+                                        label={"Last Name"}
+                                        required={true}
+                                    />
+                                )}
+                            />
+                            {errors.LastName && (
+                                <p className="text-xs mb-3 text-red-700">
+                                    {`${errors.LastName.message}`}
+                                </p>
+                            )}
                         </div>
                     </div>
 
                     <div className="flex   items-center  mx-2 md:mx-10 lg:mx-20  flex-wrap  my-7 ">
                         <div className="w-1/2 ">
                             <Controller
-                                name="CompanyBio"
+                                name="email"
                                 control={control}
                                 rules={{
-
-                                    minLength: {
-                                        value: 100,
-                                        message: 'Company Bio should be at least 50 characters long',
+                                    required: 'email is required',
+                                    pattern: {
+                                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                        message: 'Please enter a valid EmailL',
                                     },
                                 }}
                                 render={({ field }) => (
-                                    <TextArea
-                                        textareaProps={{
+                                    <Input
+                                        inputProps={{
                                             ...field,
-                                            id: 'CompanyBio',
-                                            name: 'CompanyBio',
-                                            placeholder: 'Write Company Bio',
+                                            id: "email",
+                                            name: "email",
+                                            type: "text",
+                                            placeholder: "Email",
                                         }}
-                                        textareaStyle=" pl-1 text-sm   h-[15.875rem] rounded-[10px] border border-stone-500 mb-[3.06rem]  bg-background border-l-8   border-primary   text-gray-400"
-                                        label={"Company Bio"}
+                                        inputStyle={`${inputstyle} mr-5`}
                                         lableStyle={lableStyle}
+                                        label={"Email"}
+                                        required={true}
                                     />
                                 )}
                             />
-                            {errors.CompanyBio && (
-                                <p className="text-xs mb-3 text-red-700 ">
-                                    {`${errors.CompanyBio.message}`}
+                            {errors.email && (
+                                <p className="text-xs mb-3 text-red-700">
+                                    {`${errors.email.message}`}
                                 </p>
                             )}
                         </div>
-
-
-                    </div>
-
-
-
-
-                </div>
-
-
-                <div className="my-5 bg-white h-full   mx-10 md:mx-32 lg:mx-60 rounded-xl pt-4  pb-10 px-6 md:px-12  border-l-8   border-primary  shadow-md  shadow-slate-300">
-                    <h1 className=" text-primary text-xl md:text-2xl lg:text-3xl  mt-6">
-                        General info
-                    </h1>
-                    <h2 className="text-sm md:text-md lg:text-lg text-slate-500  mt-2 mb-12">
-                        This information will be private except if you choose to show it for the employees when you add new Job.
-                    </h2>
-                    <hr className="mb-5"></hr>
-
-
-                    <div className="flex   items-center  mx-2 md:mx-10 lg:mx-20  flex-wrap my-7 ">
-                        <div className="w-1/2">
+                        <div className="w-1/2 ">
                             <Controller
                                 name="City"
                                 control={control}
-                                rules={{ required: true }}
+                                rules={{
+                                    required: 'city is required',
+                                }}
+
                                 render={({ field }) => (
                                     <Select
                                         selectStyle={`${inputstyle} mr-5`}
@@ -173,7 +210,6 @@ function Index() {
                                         required={true}
                                     >
                                         <option
-
                                             value={undefined}
                                         >
                                             {"City"}
@@ -181,7 +217,6 @@ function Index() {
                                         {Typesoptions.map((i) => (
                                             <option
                                                 key={i.value}
-
                                                 value={i.value}
                                             >
                                                 {i.label}
@@ -196,239 +231,288 @@ function Index() {
                                 </p>
                             )}
                         </div>
-                        <div className="w-1/2">
+
+                    </div>
+
+                    <div className="flex   items-center  mx-2 md:mx-10 lg:mx-20  flex-wrap  my-7 ">
+                        <div className="w-1/2 ">
                             <Controller
-                                name="Address"
+                                name="Nationality"
                                 control={control}
                                 rules={{
-                                    required: 'Address is required',
+                                    required: 'Nationality is required',
+                                }}
+
+                                render={({ field }) => (
+                                    <Select
+                                        selectStyle={`${inputstyle} mr-5`}
+                                        lableStyle={lableStyle}
+                                        selectProps={{ placeholder: "Nationality" }}
+                                        {...field}
+                                        onChange={(value: string) => field.onChange(value)}
+                                        label={"Nationality"}
+                                        required={true}
+                                    >
+                                        <option
+                                            value={undefined}
+                                        >
+                                            {"Nationality"}
+                                        </option>
+                                        {Typesoptions.map((i) => (
+                                            <option
+                                                key={i.value}
+                                                value={i.value}
+                                            >
+                                                {i.label}
+                                            </option>
+                                        ))}
+                                    </Select>
+                                )}
+                            />
+                            {errors.Nationality && (
+                                <p className="text-xs mb-3 text-red-700">
+                                    {"Nationality is required"}
+                                </p>
+                            )}
+                        </div>
+                        <div className="w-1/2 ">
+                            <Controller
+                                name="MilitaryService"
+                                control={control}
+                                rules={{
+                                    required: 'Military Service is required',
+                                }}
+
+                                render={({ field }) => (
+                                    <Select
+                                        selectStyle={`${inputstyle} mr-5`}
+                                        lableStyle={lableStyle}
+                                        selectProps={{ placeholder: "Military Service" }}
+                                        {...field}
+                                        onChange={(value: string) => field.onChange(value)}
+                                        label={"Military Service"}
+                                        required={true}
+                                    >
+                                        <option
+                                            value={undefined}
+                                        >
+                                            {"Military Service"}
+                                        </option>
+                                        {Typesoptions.map((i) => (
+                                            <option
+                                                key={i.value}
+                                                value={i.value}
+                                            >
+                                                {i.label}
+                                            </option>
+                                        ))}
+                                    </Select>
+                                )}
+                            />
+                            {errors.MilitaryService && (
+                                <p className="text-xs mb-3 text-red-700">
+                                    {"Military Service is required"}
+                                </p>
+                            )}
+                        </div>
+
+                    </div>
+                    <div className="flex   items-center  mx-2 md:mx-10 lg:mx-20  flex-wrap  my-7 ">
+
+                        <div className="w-1/2 ">
+                            <Controller
+                                name="Gender"
+                                control={control}
+                                rules={{ required: true }}
+                                render={({ field }) => (
+                                    <RadioGroup
+                                        options={genderoptions}
+                                        onChange={(value: string) => {
+                                            field.onChange(value);
+                                        }}
+                                        label={"Gender"}
+                                        lableStyle={lableStyle}
+                                        optionStyle={selectStyle}
+                                        required={true}
+                                    />
+                                )}
+                            />
+                            {errors.Gender && (
+                                <p className="text-sm text-red-700">
+                                    {"Gender is required"}
+                                </p>
+                            )}
+                        </div>
+                        <div className="w-1/2 ">
+                            <Controller
+                                name="BirthDay"
+                                control={control}
+                                rules={{
+                                    required: true
+                                }}
+                                render={({ field }) => (
+                                    <DateInput
+                                        Datestyle={`${inputstyle} mr-5`}
+                                        Dateprops={{ placeholder: "Birth Day" }}
+                                        label={'Birth Day'}
+                                        lableStyle={lableStyle}
+                                        {...field}
+                                        onChange={(value: string) => {
+                                            field.onChange(value);
+                                        }}
+                                    />
+
+                                )}
+                            />
+                            {errors.BirthDay && (
+                                <p className="text-xs mb-3 text-red-700">
+                                    {"Birth Day is required"}
+                                </p>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+
+                <div className="my-5 bg-white h-full   mx-10 md:mx-32 lg:mx-60 rounded-xl pt-4  pb-10 px-6 md:px-12  border-l-8   border-primary  shadow-md  shadow-slate-300">
+                    <h1 className=" text-primary text-xl md:text-2xl lg:text-3xl  mt-6">
+                        Career Interests
+                    </h1>
+                    <h2 className="text-sm md:text-md lg:text-lg text-slate-500  mt-2 mb-12">
+
+                    </h2>
+                    <hr className="mb-5"></hr>
+
+                    <div className="flex   items-center  mx-2 md:mx-10 lg:mx-20  flex-wrap my-7 ">
+                        <div className="w-1/2">
+                            <Controller
+                                name="JobLevel"
+                                control={control}
+                                rules={{
+                                    required: 'Job Level is required',
+                                }}
+
+                                render={({ field }) => (
+                                    <Select
+                                        selectStyle={`${inputstyle} mr-5`}
+                                        lableStyle={lableStyle}
+                                        selectProps={{ placeholder: "Job Level" }}
+                                        {...field}
+                                        onChange={(value: string) => field.onChange(value)}
+                                        label={"Job Level"}
+                                        required={true}
+                                    >
+                                        <option
+                                            value={undefined}
+                                        >
+                                            {"Job Level"}
+                                        </option>
+                                        {Typesoptions.map((i) => (
+                                            <option
+                                                key={i.value}
+                                                value={i.value}
+                                            >
+                                                {i.label}
+                                            </option>
+                                        ))}
+                                    </Select>
+                                )}
+                            />
+                            {errors.JobLevel && (
+                                <p className="text-xs mb-3 text-red-700">
+                                    {"Job Level is required"}
+                                </p>
+                            )}
+                        </div>
+                        <div className="w-1/2">
+                            <Controller
+                                name="ExperienceYears"
+                                control={control}
+                                rules={{
+                                    required: 'Experience Years is required',
                                     maxLength: {
-                                        value: 40,
-                                        message: 'Address should be at max 20 characters long',
+                                        value: 20,
+                                        message: 'Experience Years should be at max 20 characters long',
                                     },
                                     minLength: {
-                                        value: 4,
-                                        message: 'Address should be at min 5 characters long',
+                                        value: 5,
+                                        message: 'Experience Years should be at min 5 characters long',
                                     },
                                 }}
                                 render={({ field }) => (
                                     <Input
                                         inputProps={{
                                             ...field,
-                                            id: "Address",
-                                            name: "Address",
+                                            id: "Experience Years",
+                                            name: "Experience Years",
                                             type: "text",
-                                            placeholder: "Address",
-                                        }}
-                                        inputStyle={`${inputstyle} `}
-                                        lableStyle={lableStyle}
-                                        label={"Address"}
-                                        required={true}
-                                    />
-                                )}
-                            />
-                            {errors.Address && (
-                                <p className="text-xs mb-3 text-red-700">
-                                    {`${errors.Address.message}`}
-                                </p>
-                            )}
-                        </div>
-                    </div>
-
-                    <div className="flex   items-center  mx-2 md:mx-10 lg:mx-20  flex-wrap my-7 ">
-                        <div className="w-1/2">
-                            <Controller
-                                name="IndustriesOfCompany"
-                                control={control}
-                                rules={{ required: true }}
-                                render={({ field }) => (
-                                    <Select
-                                        selectStyle={`${inputstyle} mr-5`}
-                                        lableStyle={lableStyle}
-                                        selectProps={{ placeholder: "Industries Of Company" }}
-                                        {...field}
-                                        onChange={(value: string) => field.onChange(value)}
-                                        label={"Industries Of Company"}
-                                        required={true}
-                                    >
-                                        <option
-
-                                            value={undefined}
-                                        >
-                                            {"Industries Of Company"}
-                                        </option>
-                                        {Typesoptions.map((i) => (
-                                            <option
-                                                key={i.value}
-
-                                                value={i.value}
-                                            >
-                                                {i.label}
-                                            </option>
-                                        ))}
-                                    </Select>
-                                )}
-                            />
-                            {errors.IndustriesOfCompany && (
-                                <p className="text-xs mb-3 text-red-700">
-                                    {"Industries Of Company is required"}
-                                </p>
-                            )}
-                        </div>
-                        <div className="w-1/2">
-                            <Controller
-                                name="CompanySize"
-                                control={control}
-                                rules={{ required: true }}
-                                render={({ field }) => (
-                                    <Select
-                                        selectStyle={`${inputstyle}`}
-                                        lableStyle={lableStyle}
-                                        selectProps={{ placeholder: "Company Size" }}
-                                        {...field}
-                                        onChange={(value: string) => field.onChange(value)}
-                                        label={"Company Size"}
-                                        required={true}
-                                    >
-                                        <option
-
-                                            value={undefined}
-                                        >
-                                            {"Company Size"}
-                                        </option>
-                                        {Typesoptions.map((i) => (
-                                            <option
-                                                key={i.value}
-
-                                                value={i.value}
-                                            >
-                                                {i.label}
-                                            </option>
-                                        ))}
-                                    </Select>
-                                )}
-                            />
-                            {errors.CompanySize && (
-                                <p className="text-xs mb-3 text-red-700">
-                                    {"Company Size is required"}
-                                </p>
-                            )}
-                        </div>
-                    </div>
-                    <div className="flex   items-center  mx-2 md:mx-10 lg:mx-20  flex-wrap my-7 ">
-                        <div className="w-1/2">
-                            <Controller
-                                name="YearFounded"
-                                control={control}
-                                rules={{ required: true }}
-                                render={({ field }) => (
-                                    <Select
-                                        selectStyle={`${inputstyle} mr-5`}
-                                        lableStyle={lableStyle}
-                                        selectProps={{ placeholder: "Year Founded" }}
-                                        {...field}
-                                        onChange={(value: string) => field.onChange(value)}
-                                        label={"Year Founded"}
-                                        required={true}
-                                    >
-                                        <option
-
-                                            value={undefined}
-                                        >
-                                            {"Year Founded"}
-                                        </option>
-                                        {Typesoptions.map((i) => (
-                                            <option
-                                                key={i.value}
-
-                                                value={i.value}
-                                            >
-                                                {i.label}
-                                            </option>
-                                        ))}
-                                    </Select>
-                                )}
-                            />
-                            {errors.YearFounded && (
-                                <p className="text-xs mb-3 text-red-700">
-                                    {"Year Founded is required"}
-                                </p>
-                            )}
-                        </div>
-                        <div className="w-1/2">
-                            <Controller
-                                name="Phone"
-                                control={control}
-                                rules={{
-                                    required: 'phone is required',
-                                    pattern: {
-                                        value: /^\d{14}$/,
-                                        message: 'Phone number should be a 14-digit number',
-                                    },
-                                    minLength: {
-                                        value: 14,
-                                        message: 'Phone number should be a 14-digit number',
-                                    }
-                                }}
-                                render={({ field }) => (
-                                    <Input
-                                        inputProps={{
-                                            ...field,
-                                            id: "Phone",
-                                            name: "Phone",
-                                            type: "text",
-                                            placeholder: "Phone",
-                                        }}
-                                        inputStyle={`${inputstyle}`}
-                                        lableStyle={lableStyle}
-                                        label={"Phone"}
-                                        required={true}
-                                    />
-                                )}
-                            />
-                            {errors.Phone && (
-                                <p className="text-xs mb-3 text-red-700">
-                                    {`${errors.Phone.message}`}
-                                </p>
-                            )}
-                        </div>
-                    </div>
-                    <div className="flex   items-center  mx-2 md:mx-10 lg:mx-20  flex-wrap my-7 ">
-
-                        <div className="w-1/2">
-                            <Controller
-                                name="CompanyWebsite"
-                                control={control}
-                                rules={{
-
-                                    pattern: {
-                                        value: /^(www\.)?([a-zA-Z0-9-]+\.){1,}[a-zA-Z0-9-]+(\/.*)?$/,
-                                        message: 'Please enter a valid website URL',
-                                    },
-                                }}
-                                render={({ field }) => (
-                                    <Input
-                                        inputProps={{
-                                            ...field,
-                                            id: "Company Website",
-                                            name: "Company Website",
-                                            type: "text",
-                                            placeholder: "Company Website",
+                                            placeholder: "Experience Years",
                                         }}
                                         inputStyle={`${inputstyle} mr-5`}
                                         lableStyle={lableStyle}
-                                        label={"Company Website"}
-
+                                        label={"Experience Years"}
+                                        required={true}
                                     />
                                 )}
                             />
-                            {errors.CompanyWebsite && (
+                            {errors.ExperienceYears && (
                                 <p className="text-xs mb-3 text-red-700">
-                                    {`${errors.CompanyWebsite.message}`}
+                                    {`${errors.ExperienceYears.message}`}
                                 </p>
                             )}
                         </div>
                     </div>
+
+                    <div className="flex   items-center  mx-2 md:mx-10 lg:mx-20  flex-wrap  my-7 ">
+                        <div className="w-1/2 ">
+                            <Controller
+                                name="CurrentJobStatus"
+                                control={control}
+                                rules={{
+                                    required: 'Current Job Status is required',
+                                }}
+
+                                render={({ field }) => (
+                                    <Select
+                                        selectStyle={`${inputstyle} mr-5`}
+                                        lableStyle={lableStyle}
+                                        selectProps={{ placeholder: "Current Job Status" }}
+                                        {...field}
+                                        onChange={(value: string) => field.onChange(value)}
+                                        label={"Current Job Status"}
+
+                                    >
+                                        <option
+                                            value={undefined}
+                                        >
+                                            {"Current Job Status"}
+                                        </option>
+                                        {jobstatus.map((i) => (
+                                            <option
+                                                key={i.value}
+                                                value={i.value}
+                                            >
+                                                {i.label}
+                                            </option>
+                                        ))}
+                                    </Select>
+                                )}
+                            />
+                            {errors.CurrentJobStatus && (
+                                <p className="text-xs mb-3 text-red-700">
+                                    {"Current Job Status is required"}
+                                </p>
+                            )}
+                        </div>
+                        <div className="w-1/2 ">
+
+                        </div>
+
+                    </div>
+
+
+
+
 
 
 
@@ -437,11 +521,11 @@ function Index() {
 
                 <div className=" flex">
                     <button className=" bg-stone-500 text-secondary w-40  rounded-md h-10 m-auto  text-center" type="submit">
-                        Add New Job
+                        Create Employee
                     </button>
                 </div>
-            </form>
-        </div>
+            </form >
+        </div >
 
 
     );
