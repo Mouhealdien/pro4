@@ -1,42 +1,71 @@
 import React from 'react'
-import Image from 'next/image'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBuilding, faLocationArrow, faMailBulk, faUserGroup, faMobile, faPhone, faEdit } from '@fortawesome/free-solid-svg-icons'
-import Link from 'next/link'
-function index() {
-    return (
-        <div className='"bg-gray-200 px-20     sm:px-32  md:px-52 lg:px-96  text-base "'>
-            <div className='flex  my-12   w-full   h-44 justify-between   shadow-slate-500 shadow-sm  flex-wrap  bg-gradient-to-t  from-slate-300  v via-slate-200   to-slate-300 '>
-                <div className='  h-full   bg-slate-50     '>
-                    <FontAwesomeIcon icon={faBuilding} size='2xl' className=' text-9xl m-10 text-primary' />
-                </div>
-                <div>
-                    <Link href={`/edit`}>
-                        <FontAwesomeIcon icon={faEdit} className='  m-10 text-primary' />
-                    </Link>
-                </div>
-            </div>
-            <div className='flex flex-wrap  justify-between  '>
-                <div className='flex flex-col  w-full h-32 border  justify-center  my-5   '>
-                    <div className=" mx-10 ">
-                        <h1 className=' text-2xl  text-primary'>Uplink</h1>
-                        <p className='text-gray-500'>Uplink Uplink Uplink Uplink Uplink Uplink</p>
+import { useState, useEffect } from 'react';
+
+import HeroSearchInput from '../../components/HeroSearchInput';
+import Link from 'next/link';
+import SliderCard from '../../components/SliderCard';
+import { BASE_SERVEFR_URL } from '../../utils/constant';
+import { axios } from '../../utils/axios';
+const index = () => {
+
+    const [Companies, setCompanies] = useState([]);
+    const [search, setsearch] = useState();
+  const handleSearch = (e) => {
+    setsearch(e.target.value);
+    console.log(search);
+  };
+
+  useEffect(() => {
+    const fetchDataAsync = async () => {
+
+      try {
+        const { data: response } = await axios(`/companies?populate[0]=profileImg`);
+        console.log(response);
+        
+
+
+        setCompanies((response) as any)
+
+      } catch (error) {
+
+        console.error(error);
+      }
+    };
+
+    fetchDataAsync();
+  }, []);
+  console.log(Companies)
+  return (
+    <div className=' px-10  justify-center felx flex-col  items-center'>
+      <div className=' px-28'>
+      <HeroSearchInput onChange={handleSearch} /> 
+      </div>
+      <div className=' py-5 flex flex-row items-center gap-5 flex-wrap justify-center'> 
+          {
+            Companies.map((slide)=>{
+               return (
+                <Link href={`company/${slide.id}`}>
+                    <div
+                        className="block max-w-[15rem] rounded-lg text-secondary transition duration-300 bg-primary hover:text-primary hover:bg-secondary hover:border-primary border shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]">
+                        <div className="relative overflow-hidden bg-cover bg-no-repeat">
+                            <img
+                            className="rounded-t-lg"
+                            src={BASE_SERVEFR_URL + slide?.profileImg?.url}
+                            alt="" />
+                        </div>
+                        <div className="p-6">
+                            <p className="text-base text-center    ">
+                            {slide.name}
+                            </p>
+                        </div>
                     </div>
-                </div>
-                <div className='flex  flex-wrap  w-full  h-60 justify-between  border   shadow-sm my-5    '>
-                    <div className='   w-full h-full flex flex-col p-10 justify-evenly ite ' >
-                        <h1 className=' text-2xl  text-primary'>Info</h1>
-                        <div>  <FontAwesomeIcon icon={faLocationArrow} className=' text-gray-500 mr-4' /><span className='  text-primary'>location</span></div>
-                        <div>  <FontAwesomeIcon icon={faBuilding} className=' text-gray-500  mr-4' /><span className=' text-primary'>comuter</span></div>
-                        <div>  <FontAwesomeIcon icon={faMailBulk} className=' text-gray-500  mr-4 ' /><span className=' text-primary'></span></div>
-                        <div>  <FontAwesomeIcon icon={faUserGroup} className=' text-gray-500  mr-4' /><span className=' text-primary'></span></div>
-                        <div>  <FontAwesomeIcon icon={faMobile} className=' text-gray-500  mr-4' /><span className=' text-primary'></span></div>
-                        <div>  <FontAwesomeIcon icon={faPhone} className=' text-gray-500  mr-4' /><span className=' text-primary'></span></div>
-                    </div>
-                </div>
-            </div>
-        </div >
-    )
+                </Link>
+                )
+            })
+          }
+      </div>
+    </div>
+  )
 }
 
 export default index

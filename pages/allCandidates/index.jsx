@@ -1,9 +1,32 @@
 import React from 'react'
 import ProfileCard from '../../components/ProfileCard'
 import FilterCandidates from '../../components/FilterCandidates'
-
-
+import { useState,useEffect } from 'react'
+import axios from '../.././utils/axios'
 const index = () => {
+
+    const [user, setUser] = useState();
+  const [email, setemail] = useState();
+  useEffect(() => {
+    const fetchDataAsync = async () => {
+      
+      try {
+        const response = await axios(`/profileDetail/populate=profileDetail,profileDetail.educations,profileDetail.experiences,profileDetail.languages,profileDetail.workingCities,profileDetail.militaryService,profileDetail.jobLevel,profileDetail.profileImage&fields[0]=id&fields[1]=email`);
+
+        console.log(response.data)
+
+        setemail(response.data.email)
+        setUser(response.data.profileDetail);
+
+      } catch (error) {
+
+        console.error(error);
+      }
+    };
+
+    fetchDataAsync();
+  }, []);
+  console.log(user)
     const candidates = [
         {
             Fname: "Ali",
