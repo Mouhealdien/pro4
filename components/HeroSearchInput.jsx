@@ -1,6 +1,6 @@
 import React from "react";
 
-const HeroSearchInput = ({ onChange }) => {
+const HeroSearchInput = ({ onChange, onSubmit }) => {
   return (
     <div className="relative mt-5 ">
       <label htmlFor="Search" className="sr-only">
@@ -17,7 +17,7 @@ const HeroSearchInput = ({ onChange }) => {
       />
 
       <span className="absolute inset-y-0 end-0 grid w-10 place-content-center">
-        <button type="button" className="text-gray-600 hover:text-gray-700">
+        <button type="submit" className="text-gray-600 hover:text-gray-700" onClick={onSubmit}>
           <span className="sr-only">Search</span>
 
           <svg

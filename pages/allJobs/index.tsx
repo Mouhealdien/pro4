@@ -24,14 +24,14 @@ function generateAPIUrl(category, location, search) {
 
     if (category) params.append("filters[jobRoles][id][$eq]", category);
     if (location) params.append("filters[city][id][$eq]", location);
-    if (search) params.append("filter[jobTitle][$contains]", search);
+    if (search) params.append("filters[jobTitle][$contains]", search);
 
     return `jobs?${params.toString()}`;
 }
 const index = () => {
     const [search, setsearch] = useState();
     const searchParams = useSearchParams()
-
+    const router = useRouter()
     const category = searchParams?.get('category')
     const title = searchParams?.get('title')
     const city = searchParams?.get('city')
@@ -40,6 +40,9 @@ const index = () => {
     const handleSearch = (e) => {
         setsearch(e.target.value);
         console.log(search);
+    };
+    const handleSubmit = (e) => {
+        router.push(`allJobs?title=${search}`)
     };
 
     const [jobs, setjobs] = useState([]);
@@ -70,7 +73,7 @@ const index = () => {
     return (
         <div className=' felx flex-col justify-center items-center'>
             <div className=' px-28'>
-                <HeroSearchInput onChange={handleSearch} />
+                <HeroSearchInput onChange={handleSearch} onSubmit={handleSubmit} />
             </div>
 
             <CompaniesHome />
