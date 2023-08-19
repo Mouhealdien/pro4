@@ -46,7 +46,7 @@ const NavBar = () => {
             <div className="sm:flex sm:gap-4">
               <a
                 className="rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-white shadow"
-                href="/"
+                href="log-in"
               >
                 Login
               </a>
@@ -54,19 +54,12 @@ const NavBar = () => {
               <div className="hidden sm:flex">
                 <a
                   className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-primary"
-                  href="/"
+                  href="/sign-up"
                 >
-                  Register As Employee
+                  Register
                 </a>
               </div>
-              <div className="hidden sm:flex">
-                <a
-                  className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-primary"
-                  href="/"
-                >
-                  Register As Company
-                </a>
-              </div>
+
             </div>
 
             <div className="block md:hidden">
@@ -97,9 +90,8 @@ const NavBar = () => {
       </div>
       <div className="">
         <ul
-          className={`text-center block ${
-            opneMenue ? "w-80 " : "w-0"
-          } transition-width duration-500 overflow-hidden absolute top-0  bg-white h-full z-30`}
+          className={`text-center block ${opneMenue ? "w-80 " : "w-0"
+            } transition-width duration-500 overflow-hidden absolute top-0  bg-white h-full z-30`}
         >
           <div className="flex mx-5   justify-between items-center m-3">
             <p className="text-base font-semibold">Menu</p>
@@ -113,9 +105,8 @@ const NavBar = () => {
             <div>
               <li
                 key={id}
-                className={`transition my-4 text-start block   hover:text-white group delay-150 hover:bg-primary  duration-500 text-sm px-0 pt-2 border-b-2 py-3 text-dark    font-semibold ${
-                  activeIdx == id ? "bg-secondary p-10 " : ""
-                }`}
+                className={`transition my-4 text-start block   hover:text-white group delay-150 hover:bg-primary  duration-500 text-sm px-0 pt-2 border-b-2 py-3 text-dark    font-semibold ${activeIdx == id ? "bg-secondary p-10 " : ""
+                  }`}
                 onClick={() => {
                   setActiveIdx(id);
                 }}

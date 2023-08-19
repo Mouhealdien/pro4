@@ -2,13 +2,18 @@ import React, { useState } from "react";
 import heroPhoto from "../assets/hero.jpg";
 import Image from "next/image";
 import HeroSearchInput from "./HeroSearchInput";
+import { useRouter } from "next/router";
 
 const Hero = () => {
+  const router = useRouter()
   const [search, setsearch] = useState();
   const handleSearch = (e) => {
     setsearch(e.target.value);
   };
-  console.log(search);
+  const handleSubmit = (e) => {
+    router.push(`allJobs?title=${search}`)
+  };
+
   return (
     <section>
       <div className="mx-auto max-w-screen-xl px-4 py-8 sm:py-12 sm:px-6 lg:py-16 lg:px-8">
@@ -32,7 +37,7 @@ const Hero = () => {
               your job search in Syria
             </p>
 
-            <HeroSearchInput onChange={handleSearch} />
+            <HeroSearchInput onChange={handleSearch} onSubmit={handleSubmit} />
           </div>
         </div>
       </div>
