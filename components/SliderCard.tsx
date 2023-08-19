@@ -6,7 +6,7 @@ const SliderCard = ({ imgurl, title }) => {
   console.log(imgurl)
   return (
     <div className=" max-w-xs  pt-12  pb-8   flex flex-col bg-transparent  gap-10 items-center">
-      <Image
+      <img
         height={150}
         width={150}
         className=" w-20 h-20 sm:h-36  sm:w-36 "
