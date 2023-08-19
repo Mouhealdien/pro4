@@ -1,22 +1,37 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Logo from "../Logo";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const NavBar = () => {
-  const links = [
+  const auth = useContext(AuthContext);
+  console.log(auth)
+  const linksCompany = [
     {
-      title: "search jobs",
-      link: "/",
+      title: "My Profile & Manage Jobs ",
+      link: `company/${auth.user.id}`,
     },
     {
-      title: "Find New Candidate",
+      title: "Add New Job",
+      link: "/job/create",
+    },
+
+  ];
+  const linksuser = [
+    {
+      title: "search jobs",
+      link: "/allJobs",
+    },
+    {
+      title: "applied jobs",
       link: "/",
     },
   ];
   const [opneMenue, setOpneMenue] = useState(false);
   const [activeIdx, setActiveIdx] = useState(-1);
+
   return (
     <header className="bg-white">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
@@ -28,7 +43,17 @@ const NavBar = () => {
           <div className="hidden md:block">
             <nav aria-label="Global">
               <ul className="flex items-center gap-6 text-sm">
-                {links.map((item, idx) => (
+
+                {auth.isCompany ? linksCompany.map((item, idx) => (
+                  <li>
+                    <a
+                      className="text-gray-500 transition hover:text-gray-500/75"
+                      href={item.link}
+                    >
+                      {item.title}
+                    </a>
+                  </li>
+                )) : linksuser.map((item, idx) => (
                   <li>
                     <a
                       className="text-gray-500 transition hover:text-gray-500/75"
@@ -101,7 +126,26 @@ const NavBar = () => {
               icon={faClose}
             />
           </div>
-          {links.map((link, id) => (
+          {auth.isCompany ? linksCompany.map((link, id) => (
+            <div>
+              <li
+                key={id}
+                className={`transition my-4 text-start block   hover:text-white group delay-150 hover:bg-primary  duration-500 text-sm px-0 pt-2 border-b-2 py-3 text-dark    font-semibold ${activeIdx == id ? "bg-secondary p-10 " : ""
+                  }`}
+                onClick={() => {
+                  setActiveIdx(id);
+                }}
+              >
+                <Link
+                  className="p-2 w-full text-gray-800 mb-2"
+                  href={link.link}
+                >
+                  {" "}
+                  {link.title}
+                </Link>
+              </li>
+            </div>
+          )) : linksuser.map((link, id) => (
             <div>
               <li
                 key={id}
@@ -121,7 +165,8 @@ const NavBar = () => {
               </li>
             </div>
           ))}
-          <div className="flex flex-col gap-5">
+          {!auth.user ? <div className="flex flex-col gap-5">
+
             <a
               className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-primary"
               href="/"
@@ -134,7 +179,17 @@ const NavBar = () => {
             >
               Register As Company
             </a>
-          </div>
+          </div> : <div className="flex flex-col gap-5">
+
+            <a
+              className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-primary"
+              href="/"
+            >
+              LogOut
+            </a>
+
+          </div>}
+
         </ul>
       </div>
     </header>
