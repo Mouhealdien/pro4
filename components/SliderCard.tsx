@@ -1,7 +1,9 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { BASE_SERVEFR_URL } from "../utils/constant";
 
 const SliderCard = ({ imgurl, title }) => {
+  console.log(imgurl)
   return (
     <div className=" max-w-xs  pt-12  pb-8   flex flex-col bg-transparent  gap-10 items-center">
       <Image

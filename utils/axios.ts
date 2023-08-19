@@ -6,7 +6,7 @@ import { responseParser } from "./responseParse";
 export const axios = base.create({
     baseURL: BASE_SERVER_URL + '/api',
     withCredentials: true,
-    
+
 });
 
 const errorHandler = (e) => {
