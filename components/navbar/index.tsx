@@ -10,7 +10,7 @@ const NavBar = () => {
   console.log(auth)
   const linksCompany = [
     {
-      title: "My Profile & Manage Jobs ",
+      title: " Profile Company & Manage Jobs ",
       link: `company/${auth.user.id}`,
     },
     {
@@ -26,7 +26,7 @@ const NavBar = () => {
     },
     {
       title: "applied jobs",
-      link: "/",
+      link: "/appliedJobs",
     },
   ];
   const [opneMenue, setOpneMenue] = useState(false);
