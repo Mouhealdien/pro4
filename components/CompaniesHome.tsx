@@ -32,7 +32,7 @@ const CompaniesHome = () => {
 
     fetchDataAsync();
   }, []);
-  console.log(Companies && Companies[0])
+
 
   return (
     <div className=" py-10  bg-white">
