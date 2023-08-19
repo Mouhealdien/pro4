@@ -1,7 +1,7 @@
 import React from 'react'
 import CompaniesHome from '../../components/CompaniesHome'
 import { useState,useEffect } from 'react';
-import HeroSearchInput from '../../components/HeroSearchInput'\
+import HeroSearchInput from '../../components/HeroSearchInput'
 import axios from 'axios';
 import { responseParser } from '../../lib/helper';
 const index = () => {
