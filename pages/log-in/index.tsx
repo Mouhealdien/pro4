@@ -1,19 +1,28 @@
 import Link from "next/link";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { axios } from "../../utils/axios";
+import { setToken } from "../../utils/localStorageHelper";
 
 const index = () => {
 
   const { register, handleSubmit, formState: { errors } } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (sub) => {
+      const {email, password} = sub;
+      const {data} = await axios.post('/auth/local', {
+              identifier: email,
+              password
+            });
+      setToken(data.jwt);
+      toast.success(`Welcome back ${data.user.username}!`);
   };
   return (
-    <section class="bg-white  ">
-      <div class="flex justify-center min-h-screen">
+    <section className="bg-white  ">
+      <div className="flex justify-center min-h-screen">
         <div
-          class="hidden bg-cover lg:block lg:w-2/5"
+          className="hidden bg-cover lg:block lg:w-2/5"
           style={{
             backgroundImage:
               "url('https://images.unsplash.com/photo-1494621930069-4fd4b2e24a11?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=715&q=80')",
@@ -22,13 +31,13 @@ const index = () => {
 
         </div>
 
-        <div class="flex items-center w-full max-w-3xl p-8 mx-auto lg:px-12 lg:w-3/5">
-          <div class="w-full">
-            <h1 class="text-2xl font-semibold tracking-wider text-gray-800 capitalize ">
+        <div className="flex items-center w-full max-w-3xl p-8 mx-auto lg:px-12 lg:w-3/5">
+          <div className="w-full">
+            <h1 className="text-2xl font-semibold tracking-wider text-gray-800 capitalize ">
               Get your free account now.
             </h1>
 
-            <p class="mt-4 text-gray-500 ">
+            <p className="mt-4 text-gray-500 ">
               Let’s get you all set up so you can verify your personal account
               and begin setting up your profile.
             </p>
@@ -57,12 +66,12 @@ const index = () => {
              </div>
 
               
-                <button type="submit" class="flex items-center justify-between w-full px-6 py-3 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-primary rounded-md hover:bg-black focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+                <button type="submit" className="flex items-center justify-between w-full px-6 py-3 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-primary rounded-md hover:bg-black focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
                   <span>log In </span>
 
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="w-5 h-5 rtl:-scale-x-100"
+                    className="w-5 h-5 rtl:-scale-x-100"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                   >
@@ -75,9 +84,9 @@ const index = () => {
                 </button>
               
             </form>
-            <div class=" py-6 text-sm font-medium text-gray-500 ">
+            <div className=" py-6 text-sm font-medium text-gray-500 ">
               Not registered?{" "}
-              <Link href="/sign-up" class="text-primary hover:underline ">
+              <Link href="/sign-up" className="text-primary hover:underline ">
                 Create account
               </Link>
             </div>
@@ -92,3 +101,7 @@ const index = () => {
 };
 
 export default index;
+function setUser(user: any) {
+  throw new Error("Function not implemented.");
+}
+
