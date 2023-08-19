@@ -12,7 +12,6 @@ const JobsCardHome = ({
   image,
   title,
   code,
-  date,
   role,
   level,
   type,
@@ -25,10 +24,8 @@ const JobsCardHome = ({
     <Link href={link} className="xl:w-auto w-full">
       <div className=" p-3 rounded-md   bg-white hover:shadow-lg cursor-pointer m-5 hover:transition hover:-translate-y-2 ">
         <div className="flex items-center">
-          <Image
+          <img
             className="w-20 rounded-full m-3 h-20"
-            width={500}
-            height={500}
             src={image}
           />
           <div className="p-3">
@@ -37,7 +34,7 @@ const JobsCardHome = ({
               <p className="text-white p-1 rounded-md bg-primary text-sm">
                 #{code}
               </p>
-              <p className="text-sm text-gray-400">{date} Hours ago</p>
+
             </div>
           </div>
         </div>

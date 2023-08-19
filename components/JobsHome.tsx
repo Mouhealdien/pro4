@@ -1,16 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Logo1 from "../assets/companiesLogos/1.png";
 import JobsCardHome from "./JobsCardHome";
+import { axios } from "../utils/axios";
+import { responseParser } from "../utils/helper";
+import { BASE_SERVEFR_URL } from "../utils/constant";
 
-// image,
-// title,
-// code,
-// date,
-// role,
-// level,
-// type,
-// experience,
-// location,
+
 
 const data = [
   {
@@ -120,6 +115,27 @@ const data = [
 ];
 
 const JobsHome = () => {
+  const [jobs, setjobs] = useState([]);
+
+  useEffect(() => {
+    const fetchDataAsync = async () => {
+
+      try {
+        const { data: response } = await axios(`/jobs?populate[company][populate][profileImg][fields][0]=url&populate[company][fields][0]=id&populate[company][fields][1]=name&populate[jobRoles][fields][0]=details&populate[jobLevel][fields][0]=details&fields[0]=yearOfExperience&fields[1]=address&fields[2]=jobType&fields[3]=jobTitle`);
+
+
+
+        setjobs(responseParser(response) as any)
+
+      } catch (error) {
+
+        console.error(error);
+      }
+    };
+
+    fetchDataAsync();
+  }, []);
+  console.log(jobs)
   return (
     <div className="py-10 bg-slate-200 ">
       <div className=" ">
@@ -131,20 +147,19 @@ const JobsHome = () => {
         </p>
       </div>
       <div className="w-full xl:px-36 px-5 flex flex-wrap justify-start">
-        {data.map((item, idx) => (
+        {jobs.map((item, idx) => (
           <JobsCardHome
-            link={item.link}
-            code={item.code}
-            date={item.date}
-            experience={item.experience}
-            image={item.image}
-            level={item.level}
-            location={item.location}
-            role={item.role}
-            title={item.title}
-            type={item.type}
+            link={`job/${item?.id}`}
+            code={item?.id}
+            experience={item?.yearOfExperience}
+            image={BASE_SERVEFR_URL + item?.profileImg?.url}
+            level={item?.jobLevel?.details}
+            location={item?.address}
+            role={item?.jobRoles[0].details}
+            title={item?.jobTitle}
+            type={item?.jobType}
             key={idx}
-            company={item.company}
+            company={item?.company?.name}
           />
         ))}
       </div>
