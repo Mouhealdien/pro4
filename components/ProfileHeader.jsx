@@ -8,7 +8,7 @@ const ProfileHeader = ({ Fname, Lname, age, nationality, gender, militaryStatus,
     return (
         <div className=' px-5 w-[100%] m-auto py-4  border-gray-300 border-[3px]  shadow-2xl  rounded-md border-l-primary  border-l-[6px] max-w-[1000px] bg-secondary items-center'>
             <div className=' flex flex-row items-center gap-2'>
-                <Image width={300} height={300} className=' w-28 h-28 rounded-full' src={img ? img : (gender == "Male" ? boy : girl)} />
+                <img width={300} height={300} className=' w-28 h-28 rounded-full' src={img ? img : (gender == "Male" ? boy : girl)} />
 
                 <p className='text-lg'> {Fname} {Lname} </p>
             </div>
