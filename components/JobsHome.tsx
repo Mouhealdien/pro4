@@ -124,8 +124,9 @@ const JobsHome = () => {
         const { data: response } = await axios(`/jobs?populate[company][populate][profileImg][fields][0]=url&populate[company][fields][0]=id&populate[company][fields][1]=name&populate[jobRoles][fields][0]=details&populate[jobLevel][fields][0]=details&fields[0]=yearOfExperience&fields[1]=address&fields[2]=jobType&fields[3]=jobTitle`);
 
 
-
-        setjobs(responseParser(response) as any)
+        console.log({response});
+        
+        setjobs((response) as any)
 
       } catch (error) {
 
