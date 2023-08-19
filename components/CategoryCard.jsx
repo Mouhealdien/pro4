@@ -6,7 +6,7 @@ const CategoryCard = ({ title, image, jobsCount, link }) => {
     <Link href={link} className="xl:w-72 w-full xl:m-3 m-3 ">
       <div
         style={{
-          backgroundImage: `url(${image.src})`,
+          backgroundImage: `url(${image})`,
           backgroundPosition: "center",
           backgroundSize: "cover",
         }}
@@ -15,9 +15,7 @@ const CategoryCard = ({ title, image, jobsCount, link }) => {
         <div className="bg-white p-1 px-3 rounded-md opacity-70">
           <p className=" text-black   text-lg font-medium">{title}</p>
         </div>
-        <p className="bg-primary p-1 mx-5 text-white font-medium text-sm">
-          {jobsCount}
-        </p>
+
       </div>
     </Link>
   );

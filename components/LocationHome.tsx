@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Photo from "../assets/hero.jpg";
-import CategoryCard from "./CategoryCard";
+import CategoryCard from "../components/CategoryCard";
 import CategoryLink from "./CategoryLink";
+import { axios } from "../utils/axios";
+import { BASE_SERVEFR_URL } from "../utils/constant";
 
 const location = [
   {
@@ -73,6 +75,28 @@ const data = [
 ];
 
 const LocationHome = () => {
+  const [cities, setcities] = useState([]);
+  const id = undefined
+  useEffect(() => {
+    const fetchDataAsync = async () => {
+
+      try {
+        const { data: response } = await axios(`/cities?populate[0]=photo`);
+        console.log(response);
+
+
+
+        setcities((response))
+
+      } catch (error) {
+
+        console.error(error);
+      }
+    };
+
+    fetchDataAsync();
+  }, []);
+  console.log(cities)
   return (
     <div className="bg-slate-200">
       <div className="py-10 mx-auto  container ">
@@ -80,26 +104,17 @@ const LocationHome = () => {
           Browse Jobs by Location
         </h2>
         <div className="flex flex-wrap w-full justify-center">
-          {data.map((item, idx) => (
+          {cities.map((item, idx) => (
             <CategoryCard
-              image={item.image}
-              link={item.link}
-              jobsCount={item.jobCount}
+              image={BASE_SERVEFR_URL + item?.photo.url}
+              link={`allJobs?city=${item?.id}`}
+
               key={idx}
-              title={item.title}
+              title={item.name}
             />
           ))}
         </div>
-        <div className="flex flex-wrap gap-10 justify-center">
-          {location.map((item, idx) => (
-            <CategoryLink
-              count={item.count}
-              link={item.link}
-              title={item.title}
-              key={idx}
-            />
-          ))}
-        </div>
+
       </div>
     </div>
   );

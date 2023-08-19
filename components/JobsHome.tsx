@@ -4,6 +4,7 @@ import JobsCardHome from "./JobsCardHome";
 import { axios } from "../utils/axios";
 import { responseParser } from "../utils/helper";
 import { BASE_SERVEFR_URL } from "../utils/constant";
+import Link from "next/link";
 
 
 
@@ -125,7 +126,7 @@ const JobsHome = () => {
 
 
 
-        setjobs(responseParser(response) as any)
+        setjobs(response)
 
       } catch (error) {
 
@@ -152,7 +153,7 @@ const JobsHome = () => {
             link={`job/${item?.id}`}
             code={item?.id}
             experience={item?.yearOfExperience}
-            image={BASE_SERVEFR_URL + item?.profileImg?.url}
+            image={BASE_SERVEFR_URL + "" + item?.company?.profileImg.url}
             level={item?.jobLevel?.details}
             location={item?.address}
             role={item?.jobRoles[0].details}
@@ -164,12 +165,12 @@ const JobsHome = () => {
         ))}
       </div>
       <div className="flex justify-center items-center">
-        <button
+        <Link href={`allJobs`}
           className="inline-block rounded  px-10 py-3 my-7  font-medium 
          transition hover:scale-110 hover:shadow-xl focus:outline-none text-white text-2xl focus:ring bg-primary"
         >
           See All Jobs
-        </button>
+        </Link>
       </div>
     </div>
   );

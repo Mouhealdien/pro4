@@ -19,7 +19,7 @@ const CompaniesHome = () => {
 
       try {
         const { data: response } = await axios(`/companies?populate[0]=profileImg`);
-        console.log(response);
+        console.log({companies: response});
         
 
 
@@ -34,7 +34,8 @@ const CompaniesHome = () => {
     fetchDataAsync();
   }, []);
 
-
+  console.log({Companies});
+  
   return (
     <div className=" py-10  bg-white">
       <div className="mx-auto container">
@@ -58,7 +59,7 @@ const CompaniesHome = () => {
             <SwiperSlide key={index}>
               <div>
                 <Link href={`company/${slide.id}`}>
-                  <SliderCard title={slide.name} imgurl={BASE_SERVEFR_URL + slide?.profileImg?.url} />
+                  <SliderCard title={slide.name} imgurl={BASE_SERVEFR_URL + "" + slide?.profileImg?.url} />
                 </Link>
               </div>
             </SwiperSlide>

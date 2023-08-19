@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Photo from "../assets/hero.jpg";
-import CategoryCard from "./CategoryCard";
-import CategoryLink from "./CategoryLink";
+import CategoryCard from "../components/CategoryCard";
+import { axios } from "../utils/axios";
+import { BASE_SERVEFR_URL } from "../utils/constant";
 
 const data = [
   {
@@ -153,32 +154,44 @@ const Categories = [
 ];
 
 const CategoriesHome = () => {
+  const [jobRoles, setjobsRoles] = useState([]);
+
+  useEffect(() => {
+    const fetchDataAsync = async () => {
+
+      try {
+        const { data: response } = await axios(`/job-roles?populate[0]=image`);
+        console.log(response);
+
+
+
+        setjobsRoles((response))
+
+      } catch (error) {
+
+        console.error(error);
+      }
+    };
+
+    fetchDataAsync();
+  }, []);
+  console.log(jobRoles)
   return (
     <div className="py-10 mx-auto container ">
       <h2 className=" text-2xl  lg:text-3xl  mb-10 text-center">
         Browse Jobs by Category
       </h2>
       <div className="flex flex-wrap gap-10 justify-center">
-        {data.map((item, idx) => (
+        {jobRoles.map((item, idx) => (
           <CategoryCard
-            image={item.image}
-            link={item.link}
-            jobsCount={item.jobCount}
+            image={BASE_SERVEFR_URL + item?.image.url}
+            link={`allJobs?category=${item?.id}`}
             key={idx}
-            title={item.title}
+            title={item?.details}
           />
         ))}
       </div>
-      <div className="flex flex-wrap gap-10 justify-center">
-        {Categories.map((item, idx) => (
-          <CategoryLink
-            count={item.count}
-            link={item.link}
-            title={item.title}
-            key={idx}
-          />
-        ))}
-      </div>
+
     </div>
   );
 };
