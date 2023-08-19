@@ -9,6 +9,7 @@ import RadioGroup from "../../../components/RadioGroup";
 import TextArea from "../../../components/TextArea";
 import ImageUploader from "../../../components/ImageUploader";
 import DateInput from "../../../components/DateInput";
+import { responseParser } from "../../../lib/helper"
 function Index() {
     const profileInfo = {
         firstName: "Ahmad",
@@ -65,21 +66,18 @@ function Index() {
         alert(JSON.stringify(data))
         console.log(errors)
     };
+    console.log(responseParser({ "data": [{ "id": 1, "attributes": { "name": "syria", "createdAt": "2023-08-18T22:40:38.598Z", "updatedAt": "2023-08-18T22:46:34.754Z", "publishedAt": "2023-08-18T22:46:34.750Z", "photo": { "data": { "id": 3, "attributes": { "url": "/uploads/Screenshot_2023_03_29_at_3_21_01_AM_25beb649a2.png" } } } } }], "meta": { "pagination": { "page": 1, "pageSize": 25, "pageCount": 1, "total": 1 } } }))
+
     return (
         <div className="bg-gray-200 px-10 text-base ">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="my-5 bg-white h-full   mx-10 md:mx-32 lg:mx-60 rounded-xl pt-4  pb-10 px-6 md:px-12  border-l-8   border-primary  shadow-md  shadow-slate-300">
                     <h1 className=" text-primary text-xl md:text-2xl lg:text-3xl  mt-6">
                         Basic Info
-
-
                     </h1>
                     <h2 className="text-sm md:text-md lg:text-lg text-slate-500  mt-2 mb-12">
-
                     </h2>
                     <hr className="mb-5"></hr>
-
-
                     <div className="flex   items-center  mx-2 md:mx-10 lg:mx-20  flex-wrap my-7 ">
                         <div className="w-1/2">
                             <Controller
@@ -156,7 +154,6 @@ function Index() {
                             )}
                         </div>
                     </div>
-
                     <div className="flex   items-center  mx-2 md:mx-10 lg:mx-20  flex-wrap  my-7 ">
                         <div className="w-1/2 ">
                             <Controller
@@ -233,7 +230,6 @@ function Index() {
                         </div>
 
                     </div>
-
                     <div className="flex   items-center  mx-2 md:mx-10 lg:mx-20  flex-wrap  my-7 ">
                         <div className="w-1/2 ">
                             <Controller
@@ -372,8 +368,6 @@ function Index() {
                         </div>
                     </div>
                 </div>
-
-
                 <div className="my-5 bg-white h-full   mx-10 md:mx-32 lg:mx-60 rounded-xl pt-4  pb-10 px-6 md:px-12  border-l-8   border-primary  shadow-md  shadow-slate-300">
                     <h1 className=" text-primary text-xl md:text-2xl lg:text-3xl  mt-6">
                         Career Interests
@@ -515,8 +509,6 @@ function Index() {
 
 
                 </div>
-
-
                 <div className=" flex">
                     <button className=" bg-stone-500 text-secondary w-40  rounded-md h-10 m-auto  text-center" type="submit">
                         Create Employee
