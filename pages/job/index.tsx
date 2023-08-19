@@ -1,6 +1,6 @@
 import React from 'react'
 import CompaniesHome from '../../components/CompaniesHome'
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import HeroSearchInput from '../../components/HeroSearchInput'
 import axios from 'axios';
 import { responseParser } from '../../lib/helper';
@@ -34,10 +34,13 @@ const index = () => {
   return (
     <div className=' felx flex-col justify-center items-center'>
       <div className=' px-28'>
-      <HeroSearchInput onChange={handleSearch} /> 
+        <HeroSearchInput onChange={handleSearch} />
       </div>
-    
-      <CompaniesHome/>
+
+      <CompaniesHome />
+
+
+
     </div>
   )
 }
