@@ -14,7 +14,7 @@ export const responseParser = <T>(response: Response<T>): ProcessedObject | Proc
     if (!response?.data) return response;
     if (!Array.isArray(response.data)) {
         const { id, attributes } = response.data as unknown as { id: string; attributes: Attributes };
-        return { id, ...attributes };
+        return { id, ...responseParser(attributes) };
     }
     return response.data.map(({ id, attributes }: { id: string; attributes: Attributes }) => {
         const returnedObject: ProcessedObject = { id };
