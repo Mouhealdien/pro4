@@ -10,7 +10,7 @@ const JobDescriptionCard = ({jobDescription ,jobRole}) => {
                     {jobDescription}
                 </p>
             </div>
-            <p className=' ml-5 px-4 py-2 w-fit text-primary bg-gray-200'>{jobRole}</p>
+            <p className=' ml-5 px-4 py-2 w-fit text-primary bg-gray-200'>{jobRole?.map((e)=>e.details)}</p>
         </div>
     </div>
   )

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const JobDetailsCard = ({id,gender,jobRole,age,carerrLevel,education,jobType,experience,salary, lanuage}) => {
+const JobDetailsCard = ({id,gender,jobRole,age,carerrLevel,education,jobType,experience,salary}) => {
   return (
     <div>
     <div className=' py-4  border-gray-300 border-[3px]  shadow-2xl  rounded-md border-l-primary   border-l-[6px] max-w-lg bg-secondary items-center '>
@@ -10,7 +10,7 @@ const JobDetailsCard = ({id,gender,jobRole,age,carerrLevel,education,jobType,exp
                 <p className='text-primary font-bold'>Gender:</p>
                 <p >{gender}</p>
                 <p className='text-primary font-bold'>job role:</p>
-                <p> {jobRole}</p>
+                <p> {jobRole?.map((e)=>e.details)}</p>
             </div>
             <div className=' py-4 border-b-2 border-gray-300 flex flex-row gap-5  px-3 '>
                 <p className='text-primary font-bold'>Age:</p>
@@ -31,11 +31,7 @@ const JobDetailsCard = ({id,gender,jobRole,age,carerrLevel,education,jobType,exp
                 <p> {salary}</p>
             </div>
             
-            <div className='flex flex-row gap-5 px-3'>
-                <p className='text-primary font-bold'>Language:</p>
-                <p> {lanuage}</p>
-
-            </div>
+            
         </div>
             
         </div>

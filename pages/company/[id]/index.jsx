@@ -16,7 +16,7 @@ const index = () => {
                   const fetchDataAsync = async () => {
             
                   try {
-                    const { data: response } = await axios(`/companies/${id}?populate=profileImg,cities,cities.name,users `);
+                    const { data: response } = await axios(`/companies/${id}?populate=profileImg,cities,cities.name,user `);
                     
                     setCompany((response) )
                 
@@ -35,13 +35,13 @@ const index = () => {
     <div className=' px-20 text-base '>
             
                 <div className=' h-full gap-5 flex flex-row justify-center items-center flex-wrap'>
-                        <img className='' src={BASE_SERVEFR_URL + company?.profileImg?.data?.attributes?.url} width={170} height={170}/>
+                        <img className='' src={BASE_SERVEFR_URL + company?.profileImg?.url} width={170} height={170}/>
                         <div className='flex w-full border-l-primary border-l-4 rounded-md   flex-wrap max-w-sm  h-60 justify-between  border  shadow-sm my-5    '>
                                 <div className=' bg-secondary   w-full h-full flex flex-col p-10 justify-evenly ite ' >
                                         <h1 className=' text-2xl pb-2  text-primary'>{company?.name}</h1>
-                                        <div>  <FontAwesomeIcon icon={faLocationArrow} className=' text-gray-500 mr-4' /><span className='  text-primary'>{company?.cities.data.map((e)=> e.attributes?.name)}</span></div>
+                                        <div>  <FontAwesomeIcon icon={faLocationArrow} className=' text-gray-500 mr-4' /><span className='  text-primary'>{company?.cities?.map((e)=> e.name)}</span></div>
                                         <div>  <FontAwesomeIcon icon={faBuilding} className=' text-gray-500  mr-4' /><span className=' text-primary'>{company?.address}</span></div>
-                                        <div>  <FontAwesomeIcon icon={faMailBulk} className=' text-gray-500  mr-4 ' /><span className=' text-primary'>{company?.users?.data?.attributes?.email}</span></div>
+                                        <div>  <FontAwesomeIcon icon={faMailBulk} className=' text-gray-500  mr-4 ' /><span className=' text-primary'>{company?.user?.email}</span></div>
                                         <div>  <FontAwesomeIcon icon={faUserGroup} className=' text-gray-500  mr-4' /><span className=' text-primary'>{company?.companySize}</span></div>
                                         <div>  <FontAwesomeIcon icon={faMobile} className=' text-gray-500  mr-4' /><span className=' text-primary'>{company?.phone}</span></div>
                                         <div>  <FontAwesomeIcon icon={faPhone} className=' text-gray-500  mr-4' /><span className=' text-primary'>{company?.officePhone}</span></div>

@@ -3,24 +3,55 @@ import React from 'react'
 import JobDetailsCard from '../../../components/JobDetailsCard'
 import JobDescriptionCard from '../../../components/JobDescriptionCard'
 import JobRequirementsCard from '../../../components/JobRequirementsCard'
+import { useRouter } from 'next/router'
+import { useState,useEffect } from 'react'
+import { axios } from '../../../utils/axios'
+
 const index = () => {
+
+    const router=useRouter();
+        
+    const id=router.query.id;
+    const [jobDetails,setJobDetails]=useState();
+ console.log(id)
     const job = {
-        id: 1,
-        jobDate: "2/10/2023",
-        jobTitle: "Angular Developer",
-        gender: "male",
-        jobrole: "IT",
-        age: 20,
-        carrerLevel: "graduate",
-        education: "bac",
-        salary: "2000",
-        jobType: "part Time",
-        experience: "3years",
-        language: "arabic",
+        id: jobDetails?.id,
+        jobDate: jobDetails?.JobDate,
+        jobTitle: jobDetails?.jobTitle,
+        gender: jobDetails?.gender,
+        jobrole: jobDetails?.jobRoles ,
+        age: jobDetails?.ageRange,
+        carrerLevel: jobDetails?.carrerLevel,
+        education: jobDetails?.education,
+        salary:jobDetails?.salary ,
+        jobType: jobDetails?.jobType,
+        experience:jobDetails?.yearOfExperience ,
         numberOfCandidates: 4,
-        jobDescription: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, est quis. Id deserunt placeat, rem est odio asperiores rerum hic aliquam magnam esse cumque, reprehenderit quam officiis ipsam facilis voluptatem?",
-        jobRequirements: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, est quis. Id deserunt placeat, rem est odio asperiores rerum hic aliquam magnam esse cumque, reprehenderit quam officiis ipsam facilis voluptatem?",
+        jobDescription:jobDetails?.jobDescription ,
+        jobRequirements:jobDetails?.jobRequirements ,
     }
+
+
+    useEffect(() => {
+        const fetchDataAsync = async () => {
+  
+        try {
+          const { data: response } = await axios(`/jobs/${id}?populate=jobRoles,jobRequest `);
+          
+          setJobDetails(response) 
+      
+        } catch (error) {
+  
+          console.error(error);
+        }
+      };
+  
+      id? fetchDataAsync():" "
+    }, [id]);
+
+    console.log(jobDetails)
+
+
     return (<div>
         <div className='flex flex-row h-36 px-4 bg-primary items-center justify-evenly'>
             <div className='flex flex-col items-center gap-2'>
@@ -50,15 +81,10 @@ const index = () => {
                 jobRole={job.jobrole} age={job.age} carerrLevel={job.carrerLevel}
                 education={job.education} jobType={job.jobType}
                 salary={job.salary}
-                experience={job.experience} lanuage={job.language} />
+                experience={job.experience}/>
 
             <JobDescriptionCard jobRole={job.jobrole} jobDescription={job.jobDescription} />
             <JobRequirementsCard JobRequirements={job.jobRequirements} />
-
-
-
-
-
 
         </div>
 
