@@ -28,8 +28,12 @@ axios.interceptors.request.use(function (config) {
   
 axios.interceptors.response.use(
     (rs) => {
-        document.body.classList.remove('loading-indicator');
+        document.body.classList.remove('loading-indicator');        
         rs.data = responseParser(rs.data);
+        console.log({
+            x: rs.data, y: responseParser(rs)
+        });
+        
         return rs;
     },
     e => errorHandler(e)

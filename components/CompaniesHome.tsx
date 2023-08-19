@@ -19,10 +19,11 @@ const CompaniesHome = () => {
 
       try {
         const { data: response } = await axios(`/companies?populate[0]=profileImg`);
+        console.log(response);
+        
 
 
-
-        setCompanies(responseParser(response) as any)
+        setCompanies((response) as any)
 
       } catch (error) {
 
