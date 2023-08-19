@@ -23,7 +23,7 @@ const getReturnedObject = (attributes, id) => {
 }   
 
 export const responseParser = <T>(response: Response<T>): ProcessedObject | ProcessedObject[] => {
-    if (!response.data) return response;
+    if (!response?.data) return response;
 
     if (!Array.isArray(response.data)) {        
         const { id, attributes } = response.data as unknown as { id: string; attributes: Attributes };
