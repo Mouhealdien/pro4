@@ -6,10 +6,11 @@ import { toast } from 'react-toastify';
 import { axios } from '../../utils/axios';
 import { User } from '../../types/User';
 import { setToken } from '../../utils/localStorageHelper';
+import { useRouter } from 'next/router';
 
 const index = () => {
-
-    const [type, setType]=useState("company");
+    const router = useRouter();
+    const [type, setType]=useState("company");  
     
     const { register, handleSubmit, formState: { errors } } = useForm();
     const singUp = async (email, password) => {
@@ -28,6 +29,7 @@ const index = () => {
       const id = await singUp(email, password);
       const data = {name: firstName,user: id };
       await axios.post('/companies', {data});
+      router.push('/company/create');
     }
     const createUser = async (submittedData) => {
       const {firstName,lastName, phoneNumber,  email, password} = submittedData;
@@ -39,6 +41,7 @@ const index = () => {
         phone: phoneNumber
       }
       await axios.post('/profile-details', {data});
+      router.push('/employee/create');
 
     }
     const onSubmit = async(submittedData) => {

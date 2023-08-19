@@ -4,13 +4,28 @@ import Input from "../../../components/Input";
 
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import Select from "../../../components/Select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RadioGroup from "../../../components/RadioGroup";
 import TextArea from "../../../components/TextArea";
 import ImageUploader from "../../../components/ImageUploader";
+import { useAuthContext } from "../../../contexts/AuthContext";
+import { axios } from "../../../utils/axios";
+import { responseParser } from "../../../utils/responseParse";
 function Index() {
-
-
+    const {user, } = useAuthContext();
+    const [cities, setCities] = useState([]);
+    useEffect( () => {
+        const fetchStuff = async () => {
+            const {data :citiesResponse} = await axios.get('/cities');
+            setCities(citiesResponse);
+            //const {data: }
+            
+        };
+        fetchStuff();
+    } ,[]);
+    const companySizes = [
+        
+    ]
     const Locationsoptions = [
         { value: 'remote', label: 'Remote' },
         { value: 'nonremote', label: 'Non Remote' },
@@ -66,17 +81,6 @@ function Index() {
                             <Controller
                                 name="CompanyName"
                                 control={control}
-                                rules={{
-                                    required: 'title is required',
-                                    maxLength: {
-                                        value: 20,
-                                        message: 'title should be at max 20 characters long',
-                                    },
-                                    minLength: {
-                                        value: 5,
-                                        message: 'title should be at min 5 characters long',
-                                    },
-                                }}
                                 render={({ field }) => (
                                     <Input
                                         inputProps={{
@@ -85,10 +89,14 @@ function Index() {
                                             name: "CompanyName",
                                             type: "text",
                                             placeholder: "Company Name",
+                                            value: user.company.name
+                                            
                                         }}
                                         inputStyle={`${inputstyle} mr-5`}
                                         lableStyle={lableStyle}
                                         label={"Company Name"}
+                                        disable={true}
+                                        
                                         required={true}
                                     />
                                 )}
@@ -178,13 +186,13 @@ function Index() {
                                         >
                                             {"City"}
                                         </option>
-                                        {Typesoptions.map((i) => (
+                                        {cities.map((i) => (
                                             <option
-                                                key={i.value}
+                                                key={i.id}
 
-                                                value={i.value}
+                                                value={i.id}
                                             >
-                                                {i.label}
+                                                {i.name}
                                             </option>
                                         ))}
                                     </Select>
@@ -296,7 +304,7 @@ function Index() {
                                         >
                                             {"Company Size"}
                                         </option>
-                                        {Typesoptions.map((i) => (
+                                        {companySizes.map((i) => (
                                             <option
                                                 key={i.value}
 
@@ -436,8 +444,8 @@ function Index() {
 
 
                 <div className=" flex">
-                    <button className=" bg-stone-500 text-secondary w-40  rounded-md h-10 m-auto  text-center" type="submit">
-                        Add New Job
+                    <button className=" bg-stone-500 text-secondary w-60  rounded-md h-10 m-auto  text-center" type="submit">
+                        Complete Registration
                     </button>
                 </div>
             </form>
