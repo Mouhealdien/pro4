@@ -32,12 +32,16 @@ const index = () => {
         salary: jobDetails?.salary,
         jobType: jobDetails?.jobType,
         experience: jobDetails?.yearOfExperience,
-        numberOfCandidates: 4,
+        numberOfCandidates: jobDetails?.numberOfCandidates,
         jobDescription: jobDetails?.jobDescription,
         jobRequirements: jobDetails?.jobRequirements,
         idComapny: jobDetails?.company.id
     }
-
+    const handleDeleteJob = async() => {
+        await axios.delete('/jobs/'+jobDetails?.id);
+        toast.success('deleted successfully');
+        router.push('/job/create');
+    }
     const handleApply = async () => {
         const data = {
             job: job.id,
@@ -52,11 +56,19 @@ const index = () => {
 
             try {
                 const { data: response } = await axios(`/jobs/${id}?populate=jobRoles,company `);
+                console.log({response});
+                if (!auth.isCompany){
+                    const {data} = await axios.get(`/job-requests?filters[profileDetail][id][$eq]=${auth.user.profileDetail.id}&filters[job][id][$eq]=${response.id}&fields[0]=id&populate[profileDetail][fields][0]=id`)
 
-                const {data} = await axios.get('/job-requests?filters[profileDetail][id][$eq]=6&fields[0]=id&populate[profileDetail][fields][0]=id')
+                    if (data.length > 0) {
+                        setAppliedBefore(true);
+                    }
+                }
+                else {
+                    const {data} = await axios.get(`/job-requests?filters[job][id][$eq]=${response.id}&fields[0]=id&populate[profileDetail][fields][0]=id`)
 
-                if (data.length > 0) {
-                    setAppliedBefore(true);
+                    response.numberOfCandidates = data.length;
+                    
                 }
                 setJobDetails(response)
 
@@ -79,11 +91,7 @@ const index = () => {
                 <h3 className='text-white'>Created At: {job.jobDate}</h3>
                 {companyid === job?.idComapny && isComany ?
                     <div className='  flex flex-row gap-5'>
-                        <Link href={`${job.id}/edit`}>
-                            <button className=' bg-secondary  hover:bg-primary  hover:border-secondary  hover:border-2 hover:text-secondary transition duration-300 text-primary rounded-md px-4 py2'> Edit Job</button>
-                        </Link>
-
-                        <button className='bg-red-600 transition duration-300 hover:bg-primary hover:text-red-600 hover:border-red-600 hover:border-2 text-secondary rounded-md px-4 py2'>Delete job</button>
+                        <button onClick={handleDeleteJob} className='bg-red-600 transition duration-300 hover:bg-primary hover:text-red-600 hover:border-red-600 hover:border-2 text-secondary rounded-md px-4 py2'>Delete job</button>
 
                     </div> : ""
                 }
