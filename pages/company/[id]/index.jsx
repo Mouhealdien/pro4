@@ -5,21 +5,21 @@ import { useEffect } from 'react'
 import { axios } from '../../../utils/axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLocationArrow,faBuilding,faMailBulk,faUserGroup,faMobile,faPhone } from '@fortawesome/free-solid-svg-icons'
+import JobsCardHome from '../../../components/JobsCardHome';
 const index = () => {   
         const router=useRouter();
-        
+        console.log(router)
         const id=router.query.id;
         
         const [company,setCompany]=useState();
-
+      
         useEffect(() => {
                   const fetchDataAsync = async () => {
             
                   try {
-                    const { data: response } = await axios(`/companies/${id}?populate=profileImg,cities,cities.name,user `);
-                    
+                    const { data: response } = await axios(`/companies/${id}?populate=profileImg,cities,cities.name,user ,jobs , jobs.jobLevel ,jobs.jobRoles  `);
                     setCompany((response) )
-                
+                    
                   } catch (error) {
             
                     console.error(error);
@@ -29,7 +29,8 @@ const index = () => {
                 id?fetchDataAsync():" "
               }, [id]);
               
-              console.log(company)
+              console.log(company?.jobs[0]?.jobRoles[0]?.details)
+              
 
   return (
     <div className=' px-20 text-base '>
@@ -53,7 +54,13 @@ const index = () => {
 
 
             <div className='flex flex-row items-center justify-center flex-wrab'>
-
+                {
+                        company?.jobs.map((e)=>{
+                                return(
+                                        <JobsCardHome image={BASE_SERVEFR_URL + company?.profileImg?.url} title={e.jobTitle} code={e.id} type={e.jobType} experience={e.yearOfExperience} location={e.address} company={company?.name} link={`job/${e?.id}`} level={e.jobLevel?.details} role={e.jobRoles?e.jobRoles[0].details:""} />
+                                )
+                        })
+                }
             </div>
          </div>
     

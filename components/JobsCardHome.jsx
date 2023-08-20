@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { BASE_SERVEFR_URL } from "../utils/constant";
 
 const JobsCardHome = ({
   image,
@@ -20,8 +21,9 @@ const JobsCardHome = ({
   company,
   link,
 }) => {
+  console.log(code)
   return (
-    <Link href={link} className="xl:w-auto w-full">
+    <Link href={'http://localhost:3000/'+ link} className="xl:w-auto w-full">
       <div className=" p-3 rounded-md   bg-white hover:shadow-lg cursor-pointer m-5 hover:transition hover:-translate-y-2 ">
         <div className="flex items-center">
           <img
