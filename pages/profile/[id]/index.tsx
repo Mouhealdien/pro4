@@ -43,7 +43,7 @@ const index = () => {
     age: user?.birthDate,
     nationality: user?.Nationality,
     gender: user?.gender,
-    militaryStatus: user?.militaryService.name,
+    militaryStatus: user?.militaryService?.name,
     workCite: user?.workingCities,
     jobLevel: user?.jobLevel.details,
     currentJobStatus: user?.currentJobStatus,
@@ -54,7 +54,7 @@ const index = () => {
     experience: user?.experiences,
     skills: user?.Skills,
     languages: user?.languages,
-    img: user?.profileImage.url ? BASE_SERVEFR_URL + user?.profileImage.url : undefined
+    img: user?.profileImage?.url ? BASE_SERVEFR_URL + user?.profileImage?.url : undefined
   }
   console.log(profileInfo.img)
   return (
