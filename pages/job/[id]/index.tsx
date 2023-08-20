@@ -44,7 +44,8 @@ const index = () => {
             profileDetail: auth.user.profileDetail.id
         };
         await axios.post('/job-requests', {data});
-        toast.success('Applied sucessfully !!')
+        toast.success('Applied sucessfully !!');
+        setAppliedBefore(true);
     };
     useEffect(() => {
         const fetchDataAsync = async () => {

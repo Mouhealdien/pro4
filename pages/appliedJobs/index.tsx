@@ -27,7 +27,7 @@ const index = () => {
   },
 
   ]
-  const [jobs, setjobs] = useState();
+  const [jobs, setjobs] = useState([]);
 
   useEffect(() => {
     const fetchDataAsync = async () => {

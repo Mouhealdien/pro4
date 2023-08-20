@@ -29,13 +29,12 @@ function Index() {
     const genderoptions = [
         { value: 'male', label: 'Male' },
         { value: 'female', label: 'Female' },
-        { value: 'noPrefrence', label: 'No Prefrence' },
 
 
     ];
-    const inputstyle = "pl-1  text-sm rounded-[10px] border border-stone-500 bg-background border-l-8   text-gray-400 h-8  md:h-10 lg:h-12"
-    const lableStyle = "font-dosis text-xs md:text-sm lg:text-md xl:text-lg font-medium  "
-    const selectStyle = "text-gray-700 font-dosis  text-xs md:text-sm lg:text-md xl:text-lg  font-normal"
+    const inputstyle = "pl-1  text-[0.5rem] md:text-xs lg:text-sm xl:text-md border-[hsl(0,0%,80%)] border-b  min-h-[34px]"
+    const lableStyle = "font-dosis   text-[0.5rem] md:text-xs lg:text-sm xl:text-md font-medium  "
+    const selectStyle = "text-gray-700 font-dosis  text-[0.5rem] md:text-xs lg:text-sm xl:text-md  font-normal"
     const {
         control,
         handleSubmit,
@@ -48,9 +47,9 @@ function Index() {
         console.log(errors)
     };
     return (
-        <div className="bg-gray-200 pb-6  text-base">
+        <div className="container mx-auto my-20">
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="my-5 bg-white h-full   mx-10 md:mx-32 lg:mx-80 rounded-xl pt-4  pb-10 px-6 md:px-12  border-l-8   border-primary  shadow-md  shadow-slate-300">
+                <div className="my-5 bg-white h-full   mx-10 md:mx-32 lg:mx-80 rounded-xl pt-4  pb-10 px-6 md:px-12  border-l-8   border-primary  shadow  shadow-slate-300">
                     <h1 className=" text-primary text-xl md:text-2xl lg:text-3xl  mt-6">
                         Specify the required employee specification
                     </h1>
@@ -140,31 +139,6 @@ function Index() {
                     </div>
 
                     <div className="flex   items-center  mx-2 md:mx-10 lg:mx-20  flex-wrap  my-7 ">
-                        <div className="w-1/2">
-                            <Controller
-                                name="Gender"
-                                control={control}
-                                rules={{ required: true }}
-                                render={({ field }) => (
-                                    <RadioGroup
-                                        options={genderoptions}
-                                        onChange={(value: string) => {
-                                            field.onChange(value);
-                                        }}
-                                        label={"Gender"}
-                                        lableStyle={lableStyle}
-                                        optionStyle={selectStyle}
-                                        required={true}
-                                    />
-                                )}
-                            />
-                            {errors.Gender && (
-                                <p className="text-sm text-red-700">
-                                    {"Gender is required"}
-                                </p>
-                            )}
-
-                        </div>
                         <div className="w-1/2">
                             <Controller
                                 name="Age"
@@ -382,7 +356,7 @@ function Index() {
                 </div>
 
 
-                <div className="my-5 bg-white h-full   mx-10 md:mx-32 lg:mx-80 rounded-xl pt-4  pb-10 px-6 md:px-12  border-l-8   border-primary  shadow-md  shadow-slate-300">
+                <div className="my-5 bg-white h-full   mx-10 md:mx-32 lg:mx-80 rounded-xl pt-4  pb-10 px-6 md:px-12  border-l-8   border-primary  shadow  shadow-slate-300">
                     <h1 className=" text-primary text-xl md:text-2xl lg:text-3xl  mt-6">
                         Specify the required employee specification
                     </h1>
@@ -600,14 +574,38 @@ function Index() {
 
                         </div>
                         <div className="w-1/2">
+                        <div className="w-1/2">
+                            <Controller
+                                name="Gender"
+                                control={control}
+                                rules={{ required: true }}
+                                render={({ field }) => (
+                                    <RadioGroup
+                                        options={genderoptions}
+                                        onChange={(value: string) => {
+                                            field.onChange(value);
+                                        }}
+                                        label={"Gender"}
+                                        lableStyle={lableStyle}
+                                        optionStyle={selectStyle}
+                                        required={true}
+                                    />
+                                )}
+                            />
 
+                            {errors.Gender && (
+                                <p className="text-sm text-red-700">
+                                    {"Gender is required"}
+                                </p>
+                            )}
+                        </div>
                         </div>
                     </div>
 
 
                 </div>
 
-                <div className="my-5 bg-white h-full   mx-10 md:mx-32 lg:mx-80 rounded-xl pt-4  pb-10 px-6 md:px-12  border-l-8   border-primary  shadow-md  shadow-slate-300">
+                <div className="my-5 bg-white h-full   mx-10 md:mx-32 lg:mx-80 rounded-xl pt-4  pb-10 px-6 md:px-12  border-l-8   border-primary  shadow  shadow-slate-300">
                     <h1 className=" text-primary text-xl md:text-2xl lg:text-3xl  mt-6">
                         Fill out your Job Vacancy information
                     </h1>
