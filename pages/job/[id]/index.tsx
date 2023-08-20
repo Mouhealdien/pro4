@@ -13,7 +13,7 @@ const index = () => {
     console.log(auth)
     const router = useRouter();
     const userid = auth.user.id
-    const companyid = auth.user.company.id
+    const companyid = auth.user.company?.id
 
     const isComany = auth.isCompany
     const id = router.query.id;
