@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import { axios } from '../../../utils/axios'
 import { AuthContext } from '../../../contexts/AuthContext'
+import { toast } from 'react-toastify'
 
 const index = () => {
     const auth = useContext(AuthContext);
@@ -14,7 +15,7 @@ const index = () => {
     const router = useRouter();
     const userid = auth.user.id
     const companyid = auth.user.company?.id
-
+    const [appliedBefore, setAppliedBefore] = useState(false);
     const isComany = auth.isCompany
     const id = router.query.id;
     const [jobDetails, setJobDetails] = useState();
@@ -37,14 +38,25 @@ const index = () => {
         idComapny: jobDetails?.company.id
     }
 
-
+    const handleApply = async () => {
+        const data = {
+            job: job.id,
+            profileDetail: auth.user.profileDetail.id
+        };
+        await axios.post('/job-requests', {data});
+        toast.success('Applied sucessfully !!')
+    };
     useEffect(() => {
         const fetchDataAsync = async () => {
 
             try {
                 const { data: response } = await axios(`/jobs/${id}?populate=jobRoles,company `);
 
+                const {data} = await axios.get('/job-requests?filters[profileDetail][id][$eq]=6&fields[0]=id&populate[profileDetail][fields][0]=id')
 
+                if (data.length > 0) {
+                    setAppliedBefore(true);
+                }
                 setJobDetails(response)
 
             } catch (error) {
@@ -76,9 +88,8 @@ const index = () => {
                 }
                 {!isComany ? <div className=' flex flex-col items-center gap-2'>
 
-                    <Link href={""}>
-                        <button className=' bg-secondary  hover:bg-primary  hover:border-secondary  hover:border-2 hover:text-secondary transition duration-300  text-primary rounded-md px-4 py2'>Apply </button>
-                    </Link>
+                    <button onClick={handleApply} disabled={appliedBefore} className={` bg-secondary  ${!appliedBefore ? "hover:bg-primary  hover:border-secondary  hover:border-2 hover:text-secondary" : ""} transition duration-300  text-primary rounded-md px-4 py2`}>{appliedBefore ? 'Already Applied' : 'Apply'} </button>
+                    
                 </div> : ""}
             </div>
             {companyid === job?.idComapny && isComany ? <div className=' flex flex-col items-center gap-2'>

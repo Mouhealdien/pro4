@@ -42,7 +42,7 @@ const index = () => {
             users?.length > 0 && users.map((e) => {
               return (
                 <ProfileCard id={e.id} name={e?.firstName + " " + e?.lastName} gender={e.gender} Address={e?.workingCities && e?.workingCities[0]?.name}
-                  educationlevel={e.educations && e?.educations[0].degree} yearsOFExperience={e?.yearsOfExperience} age={e?.age} img={BASE_SERVEFR_URL + e?.profileImage.url} />
+                  educationlevel={e.educations && e?.educations?.[0]?.degree} yearsOFExperience={e?.yearsOfExperience} age={e?.age} img={BASE_SERVEFR_URL + e?.profileImage.url} />
               )
             })
           }

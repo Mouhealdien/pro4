@@ -22,8 +22,6 @@ const AuthProvider = ({ children }: Props) => {
       const { data } = await axios.get(`/users/me`, {
         headers: { Authorization: `${BEARER} ${token}` },
       });
-      console.log(data);
-      
       const { id } = data;
       const { data: user } = await axios.get(
         `/users/${id}?populate[profileDetail][fields][0]=firstName&populate[profileDetail][fields][1]=lastName&populate[profileDetail][populate][profileImage][fields][0]=url&populate[company][fields][0]=name&populate[company][populate][profileImg][fields][0]=url&fields[0]=url&fields[1]=username&fields[2]=email`
@@ -33,8 +31,6 @@ const AuthProvider = ({ children }: Props) => {
       } else {
         setIsCompany(false);
       }
-      console.log({user});
-      
       setUserData(user);
     } catch (error) {
       console.error(error);

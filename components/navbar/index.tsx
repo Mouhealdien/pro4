@@ -4,14 +4,21 @@ import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { AuthContext } from "../../contexts/AuthContext";
+import { removeToken } from "../../utils/localStorageHelper";
+import { useRouter } from "next/router";
 
 const NavBar = () => {
+  const router = useRouter();
   const auth = useContext(AuthContext);
-  console.log(auth)
+  const handleLogOut = () => {
+    removeToken()
+    router.push("/log-in");
+
+  }
   const linksCompany = [
     {
       title: " Profile Company & Manage Jobs ",
-      link: `company/${auth.user.id}`,
+      link: `company/${auth?.user?.company?.id}`,
     },
     {
       title: "Add New Job",
@@ -93,12 +100,13 @@ const NavBar = () => {
 
 
                 <div className="hidden sm:flex">
-                  <a
+                  <button
+                  onClick={handleLogOut}
                     className="rounded-md  bg-red-400 px-5 py-2.5 text-sm font-medium  text-white"
-                    href="/sign-up"
+                    
                   >
                     LogOut
-                  </a>
+                  </button>
                 </div>
 
               </div>
@@ -199,12 +207,13 @@ const NavBar = () => {
             </a>
           </div> : <div className="flex flex-col gap-5">
 
-            <a
-              className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-primary"
-              href="/"
-            >
-              LogOut
-            </a>
+          <button
+                  onClick={handleLogOut}
+                    className="rounded-md  bg-red-400 px-5 py-2.5 text-sm font-medium  text-white"
+                    
+                  >
+                    LogOut
+                  </button>
 
           </div>}
 

@@ -1,35 +1,36 @@
 import React, { ChangeEvent, ReactNode } from 'react';
+import Select from 'react-select';
 
 type Props = {
 	selectProps: any
-	children: ReactNode;
 	onChange?: (value: string) => void;
 	selectStyle?: string;
 	label: string;
 	lableStyle?: string;
-	required?: boolean
+	required?: boolean;
+	isMulti?: boolean;
+	options: any
 };
-const Select = ({ selectProps, selectStyle, children, label, lableStyle, onChange, required }: Props) => {
+const SelectX = ({ selectProps, selectStyle,  label, lableStyle, onChange, required, isMulti=false, options }: Props) => {
 	const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
 		if (onChange) {
 			onChange(event.target.value);
 		}
 	};
-
+	
 	return (
-		<div className='flex flex-col'>
+		<div className='flex flex-col '>
 			<label className={lableStyle}>
 				{label}  {required ? <span className='  text-red-600 '>*</span> : ""}
 			</label>
-			<select
-				onChange={handleSelectChange}
-				className={selectStyle}
+			<Select
+				options={options}
+				isMulti={isMulti}
+				className={selectStyle.replace('border-b','')}
 				{...selectProps}
-			>
-				{children}
-			</select>
+			/>
 		</div>
 	);
 };
 
-export default Select;
+export default SelectX;

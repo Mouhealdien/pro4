@@ -9,9 +9,14 @@ import RadioGroup from "../../../../components/RadioGroup";
 import TextArea from "../../../../components/TextArea";
 import ImageUploader from "../../../../components/ImageUploader";
 import DateInput from "../../../../components/DateInput";
+import { axios } from "../../../../utils/axios";
+import { useAuthContext } from "../../../../contexts/AuthContext";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 function Index() {
 
-
+    const { user }= useAuthContext();
+    const router = useRouter();
     const inputstyle = "pl-1  text-[0.5rem] md:text-xs lg:text-sm xl:text-md rounded-[10px] border border-stone-500 bg-background border-l-8   text-gray-400 h-8  md:h-10 lg:h-12"
     const lableStyle = "font-dosis   text-[0.5rem] md:text-xs lg:text-sm xl:text-md font-medium  "
     const selectStyle = "text-gray-700 font-dosis  text-[0.5rem] md:text-xs lg:text-sm xl:text-md  font-normal"
@@ -22,9 +27,12 @@ function Index() {
         watch,
     } = useForm<any>();
 
-    const onSubmit: SubmitHandler<any> = (data) => {
-        alert(JSON.stringify(data))
-        console.log(errors)
+    const onSubmit: SubmitHandler<any> = async(data) => {
+        await axios.put('/profile-details/'+user.profileDetail.id, {
+            data
+        });
+        toast.success('DONE !!!, Let us explore which jobs suits you');
+        router.push('/allJobs')
     };
 
     return (

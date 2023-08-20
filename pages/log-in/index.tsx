@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -8,7 +9,7 @@ import { setToken } from "../../utils/localStorageHelper";
 const index = () => {
 
   const { register, handleSubmit, formState: { errors } } = useForm();
-
+  const router = useRouter();
   const onSubmit = async (sub) => {
       const {email, password} = sub;
       const {data} = await axios.post('/auth/local', {
@@ -17,6 +18,9 @@ const index = () => {
             });
       setToken(data.jwt);
       toast.success(`Welcome back ${data.user.username}!`);
+      setTimeout(() => {
+        router.push('/');
+      }, 1000);
   };
   return (
     <section className="bg-white  ">

@@ -20,12 +20,9 @@ const index = () => {
     const fetchDataAsync = async () => {
       console.log(id)
       try {
-        const response = await axios(`/users/${id}?populate=profileDetail,profileDetail.educations,profileDetail.experiences,profileDetail.languages,profileDetail.workingCities,profileDetail.militaryService,profileDetail.jobLevel,profileDetail.profileImage&fields[0]=id&fields[1]=email`);
-
-        console.log(response.data)
-
+        const response = await axios(`/profile-details/${id}?populate=educations,experiences,languages,workingCities,militaryService,jobLevel,profileImage`);
         setemail(response.data.email)
-        setUser(response.data.profileDetail);
+        setUser(response.data);
 
       } catch (error) {
 
@@ -41,11 +38,11 @@ const index = () => {
     firstName: user?.firstName,
     lastName: user?.lastName,
     age: user?.birthDate,
-    nationality: user?.Nationality,
+    nationality: user?.nationality,
     gender: user?.gender,
     militaryStatus: user?.militaryService?.name,
     workCite: user?.workingCities,
-    jobLevel: user?.jobLevel.details,
+    jobLevel: user?.jobLevel?.details,
     currentJobStatus: user?.currentJobStatus,
     experienceYears: user?.yearsOfExperience,
     phone: user?.phone,
@@ -56,11 +53,12 @@ const index = () => {
     languages: user?.languages,
     img: user?.profileImage?.url ? BASE_SERVEFR_URL + user?.profileImage?.url : undefined
   }
-  console.log(profileInfo.img)
+
   return (
     <div className='px-2 py-2'>
 
       <div className='flex flex-col gap-5'>
+      
         <ProfileHeader Fname={profileInfo.firstName} Lname={profileInfo.lastName}
           age={profileInfo.age} nationality={profileInfo.nationality}
           gender={profileInfo.gender} militaryStatus={profileInfo.militaryStatus}

@@ -4,29 +4,31 @@ import Input from "../../../../components/Input";
 
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import Select from "../../../../components/Select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RadioGroup from "../../../../components/RadioGroup";
 import TextArea from "../../../../components/TextArea";
 import ImageUploader from "../../../../components/ImageUploader";
 import DateInput from "../../../../components/DateInput";
+import { useRouter } from "next/router";
+import { axios } from "../../../../utils/axios";
+import { useAuthContext } from "../../../../contexts/AuthContext";
+import { toast } from "react-toastify";
 function Index() {
-    const experience = [
-        {
-            job: "Frontend Developer",
-            company: 'codezc',
-            startDate: "1/2/2022",
-            endDate: "7/8/2022",
-            description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis sunt vitae eveniet quos, dolore ipsa, quae repellendus itaque sint iste nostrum eaque? Omnis itaque voluptas magni, delectus repudiandae praesentium dignissimos."
-        }
-    ]
-    const Typesoptions = [
-        { value: 'fulltime', label: 'Full time' },
-        { value: 'parttime', label: 'Part time' },
-
-    ];
-
-
-    const inputstyle = "pl-1  text-[0.5rem] md:text-xs lg:text-sm xl:text-md rounded-[10px] border border-stone-500 bg-background border-l-8   text-gray-400 h-8  md:h-10 lg:h-12"
+    const router = useRouter();
+    const {user} = useAuthContext();
+    const [industries, setIndustries] = useState([]);
+    useEffect( () => {
+        const fetchStuff = async () => {
+            const {data: industriesResponse} = await axios.get('/job-roles');
+      
+            setIndustries(industriesResponse.map(e => ({
+                label:e.details,
+                value: e.id
+            })))
+        };
+        fetchStuff();
+    } ,[]); 
+    const inputstyle = "pl-1  text-[0.5rem] md:text-xs lg:text-sm xl:text-md border-[hsl(0,0%,80%)] border-b  min-h-[34px]"
     const lableStyle = "font-dosis   text-[0.5rem] md:text-xs lg:text-sm xl:text-md font-medium  "
     const selectStyle = "text-gray-700 font-dosis  text-[0.5rem] md:text-xs lg:text-sm xl:text-md  font-normal"
     const {
@@ -36,9 +38,19 @@ function Index() {
         watch,
     } = useForm<any>();
 
-    const onSubmit: SubmitHandler<any> = (data) => {
-        alert(JSON.stringify(data))
-        console.log(errors)
+    const onSubmit: SubmitHandler<any> = async (subData) => {
+        const data = {
+            profileDetail: user.profileDetail.id,
+            companyName: subData.CompanyName,
+            jobTitle: subData.JobTitle,
+            startDate: subData.FromDate,
+            endDate: subData.ToDate,
+            description: subData.Description,
+            jobRoles: subData.JobRoles.map(e => e.value)
+        }
+        await axios.post('/experiences', {data});
+        toast.success('3/5 Completed, there are only 2 left');
+        router.push('/employee/Languages/add');
     };
     const startDate = watch('FromDate');
     const endDate = watch('ToDate');
@@ -50,9 +62,9 @@ function Index() {
         return true;
     };
     return (
-        <div className="bg-gray-200 px-10 text-base    ">
+        <div className="container mx-auto my-20 bg-gray  ">
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="my-5 bg-white h-full   mx-10 md:mx-32 lg:mx-60 rounded-xl pt-4  pb-10 px-6 md:px-12  border-l-8   border-primary  shadow-md  shadow-slate-300">
+                <div className="my-5 bg-white h-full   mx-10 md:mx-32 lg:mx-60 rounded-xl pt-4  pb-10 px-6 md:px-12  border-l-8   border-primary  shadow  shadow-slate-300">
                     <h1 className=" text-primary text-xl md:text-2xl lg:text-3xl  mt-6">
                         Experience Info
                     </h1>
@@ -150,28 +162,13 @@ function Index() {
                                     <Select
                                         selectStyle={`${inputstyle} mr-5`}
                                         lableStyle={lableStyle}
-                                        selectProps={{ placeholder: "Job Roles" }}
-                                        {...field}
+                                        selectProps={{ placeholder: "Job Roles",...field }}
                                         onChange={(value: string) => field.onChange(value)}
                                         label={"Job Roles"}
+                                        isMulti
+                                        options={industries}
                                         required={true}
-                                    >
-                                        <option
-
-                                            value={undefined}
-                                        >
-                                            {"Job Roles"}
-                                        </option>
-                                        {Typesoptions.map((i) => (
-                                            <option
-                                                key={i.value}
-
-                                                value={i.value}
-                                            >
-                                                {i.label}
-                                            </option>
-                                        ))}
-                                    </Select>
+                                    />
                                 )}
                             />
                             {errors.JobRoles && (
