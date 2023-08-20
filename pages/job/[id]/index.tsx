@@ -13,6 +13,8 @@ const index = () => {
     console.log(auth)
     const router = useRouter();
     const userid = auth.user.id
+    const companyid = auth.user.company.id
+
     const isComany = auth.isCompany
     const id = router.query.id;
     const [jobDetails, setJobDetails] = useState();
@@ -62,7 +64,7 @@ const index = () => {
             <div className='flex flex-col items-center gap-2'>
                 <h2 className=' text-white text-3xl'>{job.jobTitle}</h2>
                 <h3 className='text-white'>Created At: {job.jobDate}</h3>
-                {userid === job?.idComapny && isComany ?
+                {companyid === job?.idComapny && isComany ?
                     <div className='  flex flex-row gap-5'>
                         <Link href={`${job.id}/edit`}>
                             <button className=' bg-secondary  hover:bg-primary  hover:border-secondary  hover:border-2 hover:text-secondary transition duration-300 text-primary rounded-md px-4 py2'> Edit Job</button>
@@ -79,7 +81,7 @@ const index = () => {
                     </Link>
                 </div> : ""}
             </div>
-            {userid === job?.idComapny && isComany ? <div className=' flex flex-col items-center gap-2'>
+            {companyid === job?.idComapny && isComany ? <div className=' flex flex-col items-center gap-2'>
                 <h2 className='text-5xl text-secondary'>{job.numberOfCandidates}</h2>
                 <p className='text-secondary '>Candidates</p>
                 <Link href={`${job.id}/candidates`}>

@@ -68,24 +68,42 @@ const NavBar = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="sm:flex sm:gap-4">
-              <a
-                className="rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-white shadow"
-                href="log-in"
-              >
-                Login
-              </a>
+            {!auth.user ?
+              <div className="sm:flex sm:gap-4">
 
-              <div className="hidden sm:flex">
                 <a
-                  className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-primary"
-                  href="/sign-up"
+                  className="rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-white shadow"
+                  href="log-in"
                 >
-                  Register
+                  Login
                 </a>
-              </div>
 
-            </div>
+                <div className="hidden sm:flex">
+                  <a
+                    className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-primary"
+                    href="/sign-up"
+                  >
+                    Register
+                  </a>
+                </div>
+
+              </div> :
+              <div className="sm:flex sm:gap-4">
+
+
+
+                <div className="hidden sm:flex">
+                  <a
+                    className="rounded-md  bg-red-400 px-5 py-2.5 text-sm font-medium  text-white"
+                    href="/sign-up"
+                  >
+                    LogOut
+                  </a>
+                </div>
+
+              </div>
+            }
+
 
             <div className="block md:hidden">
               <button
