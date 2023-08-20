@@ -1,13 +1,13 @@
 import React from 'react'
 import Link from 'next/link'
-const JobEditCard = () => {
+const JobEditCard = ({id,title,numOfCandidates}) => {
   return (
     <div>
           <div className=' border-b-2 border-b-gray-300 flex flex-row gap-2 items-center max-w-sm border-gray-300 border-[3px] p-4 border-l-primary  border-l-[6px]  shadow-xl  rounded-md'>
             <div>
                 <div className='flex flex-row justify-between items-center  '>
-                    <h2 className='text-primary  text-xl  font-bold  pb-2'>Angular Developer</h2>
-                    <p className='text-gray-400 text-xs'> 0 Candidates</p>
+                    <h2 className='text-primary  text-xl  font-bold  pb-2'>{title}</h2>
+                    <p className='text-gray-400 text-xs'> {numOfCandidates} Candidates</p>
                 </div>
                 
                 <div className='flex flex-row gap-5 pt-3 '>
