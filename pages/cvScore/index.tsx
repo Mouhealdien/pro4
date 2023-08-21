@@ -35,7 +35,7 @@ function index() {
     fetchDataAsync();
   }, [idUser]);
   console.log(user)
-  const percent= (user?.experiences?.length*10)+(user?.profileImage?20:0)+(user?.Skills?20:0)+(user?.educations?.length*10)+(user?.languages?.length*10)
+  const percent= (user?.experiences?.length>2?20:user?.experiences?.length*10)+(user?.profileImage?20:0)+(user?.Skills?20:0)+(user?.educations?.length>2?20:user?.educations?.length*10)+(user?.languages?.length>2?20:user?.languages?.length*10)
 
   console.log(percent)
     return (
@@ -55,7 +55,7 @@ function index() {
                     stroke-dasharray={`${percent}, 100`}
                      />
                      
-                     <text  x="14.5" y="20" className=' fill-primary' font-size="5" >{percent}%</text> 
+                     <text  x="14.5" y="20" className=' fill-primary' font-size="5" >{percent>100?100:percent}%</text> 
                  </svg>
 
                 
@@ -76,7 +76,7 @@ function index() {
                     <div className='flex flex-col items-center gap-2 justify-center    '>
 
                         <p>Add Score</p>
-                        <p> <span className='text-red-500'>+{user?.experiences?.length*10}</span></p>
+                        <p> <span className='text-red-500'>+{user?.experiences?.length>2?'20':user?.experiences?.length*10}</span></p>
                     </div>
                 </div>
                 </Link>
@@ -127,7 +127,7 @@ function index() {
                     <div className='flex flex-col items-center gap-2 justify-center    '>
 
                         <p>Add Score</p>
-                        <p> <span className='text-red-500'>+{user?.educations?.length*10}</span></p>
+                        <p> <span className='text-red-500'>+{user?.educations?.length>2?"20":user?.educations?.length*10}</span></p>
                     </div>
                 </div>
                 </Link>
@@ -144,7 +144,7 @@ function index() {
                     <div className='flex flex-col items-center gap-2 justify-center    '>
 
                         <p>Add Score</p>
-                        <p> <span className='text-red-500'>+{user?.languages?.length*10}</span></p>
+                        <p> <span className='text-red-500'>+{user?.languages?.length>2?"20":user?.languages?.length*10}</span></p>
                     </div>
                 </div>
                 </Link>
