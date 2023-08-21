@@ -312,6 +312,67 @@ function Index() {
                             )}
                         </div>
                     </div>
+                    <div className="flex   items-center  mx-2 md:mx-10 lg:mx-20  flex-wrap  my-7 ">
+                        {/*  <div className="w-1/2 ">
+                            <Controller
+                                name="CurrentJobStatus"
+                                control={control}
+
+
+                                render={({ field }) => (
+                                    <Select
+                                        selectStyle={`${inputstyle} mr-5`}
+                                        lableStyle={lableStyle}
+                                        selectProps={{ placeholder: "Current Job Status" }}
+                                        {...field}
+                                        onChange={(value: string) => field.onChange(value)}
+                                        label={"Current Job Status"}
+
+                                    >
+                                        <option
+                                            value={undefined}
+                                        >
+                                            {"Current Job Status"}
+                                        </option>
+                                        {jobstatus.map((i) => (
+                                            <option
+                                                key={i.value}
+                                                value={i.value}
+                                            >
+                                                {i.label}
+                                            </option>
+                                        ))}
+                                    </Select>
+                                )}
+                            />
+                            {errors.CurrentJobStatus && (
+                                <p className="text-xs mb-3 text-red-700">
+                                    {"Current Job Status is required"}
+                                </p>
+                            )}
+                        </div> */}
+                        <div className="w-1/2 ">
+
+                            <Controller
+                                control={control}
+                                rules={{ required: false }}
+                                name="profileImg"
+                                render={({ field: { onChange } }) => (
+                                    <ImageUploader label={"Profile Image"}
+                                        labelStyle={lableStyle}
+                                        uploaderStyle="w-[4rm]  xl:w-[30rem] lg:w-[20rem] md:w-[15rem] md:w-[15rem] h-[12.4375rem] rounded-md border-dashed border-2 border-gray-700 bg-gray-100 flex justify-center items-center"
+                                        onChange={onChange} />
+                                )}
+                            />
+                            {errors.profileImg && (
+                                <span className="text-xs mb-3 text-red-700">
+                                    {'imageIsRequired'}
+                                </span>
+                            )}
+
+                        </div>
+
+                    </div>
                 </div>
                 <div className="my-5 bg-white h-full   mx-10 md:mx-32 lg:mx-60 rounded-xl pt-4  pb-10 px-6 md:px-12  border-l-8   border-primary  shadow  shadow-slate-300">
                     <h1 className=" text-primary text-xl md:text-2xl lg:text-3xl  mt-6">
@@ -387,67 +448,7 @@ function Index() {
                         </div>
                     </div>
 
-                    <div className="flex   items-center  mx-2 md:mx-10 lg:mx-20  flex-wrap  my-7 ">
-                        {/*  <div className="w-1/2 ">
-                            <Controller
-                                name="CurrentJobStatus"
-                                control={control}
 
-
-                                render={({ field }) => (
-                                    <Select
-                                        selectStyle={`${inputstyle} mr-5`}
-                                        lableStyle={lableStyle}
-                                        selectProps={{ placeholder: "Current Job Status" }}
-                                        {...field}
-                                        onChange={(value: string) => field.onChange(value)}
-                                        label={"Current Job Status"}
-
-                                    >
-                                        <option
-                                            value={undefined}
-                                        >
-                                            {"Current Job Status"}
-                                        </option>
-                                        {jobstatus.map((i) => (
-                                            <option
-                                                key={i.value}
-                                                value={i.value}
-                                            >
-                                                {i.label}
-                                            </option>
-                                        ))}
-                                    </Select>
-                                )}
-                            />
-                            {errors.CurrentJobStatus && (
-                                <p className="text-xs mb-3 text-red-700">
-                                    {"Current Job Status is required"}
-                                </p>
-                            )}
-                        </div> */}
-                        <div className="w-1/2 ">
-                            <div className="w-1/2">
-                                <Controller
-                                    control={control}
-                                    rules={{ required: false }}
-                                    name="profileImg"
-                                    render={({ field: { onChange } }) => (
-                                        <ImageUploader label={"Profile Image"}
-                                            labelStyle={lableStyle}
-                                            uploaderStyle="w-[4rm]  xl:w-[30rem] lg:w-[20rem] md:w-[15rem] md:w-[15rem] h-[12.4375rem] rounded-md border-dashed border-2 border-gray-700 bg-gray-100 flex justify-center items-center"
-                                            onChange={onChange} />
-                                    )}
-                                />
-                                {errors.profileImg && (
-                                    <span className="text-xs mb-3 text-red-700">
-                                        {'imageIsRequired'}
-                                    </span>
-                                )}
-                            </div>
-                        </div>
-
-                    </div>
 
 
 
