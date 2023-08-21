@@ -4,12 +4,12 @@ import React, { ChangeEvent, useState } from 'react';
 type imageProp = {
 	onChange: any;
 	defaultValue?: string | Blob | null | undefined | StaticImageData;
-    uploaderStyle?:string;
-    label:string;
-    labelStyle:string;
+	uploaderStyle?: string;
+	label: string;
+	labelStyle: string;
 };
 
-const ImageUploader = ({ onChange, defaultValue,uploaderStyle,label,labelStyle }: imageProp) => {
+const ImageUploader = ({ onChange, defaultValue, uploaderStyle, label, labelStyle }: imageProp) => {
 	const [image, setImage] = useState(defaultValue || '');
 	const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
 		const file = event.target.files?.[0];
@@ -31,24 +31,24 @@ const ImageUploader = ({ onChange, defaultValue,uploaderStyle,label,labelStyle }
 	};
 
 	return (
-        <div className='flex flex-row'> 
-		 <label className={ labelStyle}>
+		<div className='flex flex-col'>
+			<label className={labelStyle}>
 				{label}
-		</label>
-		
+			</label>
+
 			{image ? (
-				
-					<div
-						className={`${uploaderStyle} bg-cover bg-center bg-no-repeat`} 
-						style={{ backgroundImage: `url(${image})` }}
+
+				<div
+					className={`${uploaderStyle} bg-cover bg-center bg-no-repeat`}
+					style={{ backgroundImage: `url(${image})` }}
+				>
+					<button
+						onClick={handleRemoveImage}
+						className="  rounded-lg bg-red-200 px-8 py-3 text-sm font-medium text-white transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:bg-secondary"
 					>
-						<button
-							onClick={handleRemoveImage}
-							className="  rounded-lg bg-red-200 px-8 py-3 text-sm font-medium text-white transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring active:bg-secondary"
-						>
-							Remove
-						</button>
-					
+						Remove
+					</button>
+
 				</div>
 			) : (
 				<div className={uploaderStyle}>
@@ -68,8 +68,8 @@ const ImageUploader = ({ onChange, defaultValue,uploaderStyle,label,labelStyle }
 					/>
 				</div>
 			)}
-		
-        </div>
+
+		</div>
 	);
 };
 

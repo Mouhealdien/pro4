@@ -101,7 +101,7 @@ function Index() {
                                             name: "FirstName",
                                             type: "text",
                                             placeholder: "First Name",
-                                            value: user.profileDetail.firstName
+                                            value: user.profileDetail?.firstName
                                         }}
                                         disable={true}
                                         inputStyle={`${inputstyle} mr-5`}
@@ -130,7 +130,7 @@ function Index() {
                                             name: "LastName",
                                             type: "text",
                                             placeholder: "Last Name",
-                                            value: user.profileDetail.lastName
+                                            value: user.profileDetail?.lastName
                                         }}
                                         disable={true}
                                         inputStyle={`${inputstyle} mr-5`}
@@ -427,7 +427,24 @@ function Index() {
                             )}
                         </div> */}
                         <div className="w-1/2 ">
-
+                            <div className="w-1/2">
+                                <Controller
+                                    control={control}
+                                    rules={{ required: false }}
+                                    name="profileImg"
+                                    render={({ field: { onChange } }) => (
+                                        <ImageUploader label={"Profile Image"}
+                                            labelStyle={lableStyle}
+                                            uploaderStyle="w-[4rm]  xl:w-[30rem] lg:w-[20rem] md:w-[15rem] md:w-[15rem] h-[12.4375rem] rounded-md border-dashed border-2 border-gray-700 bg-gray-100 flex justify-center items-center"
+                                            onChange={onChange} />
+                                    )}
+                                />
+                                {errors.profileImg && (
+                                    <span className="text-xs mb-3 text-red-700">
+                                        {'imageIsRequired'}
+                                    </span>
+                                )}
+                            </div>
                         </div>
 
                     </div>

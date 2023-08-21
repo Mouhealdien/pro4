@@ -10,7 +10,7 @@ import Footer from "../components/Footer";
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   console.log(router.asPath);
-  const blockedPathes = ['/log-in', '/sign-up', '/employee/create', '/company/create', '/print/1']
+  const blockedPathes = ['/log-in', '/sign-up', '/employee/create', '/company/create',]
 
   const blo = []
   for (let i = 0; i < 100; i++) {

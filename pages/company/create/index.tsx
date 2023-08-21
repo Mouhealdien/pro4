@@ -13,27 +13,27 @@ import { axios } from "../../../utils/axios";
 import { responseParser } from "../../../utils/responseParse";
 import { toast } from "react-toastify";
 function Index() {
-    const {user,isLoading,isCompany } = useAuthContext();
+    const { user, isLoading, isCompany } = useAuthContext();
     if (!user) {
         return <h1>Loading...</h1>;
     }
     const [cities, setCities] = useState([]);
     const [industries, setIndustries] = useState([]);
-    useEffect( () => {
+    useEffect(() => {
         const fetchStuff = async () => {
-            const {data :citiesResponse} = await axios.get('/cities');
-            const {data: industriesResponse} = await axios.get('/job-roles');
+            const { data: citiesResponse } = await axios.get('/cities');
+            const { data: industriesResponse } = await axios.get('/job-roles');
             setCities(citiesResponse.map(e => ({
                 label: e.name,
                 value: e.id
             })));
             setIndustries(industriesResponse.map(e => ({
-                label:e.details,
+                label: e.details,
                 value: e.id
             })))
         };
         fetchStuff();
-    } ,[]); 
+    }, []);
     const companySizes = [
         {
             "label": "from 1  to 5",
@@ -56,8 +56,8 @@ function Index() {
             "value": "more than 100"
         }
     ];
-    const years = [...new Array(2023-1900)].map((_,e) => ({label: (e + 1900)+"", value: e + 1900})).sort((a,b) => b.value-a.value);
-    
+    const years = [...new Array(2023 - 1900)].map((_, e) => ({ label: (e + 1900) + "", value: e + 1900 })).sort((a, b) => b.value - a.value);
+
     const inputstyle = "pl-1  text-[0.5rem] md:text-xs lg:text-sm xl:text-md border-[hsl(0,0%,80%)] border-b  min-h-[34px]"
     const lableStyle = "font-dosis   text-[0.5rem] md:text-xs lg:text-sm xl:text-md font-medium  "
     const selectStyle = "text-gray-700 font-dosis  text-[0.5rem] md:text-xs lg:text-sm xl:text-md  font-normal"
@@ -72,14 +72,16 @@ function Index() {
         const data = {
             bio: subData.CompanyBio,
             address: subData.Address,
-            jobRoles: subData.IndustriesOfCompany.map(e=>e.value) ,
+            jobRoles: subData.IndustriesOfCompany.map(e => e.value),
             foundedDate: new Date(subData.YearFounded.value),
-            cities: subData.City.map(e=>e.value),
+            cities: subData.City.map(e => e.value),
             phone: subData.Phone,
             companySize: subData.CompanySize.value,
             website: subData.CompanyWebsite,
+            profileImg: subData.profileImg
         }
-        await axios.put('/companies/'+user.company.id, {data});
+        console.log(data)
+        await axios.put('/companies/' + user.company.id, { data });
         toast.success('Company Info has been updated')
     };
     return (
@@ -109,14 +111,14 @@ function Index() {
                                             name: "CompanyName",
                                             type: "text",
                                             placeholder: "Company Name",
-                                            value: user.company.name
-                                            
+                                            value: user.company?.name
+
                                         }}
                                         inputStyle={`${inputstyle} mr-5`}
                                         lableStyle={lableStyle}
                                         label={"Company Name"}
                                         disable={true}
-                                        
+
                                         required={true}
                                     />
                                 )}
@@ -257,7 +259,7 @@ function Index() {
                                     <Select
                                         selectStyle={`${inputstyle} mr-5`}
                                         lableStyle={lableStyle}
-                                        selectProps={{ placeholder: "Industries Of Company",...field }}
+                                        selectProps={{ placeholder: "Industries Of Company", ...field }}
                                         isMulti
                                         onChange={(value: string) => field.onChange(value)}
                                         label={"Industries Of Company"}
@@ -281,7 +283,7 @@ function Index() {
                                     <Select
                                         selectStyle={`${inputstyle}`}
                                         lableStyle={lableStyle}
-                                        selectProps={{ placeholder: "Company Size" ,...field} }
+                                        selectProps={{ placeholder: "Company Size", ...field }}
                                         label={"Company Size"}
                                         required={true}
                                         options={companySizes}
@@ -305,14 +307,14 @@ function Index() {
                                     <Select
                                         selectStyle={`${inputstyle} mr-5`}
                                         lableStyle={lableStyle}
-                                        selectProps={{ placeholder: "Year Founded",...field }}
+                                        selectProps={{ placeholder: "Year Founded", ...field }}
                                         {...field}
                                         onChange={(value: string) => field.onChange(value)}
                                         label={"Year Founded"}
 
                                         required={true}
                                         options={years}
-                                        />
+                                    />
                                 )}
                             />
                             {errors.YearFounded && (
@@ -392,6 +394,24 @@ function Index() {
                                 <p className="text-xs mb-3 text-red-700">
                                     {`${errors.CompanyWebsite.message}`}
                                 </p>
+                            )}
+                        </div>
+                        <div className="w-1/2">
+                            <Controller
+                                control={control}
+                                rules={{ required: false }}
+                                name="profileImg"
+                                render={({ field: { onChange } }) => (
+                                    <ImageUploader label={"Profile Image"}
+                                        labelStyle={lableStyle}
+                                        uploaderStyle="w-[4rm]  xl:w-[30rem] lg:w-[20rem] md:w-[15rem] md:w-[15rem] h-[12.4375rem] rounded-md border-dashed border-2 border-gray-700 bg-gray-100 flex justify-center items-center"
+                                        onChange={onChange} />
+                                )}
+                            />
+                            {errors.profileImg && (
+                                <span className="text-xs mb-3 text-red-700">
+                                    {'imageIsRequired'}
+                                </span>
                             )}
                         </div>
                     </div>
