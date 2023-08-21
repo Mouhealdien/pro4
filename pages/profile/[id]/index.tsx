@@ -22,7 +22,7 @@ const index = () => {
     const fetchDataAsync = async () => {
       console.log(id)
       try {
-        const response = await axios(`/profile-details/${id}?populate=educations,experiences,languages,workingCities,militaryService,jobLevel,profileImage`);
+        const response = await axios(`/profile-details/${id}?populate=educations,experiences,languages,workingCities,militaryService,jobLevel,profileImage ,user`);
         setemail(response.data.email)
         setUser(response.data);
 
@@ -54,7 +54,7 @@ const index = () => {
     currentJobStatus: user?.currentJobStatus,
     experienceYears: user?.yearsOfExperience,
     phone: user?.phone,
-    email: email,
+    email: user?.user.email,
     education: user?.educations,
     experience: user?.experiences,
     skills: user?.Skills,

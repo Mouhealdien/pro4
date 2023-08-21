@@ -23,8 +23,8 @@ const JobsCardHome = ({
 }) => {
   console.log(code)
   return (
-    <Link href={'http://localhost:3000/'+ link} className="xl:w-auto w-full">
-      <div className=" p-3 rounded-md   bg-white hover:shadow-lg cursor-pointer m-5 hover:transition hover:-translate-y-2 ">
+    <Link href={'http://localhost:3000/'+ link} className=" max-w-md w-full">
+      <div className=" p-3 rounded-md max-w-md   bg-white hover:shadow-lg cursor-pointer m-5 hover:transition hover:-translate-y-2 ">
         <div className="flex items-center">
           <img
             className="w-20 rounded-full m-3 h-20"
