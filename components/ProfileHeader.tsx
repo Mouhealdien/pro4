@@ -1,17 +1,22 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import boy from '../assets/boy.png'
 import girl from '../assets/girl.png'
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons'
-const ProfileHeader = ({ Fname, Lname, age, nationality, gender, militaryStatus, workCite, jobLevel, currentJobStatus, experience, phone, email, img }) => {
+import Link from 'next/link'
+import { AuthContext } from '../contexts/AuthContext'
+const ProfileHeader = ({ Fname, Lname, age, nationality, gender, militaryStatus, workCite, jobLevel, experience, phone, email, img, edit }) => {
+
+
+
     return (
         <div className=' px-5 w-[100%] m-auto py-4  border-gray-300 border-[3px]  shadow-2xl  rounded-md border-l-primary  border-l-[6px] max-w-[1000px] bg-secondary items-center'>
             <div className=' flex flex-row items-center gap-2'>
                 <img width={300} height={300} className=' w-28 h-28 rounded-full' src={img ? img : (gender == "Male" ? boy : girl)} />
 
                 <p className='text-lg'> {Fname} {Lname} </p>
-                <button className='bg-primary  hover:bg-secondary  text-secondary hover:border-primary  hover:border-2 hover:text-primary transition duration-300  Hover:text-primary rounded-md px-4 py2'>Edit</button>
+                {edit ? <button className='bg-primary  hover:bg-secondary  text-secondary hover:border-primary  hover:border-2 hover:text-primary transition duration-300  Hover:text-primary rounded-md px-4 py2'><Link href="../employee/edit"> Edit</Link></button> : ""}
 
             </div>
 
@@ -34,7 +39,7 @@ const ProfileHeader = ({ Fname, Lname, age, nationality, gender, militaryStatus,
                         <ul>
                             <li className='pb-2 text-primary font-bold'>Work Cities: {workCite?.map((i) => <span className='text-black font-[600]'> {i.name}</span>)}</li>
                             <li className='pb-2 text-primary font-bold'>Job Level: <span className='text-black font-[600]'>{jobLevel}</span></li>
-                            <li className='pb-2 text-primary font-bold'>Current job Status: <span className='text-black font-[600]'>{currentJobStatus}</span></li>
+
                             <li className='pb-2 text-primary font-bold'>Experience: <span className='text-black font-[600]'>{experience}</span></li>
                         </ul>
                     </div>

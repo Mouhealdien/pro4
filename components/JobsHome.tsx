@@ -136,7 +136,7 @@ const JobsHome = () => {
 
     fetchDataAsync();
   }, []);
-  console.log(jobs)
+  console.log(jobs + "DSad")
   return (
     <div className="py-10 bg-slate-200 ">
       <div className=" ">
@@ -154,7 +154,7 @@ const JobsHome = () => {
             code={item?.id}
             experience={item?.yearOfExperience}
             image={BASE_SERVEFR_URL + "" + item?.company?.profileImg.url}
-            level={item?.jobLevel?.details}
+            level={item?.age}
             location={item?.address}
             role={item?.jobRoles[0].details}
             title={item?.jobTitle}

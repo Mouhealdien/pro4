@@ -13,47 +13,47 @@ import { useRouter } from "next/router";
 import { axios } from "../../../utils/axios";
 import { toast } from "react-toastify";
 function Index() {
-    const {user , isCompany} = useAuthContext();
+    const { user, isCompany } = useAuthContext();
     const router = useRouter();
     if (!isCompany) {
         router.push('/');
     }
     const [industries, setIndustries] = useState([]);
     const nationalities = ['Syrian',
-        'Palestinian'].map(e => ({value: e, label: e}))
+        'Palestinian'].map(e => ({ value: e, label: e }))
     const [miltiaryOptions, setMiltiaryOptions] = useState([]);
     const [jobLevels, setJobLevels] = useState([]);
     const [cities, setCities] = useState([]);
     const genderoptions = [
         'Male',
         'Female'
-    ].map(e => ({value: e, label: e}));
+    ].map(e => ({ value: e, label: e }));
 
-    useEffect( () => {
+    useEffect(() => {
         const fetchStuff = async () => {
-            const {data :citiesResponse} = await axios.get('/cities');
-            const {data: industriesResponse} = await axios.get('/job-roles');
-            const {data: militaryResponse} = await axios.get('/military-services')
-            const {data: jobLevelsResponse} = await axios.get('/job-levels')
+            const { data: citiesResponse } = await axios.get('/cities');
+            const { data: industriesResponse } = await axios.get('/job-roles');
+            const { data: militaryResponse } = await axios.get('/military-services')
+            const { data: jobLevelsResponse } = await axios.get('/job-levels')
             setCities(citiesResponse.map(e => ({
                 label: e.name,
                 value: e.id
             })));
             setIndustries(industriesResponse.map(e => ({
-                label:e.details,
+                label: e.details,
                 value: e.id
-            }))); 
+            })));
             setMiltiaryOptions(militaryResponse.map(e => ({
                 label: e.name,
                 value: e.id
             })))
             setJobLevels(jobLevelsResponse.map(e => ({
-                label:e.details,
+                label: e.details,
                 value: e.id
             })))
         };
         fetchStuff();
-    } ,[]); 
+    }, []);
     const inputstyle = "pl-1  text-[0.5rem] md:text-xs lg:text-sm xl:text-md border-[hsl(0,0%,80%)] border-b  min-h-[34px]"
     const lableStyle = "font-dosis   text-[0.5rem] md:text-xs lg:text-sm xl:text-md font-medium  "
     const selectStyle = "text-gray-700 font-dosis  text-[0.5rem] md:text-xs lg:text-sm xl:text-md  font-normal"
@@ -66,11 +66,12 @@ function Index() {
 
     const onSubmit: SubmitHandler<any> = async (subData) => {
         alert(JSON.stringify(subData))
-        const data = {jobTitle: subData.JobTitle,
+        const data = {
+            jobTitle: subData.JobTitle,
             jobRoles: subData.Category.map(e => e.value),
             age: subData.Age,
             jobLevel: subData.JobLevel,
-            yearsOfExperience: subData.yearsOfExperience,
+            yearOfExperience: subData.yearsOfExperience,
             city: subData.City.value,
             address: subData.Address,
             salary: subData.Salary,
@@ -80,10 +81,10 @@ function Index() {
             militaryService: subData.militatyService.value,
             company: user.company.id
 
-        } 
-        const {data: {id}} = await axios.post('/jobs' ,{data})
+        }
+        const { data: { id } } = await axios.post('/jobs', { data })
         toast.success('created job success fully');
-        router.push('/job/'+id);
+        router.push('/job/' + id);
     };
     return (
         <div className="container mx-auto my-20">
@@ -145,7 +146,7 @@ function Index() {
                                     <Select
                                         selectStyle={`${inputstyle}`}
                                         lableStyle={lableStyle}
-                                        selectProps={{ placeholder: "Category",...field }}
+                                        selectProps={{ placeholder: "Category", ...field }}
                                         label={"Category"}
                                         required={true}
                                         options={industries}
@@ -162,7 +163,7 @@ function Index() {
                     </div>
 
                     <div className="flex   items-center  mx- md:mx-10 lg:mx-20  flex-wrap  my-7 ">
-                    <div className="w-1/2">
+                        <div className="w-1/2">
                             <Controller
                                 name="JobLevel"
                                 control={control}
@@ -171,7 +172,7 @@ function Index() {
                                     <Select
                                         selectStyle={`${inputstyle} mr-5`}
                                         lableStyle={lableStyle}
-                                        selectProps={{ placeholder: "Job Level",...field }}
+                                        selectProps={{ placeholder: "Job Level", ...field }}
                                         label={"Job Level"}
                                         options={jobLevels}
                                     />
@@ -226,10 +227,10 @@ function Index() {
                                 </p>
                             )}
                         </div>
-                        
+
                     </div>
                     <div className="flex   items-center  mx-2 md:mx-10 lg:mx-20  flex-wrap  my-7 ">
-                    <div className="w-full">
+                        <div className="w-full">
                             <Controller
                                 name="yearsOfExperience"
                                 control={control}
@@ -273,8 +274,8 @@ function Index() {
                         </div>
                     </div>
                     <div className="flex   items-center  mx-2 md:mx-10 lg:mx-20  flex-wrap  my-7 ">
-                    
-                     
+
+
                     </div>
 
 
@@ -303,7 +304,7 @@ function Index() {
                                     <Select
                                         selectStyle={`${inputstyle} mr-5`}
                                         lableStyle={lableStyle}
-                                        selectProps={{ placeholder: "City",...field }}
+                                        selectProps={{ placeholder: "City", ...field }}
                                         label={"City"}
                                         required={true}
                                         options={cities}
@@ -403,55 +404,55 @@ function Index() {
 
                         </div>
                         <div className="w-1/2">
-                        <div className="w-1/2">
-                            <Controller
-                                name="Gender"
-                                control={control}
-                                rules={{ required: true }}
-                                render={({ field }) => (
-                                    <RadioGroup
-                                        options={genderoptions}
-                                        onChange={(value: string) => {
-                                            field.onChange(value);
-                                        }}
-                                        label={"Gender"}
-                                        lableStyle={lableStyle}
-                                        optionStyle={selectStyle}
-                                        required={true}
-                                    />
-                                )}
-                            />
+                            <div className="w-1/2">
+                                <Controller
+                                    name="Gender"
+                                    control={control}
+                                    rules={{ required: true }}
+                                    render={({ field }) => (
+                                        <RadioGroup
+                                            options={genderoptions}
+                                            onChange={(value: string) => {
+                                                field.onChange(value);
+                                            }}
+                                            label={"Gender"}
+                                            lableStyle={lableStyle}
+                                            optionStyle={selectStyle}
+                                            required={true}
+                                        />
+                                    )}
+                                />
 
-                            {errors.Gender && (
-                                <p className="text-sm text-red-700">
-                                    {"Gender is required"}
-                                </p>
-                            )}
-                        </div>
+                                {errors.Gender && (
+                                    <p className="text-sm text-red-700">
+                                        {"Gender is required"}
+                                    </p>
+                                )}
+                            </div>
                         </div>
                     </div>
                     <div className="flex   items-center  mx-2 md:mx-10 lg:mx-20  flex-wrap my-7 ">
                         <div className="w-1/2">
-                                <Controller
-                                    name="militatyService"
-                                    control={control}
-                                    rules={{ required: true }}
-                                    render={({ field }) => (
-                                        <Select
-                                            selectStyle={`${inputstyle} mr-5`}
-                                            lableStyle={lableStyle}
-                                            selectProps={{ placeholder: "militatyService",...field }}
-                                            label={"militatyService"}
-                                            required={true}
-                                            options={miltiaryOptions}
-                                        />
-                                    )}
-                                />
-                                {errors.militatyService && (
-                                    <p className="text-xs mb-3 text-red-700">
-                                        {"militatyService is required"}
-                                    </p>
+                            <Controller
+                                name="militatyService"
+                                control={control}
+                                rules={{ required: true }}
+                                render={({ field }) => (
+                                    <Select
+                                        selectStyle={`${inputstyle} mr-5`}
+                                        lableStyle={lableStyle}
+                                        selectProps={{ placeholder: "militatyService", ...field }}
+                                        label={"militatyService"}
+                                        required={true}
+                                        options={miltiaryOptions}
+                                    />
                                 )}
+                            />
+                            {errors.militatyService && (
+                                <p className="text-xs mb-3 text-red-700">
+                                    {"militatyService is required"}
+                                </p>
+                            )}
                         </div>
                     </div>
                 </div>

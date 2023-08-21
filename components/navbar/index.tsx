@@ -39,20 +39,33 @@ const NavBar = () => {
       title: "Employee",
       link: "/allCandidates",
     },
+    {
+      title: "Companies",
+      link: "/company",
+    },
+
 
   ];
   const linksuser = [
     {
       title: "My Profile",
-      link: `profile/${auth.user.profileDetail?.id}`,
+      link: `http://localhost:3000/profile/${auth.user.profileDetail?.id}`,
     },
     {
-      title: "search jobs",
+      title: "jobs",
       link: "/allJobs",
+    },
+    {
+      title: "Companies",
+      link: "/company",
     },
     {
       title: "applied jobs",
       link: "/appliedJobs",
+    },
+    {
+      title: "Cv Score",
+      link: "/cvScore",
     },
 
   ];

@@ -23,7 +23,7 @@ const JobsCardHome = ({
 }) => {
   console.log(code)
   return (
-    <Link href={'http://localhost:3000/'+ link} className=" max-w-md w-full">
+    <Link href={'http://localhost:3000/' + link} className=" max-w-md w-full">
       <div className=" p-3 rounded-md max-w-md   bg-white hover:shadow-lg cursor-pointer m-5 hover:transition hover:-translate-y-2 ">
         <div className="flex items-center">
           <img
@@ -45,11 +45,9 @@ const JobsCardHome = ({
             Job Roles: <span className="text-gray-500 font-light">{role}</span>
           </p>
           <p className="text-base font-semibold">
-            Job Level: <span className="text-gray-500 font-light">{level}</span>
+            Age: <span className="text-gray-500 font-light">{level}</span>
           </p>
-          <p className="text-base font-semibold">
-            Job types: <span className="text-gray-500 font-light">{type}</span>
-          </p>
+
           <p className="text-base font-semibold">
             Job Experience:{" "}
             <span className="text-gray-500 font-light">

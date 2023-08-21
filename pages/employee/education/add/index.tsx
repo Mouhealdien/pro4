@@ -14,7 +14,7 @@ import { axios } from "../../../../utils/axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 function Index() {
-    const {user} = useAuthContext()
+    const { user } = useAuthContext()
     const inputstyle = "pl-1  text-[0.5rem] md:text-xs lg:text-sm xl:text-md border-[hsl(0,0%,80%)] border-b  min-h-[34px]"
     const lableStyle = "font-dosis   text-[0.5rem] md:text-xs lg:text-sm xl:text-md font-medium  "
     const selectStyle = "text-gray-700 font-dosis  text-[0.5rem] md:text-xs lg:text-sm xl:text-md  font-normal"
@@ -34,7 +34,7 @@ function Index() {
             startDate: subData.FromDate,
             endDate: subData.ExpectedDate
         };
-        await axios.post('/education-levels', {data});
+        await axios.post('/education-levels', { data });
         toast.success('Education Added 2/5 Completed, please Bear with us');
         router.push('/employee/experience/add');
     };
@@ -218,7 +218,7 @@ function Index() {
                                 name="ExpectedDate"
                                 control={control}
                                 rules={{
-                                 
+
                                     validate: validateDateRange
                                 }}
 

@@ -21,7 +21,7 @@ const index = () => {
         const fetchDataAsync = async () => {
             console.log(id)
             try {
-                const response = await axios(`/profile-details/${id}?populate=educations,experiences,languages,workingCities,militaryService,jobLevel,profileImage`);
+                const response = await axios(`/profile-details/${id}?populate=educations,experiences,languages,workingCities,militaryService,jobLevel,profileImage ,user`);
 
                 setemail(response.data.email)
                 setUser(response.data);
@@ -37,17 +37,13 @@ const index = () => {
 
     }, [id]);
     console.log(user)
-    const reportTemplateRef = useRef(null);
+
 
     const handleGeneratePdf = () => {
         window.print()
+        console.log("bla")
     };
-    const printContent = () => {
-        const printableContent = document.getElementById("printable-content");
-        const printWindow = window.open("", "", "height=1000,width=1000");
-        printWindow.document.write(printableContent.innerHTML);
-        printWindow.print();
-    };
+
     const profileInfo = {
         firstName: user?.firstName,
         lastName: user?.lastName,
@@ -60,25 +56,25 @@ const index = () => {
         currentJobStatus: user?.currentJobStatus,
         experienceYears: user?.yearsOfExperience,
         phone: user?.phone,
-        email: email,
+        email: user?.user?.email,
         education: user?.educations,
         experience: user?.experiences,
         skills: user?.Skills,
         languages: user?.languages,
         img: user?.profileImage?.url ? BASE_SERVEFR_URL + user?.profileImage?.url : undefined
     }
-
+    console.log(user, "Ds")
     return (
-        <div >
+        <div onLoad={handleGeneratePdf}>
 
-            <div className='flex flex-col gap-5' onLoad={() => window.print()}>
+            <div className='flex flex-col gap-5' >
 
 
 
                 <ProfileHeader Fname={profileInfo.firstName} Lname={profileInfo.lastName}
                     age={profileInfo.age} nationality={profileInfo.nationality}
                     gender={profileInfo.gender} militaryStatus={profileInfo.militaryStatus}
-                    workCite={profileInfo.workCite} jobLevel={profileInfo.jobLevel} currentJobStatus={profileInfo.currentJobStatus}
+                    workCite={profileInfo.workCite} jobLevel={profileInfo.jobLevel}
                     experience={profileInfo.experienceYears} phone={profileInfo.phone} email={profileInfo.email} img={profileInfo.img}
                 />
                 <div className='flex flex-col gap-5'>

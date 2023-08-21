@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, use, useRef } from 'react'
+import React, { useState, useEffect, use, useRef, useContext } from 'react'
 import ProfileHeader from '../../../components/ProfileHeader'
 import EducationCard from '../../../components/EducationCard'
 import ExperienceCard from '../../../components/ExperienceCard'
@@ -9,12 +9,15 @@ import { axios } from "../../../utils/axios";
 import { useRouter } from 'next/router'
 import { responseParser } from '../../../utils/helper'
 import { BASE_SERVEFR_URL } from '../../../utils/constant'
-import Cv from '../../cv/Cv'
-import jsPDF from 'jspdf'
-import PrintTemplate from 'react-print'
+import { AuthContext } from '../../../contexts/AuthContext'
 const index = () => {
   const router = useRouter();
   const id = router.query.id
+
+  const auth = useContext(AuthContext);
+  const userid = auth.user.id
+  const companyid = auth.user.company?.id
+  const iscom = auth.isCompany
   console.log(id)
   const [user, setUser] = useState();
   const [email, setemail] = useState();
@@ -67,25 +70,25 @@ const index = () => {
 
       <div className='flex flex-col gap-5'>
         <button className=" bg-slate-500 text-white" onClick={handleGeneratePdf}>
-          Convert Your Profile to Pdf
+          Convert Profile to Pdf
         </button>
 
 
-        <ProfileHeader Fname={profileInfo.firstName} Lname={profileInfo.lastName}
+        <ProfileHeader edit={!iscom && id === userid} Fname={profileInfo.firstName} Lname={profileInfo.lastName}
           age={profileInfo.age} nationality={profileInfo.nationality}
           gender={profileInfo.gender} militaryStatus={profileInfo.militaryStatus}
-          workCite={profileInfo.workCite} jobLevel={profileInfo.jobLevel} currentJobStatus={profileInfo.currentJobStatus}
+          workCite={profileInfo.workCite} jobLevel={profileInfo.jobLevel}
           experience={profileInfo.experienceYears} phone={profileInfo.phone} email={profileInfo.email} img={profileInfo.img}
         />
         <div className='flex flex-col gap-5'>
           <div className='flex flex-row  gap-5 items-baseline justify-center '>
-            <EducationCard education={profileInfo?.education} />
-            <SkillsCard skills={profileInfo?.skills} />
+            <EducationCard edit={!iscom && id === userid} education={profileInfo?.education} />
+            <SkillsCard edit={!iscom && id === userid} skills={profileInfo?.skills} />
           </div>
 
           <div className='flex flex-row items-baseline gap-5 justify-center'>
-            <ExperienceCard experience={profileInfo?.experience} />
-            <LanguagesCard languages={profileInfo?.languages} />
+            <ExperienceCard edit={!iscom && id === userid} experience={profileInfo?.experience} />
+            <LanguagesCard edit={!iscom && id === userid} languages={profileInfo?.languages} />
           </div>
 
         </div>

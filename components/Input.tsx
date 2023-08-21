@@ -10,14 +10,15 @@ type props = {
 };
 
 const Input = ({ inputProps, inputStyle, label, lableStyle, disable, required }: props) => {
+
 	return (
 		<div className='flex flex-col'>
 			<label className={lableStyle}>
 				{label} {required ? <span className='  text-red-600 '>*</span> : ""}
 			</label>
 			<input
+
 				{...inputProps}
-				defaultValue={inputProps.value ?? ''}
 				className={` ${disable ? inputStyle + "  bg-gray-200" : inputStyle} inputStyle`}
 				disabled={disable}
 

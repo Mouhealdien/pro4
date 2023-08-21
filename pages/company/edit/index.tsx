@@ -12,19 +12,21 @@ import { useAuthContext } from "../../../contexts/AuthContext";
 import { axios } from "../../../utils/axios";
 import { responseParser } from "../../../utils/responseParse";
 import { toast } from "react-toastify";
-import { useRouter } from "next/router";
+import { BASE_SERVEFR_URL } from "../../../utils/constant";
 function Index() {
     const { user, isLoading, isCompany } = useAuthContext();
-    const router = useRouter()
     if (!user) {
         return <h1>Loading...</h1>;
     }
     const [cities, setCities] = useState([]);
     const [industries, setIndustries] = useState([]);
+    const [comp, setComp] = useState([]);
+
     useEffect(() => {
         const fetchStuff = async () => {
             const { data: citiesResponse } = await axios.get('/cities');
             const { data: industriesResponse } = await axios.get('/job-roles');
+            const { data: company } = await await axios(`/companies/${user?.company?.id}?populate=profileImg,cities,cities.name,user ,jobs , jobs.jobLevel ,jobs.jobRoles  `);
             setCities(citiesResponse.map(e => ({
                 label: e.name,
                 value: e.id
@@ -33,6 +35,7 @@ function Index() {
                 label: e.details,
                 value: e.id
             })))
+            setComp(company)
         };
         fetchStuff();
     }, []);
@@ -59,7 +62,7 @@ function Index() {
         }
     ];
     const years = [...new Array(2023 - 1900)].map((_, e) => ({ label: (e + 1900) + "", value: e + 1900 })).sort((a, b) => b.value - a.value);
-
+    console.log(comp)
     const inputstyle = "pl-1  text-[0.5rem] md:text-xs lg:text-sm xl:text-md border-[hsl(0,0%,80%)] border-b  min-h-[34px]"
     const lableStyle = "font-dosis   text-[0.5rem] md:text-xs lg:text-sm xl:text-md font-medium  "
     const selectStyle = "text-gray-700 font-dosis  text-[0.5rem] md:text-xs lg:text-sm xl:text-md  font-normal"
@@ -68,7 +71,9 @@ function Index() {
         handleSubmit,
         formState: { errors, isSubmitting },
         watch,
-    } = useForm<any>();
+    } = useForm<any>({
+
+    });
 
     const onSubmit: SubmitHandler<any> = async (subData) => {
         const data = {
@@ -85,8 +90,6 @@ function Index() {
         console.log(data)
         await axios.put('/companies/' + user.company.id, { data });
         toast.success('Company Info has been updated')
-        router.push('/company/' + user.company.id);
-
     };
     return (
         <div className="bg-gray-200 px-10 text-base ">
@@ -157,10 +160,12 @@ function Index() {
                                             id: 'CompanyBio',
                                             name: 'CompanyBio',
                                             placeholder: 'Write Company Bio',
+                                            defaultValue: comp?.bio,
                                         }}
                                         textareaStyle=" pl-1 text-sm   h-[15.875rem] rounded-[10px] border border-stone-500 mb-[3.06rem]  bg-background border-l-8   border-primary   text-gray-400"
                                         label={"Company Bio"}
                                         lableStyle={lableStyle}
+
                                     />
                                 )}
                             />
@@ -198,9 +203,10 @@ function Index() {
                                 rules={{ required: true }}
                                 render={({ field }) => (
                                     <Select
+
                                         selectStyle={`${inputstyle} mr-5`}
                                         lableStyle={lableStyle}
-                                        selectProps={{ placeholder: "City", ...field }}
+                                        selectProps={{ placeholder: comp?.cities?.map(e => e?.name + " - "), ...field, }}
                                         label={"City"}
                                         isMulti
                                         options={cities}
@@ -236,7 +242,8 @@ function Index() {
                                             id: "Address",
                                             name: "Address",
                                             type: "text",
-                                            placeholder: "Address",
+                                            placeholder: comp?.address,
+                                            defaultValue: comp?.address,
                                         }}
                                         inputStyle={`${inputstyle} `}
                                         lableStyle={lableStyle}
@@ -263,7 +270,7 @@ function Index() {
                                     <Select
                                         selectStyle={`${inputstyle} mr-5`}
                                         lableStyle={lableStyle}
-                                        selectProps={{ placeholder: "Industries Of Company", ...field }}
+                                        selectProps={{ placeholder: comp?.jobs?.map((a) => a.jobRoles.map((e) => e.details + " - ")), ...field, }}
                                         isMulti
                                         onChange={(value: string) => field.onChange(value)}
                                         label={"Industries Of Company"}
@@ -287,7 +294,7 @@ function Index() {
                                     <Select
                                         selectStyle={`${inputstyle}`}
                                         lableStyle={lableStyle}
-                                        selectProps={{ placeholder: "Company Size", ...field }}
+                                        selectProps={{ placeholder: comp?.companySize, ...field }}
                                         label={"Company Size"}
                                         required={true}
                                         options={companySizes}
@@ -309,9 +316,10 @@ function Index() {
                                 rules={{ required: true }}
                                 render={({ field }) => (
                                     <Select
+
                                         selectStyle={`${inputstyle} mr-5`}
                                         lableStyle={lableStyle}
-                                        selectProps={{ placeholder: "Year Founded", ...field }}
+                                        selectProps={{ placeholder: comp.foundedDate, ...field }}
                                         {...field}
                                         onChange={(value: string) => field.onChange(value)}
                                         label={"Year Founded"}
@@ -349,7 +357,7 @@ function Index() {
                                             id: "Phone",
                                             name: "Phone",
                                             type: "text",
-                                            placeholder: "Phone",
+                                            placeholder: comp.phone,
                                         }}
                                         inputStyle={`${inputstyle}`}
                                         lableStyle={lableStyle}
@@ -385,7 +393,7 @@ function Index() {
                                             id: "Company Website",
                                             name: "Company Website",
                                             type: "text",
-                                            placeholder: "Company Website",
+                                            placeholder: comp.website,
                                         }}
                                         inputStyle={`${inputstyle} mr-5`}
                                         lableStyle={lableStyle}
@@ -409,7 +417,8 @@ function Index() {
                                     <ImageUploader label={"Profile Image"}
                                         labelStyle={lableStyle}
                                         uploaderStyle="w-[4rm]  xl:w-[30rem] lg:w-[20rem] md:w-[15rem] md:w-[15rem] h-[12.4375rem] rounded-md border-dashed border-2 border-gray-700 bg-gray-100 flex justify-center items-center"
-                                        onChange={onChange} />
+                                        onChange={onChange}
+                                    />
                                 )}
                             />
                             {errors.profileImg && (

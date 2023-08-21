@@ -26,8 +26,8 @@ const index = () => {
         jobTitle: jobDetails?.jobTitle,
         gender: jobDetails?.gender,
         jobrole: jobDetails?.jobRoles,
-        age: jobDetails?.ageRange,
-        carrerLevel: jobDetails?.carrerLevel,
+        age: jobDetails?.age,
+        carrerLevel: jobDetails?.address,
         education: jobDetails?.education,
         salary: jobDetails?.salary,
         jobType: jobDetails?.jobType,
@@ -40,7 +40,7 @@ const index = () => {
     const handleDeleteJob = async () => {
         await axios.delete('/jobs/' + jobDetails?.id);
         toast.success('deleted successfully');
-        router.push('/job/create');
+        router.push(`/company/${companyid}`);
     }
     const handleApply = async () => {
         const data = {

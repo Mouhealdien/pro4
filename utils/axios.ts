@@ -10,26 +10,29 @@ export const axios = base.create({
 });
 
 const errorHandler = (e) => {
-    toast.error(e?.response?.data?.error?.message ||'Something went wrong');
+    toast.error(e?.response?.data?.error?.message || 'Something went wrong');
     document.body.classList.remove('loading-indicator');
-    return Promise.reject({...e});
+    return Promise.reject({ ...e });
 }
 axios.interceptors.request.use(function (config) {
+    console.log(config.method)
 
     document.body.classList.add('loading-indicator');
-  
+
     const token = window.localStorage.token;
     if (token) {
-       config.headers.Authorization = `${BEARER} ${token}`
+        config.headers.Authorization = `${BEARER} ${token}`
     }
     return config
-  }, function (error) {
+}, function (error) {
     return Promise.reject(error);
-  });
-  
+});
+
 axios.interceptors.response.use(
+
     (rs) => {
-        document.body.classList.remove('loading-indicator');        
+        console.log(rs)
+        document.body.classList.remove('loading-indicator');
         rs.data = responseParser(rs.data);
         return rs;
     },
