@@ -18,7 +18,7 @@ const NavBar = () => {
   const linksCompany = [
     {
       title: " Profile Company & Manage Jobs ",
-      link: `company/${auth?.user?.company?.id}`,
+      link: `/company/${auth?.user?.company?.id}`,
     },
     {
       title: "Add New Job",
@@ -73,12 +73,12 @@ const NavBar = () => {
 
                 {auth.isCompany ? linksCompany.map((item, idx) => (
                   <li>
-                    <a
+                    <Link
                       className="text-gray-500 transition hover:text-gray-500/75"
                       href={item.link}
                     >
                       {item.title}
-                    </a>
+                    </Link>
                   </li>
                 )) : auth.user?.profileDetail ? linksuser.map((item, idx) => (
                   <li>
@@ -91,12 +91,12 @@ const NavBar = () => {
                   </li>
                 )) : links.map((item, idx) => (
                   <li>
-                    <a
+                    <Link
                       className="text-gray-500 transition hover:text-gray-500/75"
                       href={item.link}
                     >
                       {item.title}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -107,20 +107,20 @@ const NavBar = () => {
             {!auth.user ?
               <div className="sm:flex sm:gap-4">
 
-                <a
+                <Link
                   className="rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-white shadow"
                   href="log-in"
                 >
                   Login
-                </a>
+                </Link>
 
                 <div className="hidden sm:flex">
-                  <a
+                  <Link
                     className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-primary"
                     href="/sign-up"
                   >
                     Register
-                  </a>
+                  </Link>
                 </div>
 
               </div> :
@@ -241,18 +241,18 @@ const NavBar = () => {
           ))}
           {!auth.user ? <div className="flex flex-col gap-5">
 
-            <a
+            <Link
               className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-primary"
               href="/"
             >
               Register As Employee
-            </a>
-            <a
+            </Link>
+            <Link
               className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-primary"
               href="/"
             >
               Register As Company
-            </a>
+            </Link>
           </div> : <div className="flex flex-col gap-5">
 
             <button

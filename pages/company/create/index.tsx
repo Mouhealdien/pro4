@@ -85,7 +85,7 @@ function Index() {
     return (
         <div className="bg-gray-200 px-10 text-base ">
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="my-5 bg-white h-full   mx-10 md:mx-32 lg:mx-60 rounded-xl pt-4  pb-10 px-6 md:px-12  border-l-8   border-primary  shadow-md  shadow-slate-300">
+                <div className="my-5 bg-white h-full   mx-10 md:mx-32 lg:mx-60 rounded-xl pt-4  pb-10 px-6 md:px-12  border-l-8   border-primary  shadow  shadow-slate-300">
                     <h1 className=" text-primary text-xl md:text-2xl lg:text-3xl  mt-6">
                         Company profile
 
@@ -174,7 +174,7 @@ function Index() {
                 </div>
 
 
-                <div className="my-5 bg-white h-full   mx-10 md:mx-32 lg:mx-60 rounded-xl pt-4  pb-10 px-6 md:px-12  border-l-8   border-primary  shadow-md  shadow-slate-300">
+                <div className="my-5 bg-white h-full   mx-10 md:mx-32 lg:mx-60 rounded-xl pt-4  pb-10 px-6 md:px-12  border-l-8   border-primary  shadow  shadow-slate-300">
                     <h1 className=" text-primary text-xl md:text-2xl lg:text-3xl  mt-6">
                         General info
                     </h1>
