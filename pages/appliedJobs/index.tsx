@@ -8,7 +8,7 @@ import { BASE_SERVEFR_URL } from '../../utils/constant';
 const index = () => {
   const auth = useContext(AuthContext);
   console.log(auth)
-  const idUser = auth.user.id
+  const idUser = auth.user.profileDetail.id
   const appliedJobs = [{
     jobTitle: "Angular Developer",
     companyName: "codzecc"
@@ -27,7 +27,7 @@ const index = () => {
   },
 
   ]
-  const [jobs, setjobs] = useState();
+  const [jobs, setjobs] = useState([]);
 
   useEffect(() => {
     const fetchDataAsync = async () => {
@@ -45,8 +45,8 @@ const index = () => {
 
     fetchDataAsync()
   }, []);
-  console.log(jobs)
-  console.log(jobs && jobs[0].job?.company?.profileImg?.url)
+  console.log({jobs})
+  
 
 
   return (

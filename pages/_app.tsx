@@ -2,9 +2,15 @@ import { ToastContainer } from "react-toastify";
 import "../styles/globals.css";
 import 'react-toastify/dist/ReactToastify.css';
 import AuthProvider from "../providers/AuthProvider";
+import NavBar from "../components/navbar";
+import { useRouter } from "next/router";
+import Footer from "../components/Footer";
 
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter();
+  console.log(router.asPath);
+  const blockedPathes = ['/log-in', '/sign-up', '/employee/create', '/company/create']
   return (
     <>
       <ToastContainer
@@ -18,7 +24,9 @@ function MyApp({ Component, pageProps }) {
         draggable
       />
       <AuthProvider>
+        {!blockedPathes.some(e => e === (router.asPath)) && <NavBar/>}
         <Component {...pageProps} />
+        <Footer />
       </AuthProvider>
     </>
   );

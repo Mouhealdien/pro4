@@ -4,55 +4,56 @@ import Input from "../../../components/Input";
 
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import Select from "../../../components/Select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RadioGroup from "../../../components/RadioGroup";
 import TextArea from "../../../components/TextArea";
 import ImageUploader from "../../../components/ImageUploader";
 import DateInput from "../../../components/DateInput";
 import { responseParser } from "../../../lib/helper"
+import { useAuthContext } from "../../../contexts/AuthContext";
+import { axios } from "../../../utils/axios";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 function Index() {
-    const profileInfo = {
-        firstName: "Ahmad",
-        lastName: "Hashem",
-        age: 28,
-        nationality: "Syrian",
-        gender: "Male",
-        militaryStatus: "Exempt",
-        workCite: "Aleppo",
-        jobLevel: "senior",
-        currentJobStatus: "unemployed",
-        experienceYears: "1",
-        phone: "+963945674825",
-        email: "random@gmail.com",
-    }
+    const {user} = useAuthContext();
+    const [cities, setCities] = useState([]);
+    const [industries, setIndustries] = useState([]);
+    const nationalities = ['Syrian',
+        'Palestinian'].map(e => ({value: e, label: e}))
+    const [miltiaryOptions, setMiltiaryOptions] = useState([]);
+    const [jobLevels, setJobLevels] = useState([]);
 
-    const Locationsoptions = [
-        { value: 'remote', label: 'Remote' },
-        { value: 'nonremote', label: 'Non Remote' },
-
-    ];
-    const Typesoptions = [
-        { value: 'fulltime', label: 'Full time' },
-        { value: 'parttime', label: 'Part time' },
-
-    ];
-    const Categoryoptions = [
-        { value: 'bla1', label: 'Development' },
-        { value: 'bla2', label: 'Freelance' },
-
-    ];
     const genderoptions = [
-        { value: 'male', label: 'Male' },
-        { value: 'female', label: 'Female' },
-        { value: 'noPrefrence', label: 'No Prefrence' },
+        'Male',
+        'Female'
+    ].map(e => ({value: e, label: e}));
+    useEffect( () => {
+        const fetchStuff = async () => {
+            const {data :citiesResponse} = await axios.get('/cities');
+            //const {data: industriesResponse} = await axios.get('/job-roles');
+            const {data: militaryResponse} = await axios.get('/military-services')
+            const {data: jobLevelsResponse} = await axios.get('/job-levels')
+            setCities(citiesResponse.map(e => ({
+                label: e.name,
+                value: e.id
+            })));
+           /*  setIndustries(industriesResponse.map(e => ({
+                label:e.details,
+                value: e.id
+            }))); */
+            setMiltiaryOptions(militaryResponse.map(e => ({
+                label: e.name,
+                value: e.id
+            })))
+            setJobLevels(jobLevelsResponse.map(e => ({
+                label:e.details,
+                value: e.id
+            })))
+        };
+        fetchStuff();
+    } ,[]); 
 
-
-    ];
-    const jobstatus = [
-        { value: 'Unemployed', label: 'Unemployed' },
-        { value: 'Working', label: 'Working' },
-    ]
-    const inputstyle = "pl-1  text-[0.5rem] md:text-xs lg:text-sm xl:text-md rounded-[10px] border border-stone-500 bg-background border-l-8   text-gray-400 h-8  md:h-10 lg:h-12"
+const inputstyle = "pl-1  text-[0.5rem] md:text-xs lg:text-sm xl:text-md border-[hsl(0,0%,80%)] border-b  min-h-[34px]"
     const lableStyle = "font-dosis   text-[0.5rem] md:text-xs lg:text-sm xl:text-md font-medium  "
     const selectStyle = "text-gray-700 font-dosis  text-[0.5rem] md:text-xs lg:text-sm xl:text-md  font-normal"
     const {
@@ -61,17 +62,26 @@ function Index() {
         formState: { errors, isSubmitting },
         watch,
     } = useForm<any>();
-
-    const onSubmit: SubmitHandler<any> = (data) => {
-        alert(JSON.stringify(data))
-        console.log(errors)
+    const router = useRouter();
+    const onSubmit: SubmitHandler<any> = async (subData) => {
+        const data = {
+            yearsOfExperience: subData.ExperienceYears,
+            jobLevel: subData.JobLevel.value,
+            workingCities: subData.City.map(e => e.value),
+            gender: subData.Gender,
+            birthDate: subData.BirthDay,
+            nationality: subData.Nationality.value,
+            militaryService: subData.MilitaryService.value
+        };
+        await axios.put('/profile-details/'+user.profileDetail.id, {data});
+        toast.success('1/5 is Done, GREAT !!!')
+        router.push('/employee/education/add');
     };
-    console.log(responseParser({ "data": [{ "id": 1, "attributes": { "name": "syria", "createdAt": "2023-08-18T22:40:38.598Z", "updatedAt": "2023-08-18T22:46:34.754Z", "publishedAt": "2023-08-18T22:46:34.750Z", "photo": { "data": { "id": 3, "attributes": { "url": "/uploads/Screenshot_2023_03_29_at_3_21_01_AM_25beb649a2.png" } } } } }], "meta": { "pagination": { "page": 1, "pageSize": 25, "pageCount": 1, "total": 1 } } }))
 
     return (
         <div className="bg-gray-200 px-10 text-base ">
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="my-5 bg-white h-full   mx-10 md:mx-32 lg:mx-60 rounded-xl pt-4  pb-10 px-6 md:px-12  border-l-8   border-primary  shadow-md  shadow-slate-300">
+                <div className="my-5 bg-white h-full   mx-10 md:mx-32 lg:mx-60 rounded-xl pt-4  pb-10 px-6 md:px-12  border-l-8   border-primary  shadow  shadow-slate-300">
                     <h1 className=" text-primary text-xl md:text-2xl lg:text-3xl  mt-6">
                         Basic Info
                     </h1>
@@ -83,17 +93,6 @@ function Index() {
                             <Controller
                                 name="FirstName"
                                 control={control}
-                                rules={{
-                                    required: 'FirstName is required',
-                                    maxLength: {
-                                        value: 20,
-                                        message: 'FirstName should be at max 20 characters long',
-                                    },
-                                    minLength: {
-                                        value: 5,
-                                        message: 'FirstName should be at min 5 characters long',
-                                    },
-                                }}
                                 render={({ field }) => (
                                     <Input
                                         inputProps={{
@@ -102,11 +101,13 @@ function Index() {
                                             name: "FirstName",
                                             type: "text",
                                             placeholder: "First Name",
+                                            value: user.profileDetail.firstName
                                         }}
+                                        disable={true}
                                         inputStyle={`${inputstyle} mr-5`}
                                         lableStyle={lableStyle}
                                         label={"First Name"}
-                                        required={true}
+
                                     />
                                 )}
                             />
@@ -120,17 +121,7 @@ function Index() {
                             <Controller
                                 name="LastName"
                                 control={control}
-                                rules={{
-                                    required: 'LastName is required',
-                                    maxLength: {
-                                        value: 20,
-                                        message: 'LastName should be at max 20 characters long',
-                                    },
-                                    minLength: {
-                                        value: 5,
-                                        message: 'LastName should be at min 5 characters long',
-                                    },
-                                }}
+                                
                                 render={({ field }) => (
                                     <Input
                                         inputProps={{
@@ -139,11 +130,13 @@ function Index() {
                                             name: "LastName",
                                             type: "text",
                                             placeholder: "Last Name",
+                                            value: user.profileDetail.lastName
                                         }}
+                                        disable={true}
                                         inputStyle={`${inputstyle} mr-5`}
                                         lableStyle={lableStyle}
                                         label={"Last Name"}
-                                        required={true}
+
                                     />
                                 )}
                             />
@@ -159,13 +152,6 @@ function Index() {
                             <Controller
                                 name="email"
                                 control={control}
-                                rules={{
-                                    required: 'email is required',
-                                    pattern: {
-                                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                        message: 'Please enter a valid EmailL',
-                                    },
-                                }}
                                 render={({ field }) => (
                                     <Input
                                         inputProps={{
@@ -174,11 +160,12 @@ function Index() {
                                             name: "email",
                                             type: "text",
                                             placeholder: "Email",
+                                            value: user.email
                                         }}
                                         inputStyle={`${inputstyle} mr-5`}
                                         lableStyle={lableStyle}
                                         label={"Email"}
-                                        required={true}
+                                        disable={true}
                                     />
                                 )}
                             />
@@ -200,26 +187,12 @@ function Index() {
                                     <Select
                                         selectStyle={`${inputstyle} mr-5`}
                                         lableStyle={lableStyle}
-                                        selectProps={{ placeholder: "City" }}
-                                        {...field}
-                                        onChange={(value: string) => field.onChange(value)}
+                                        selectProps={{ placeholder: "City", ...field }}
+                                        isMulti
+                                        options={cities}
                                         label={"City"}
                                         required={true}
-                                    >
-                                        <option
-                                            value={undefined}
-                                        >
-                                            {"City"}
-                                        </option>
-                                        {Typesoptions.map((i) => (
-                                            <option
-                                                key={i.value}
-                                                value={i.value}
-                                            >
-                                                {i.label}
-                                            </option>
-                                        ))}
-                                    </Select>
+                                        />
                                 )}
                             />
                             {errors.City && (
@@ -243,26 +216,12 @@ function Index() {
                                     <Select
                                         selectStyle={`${inputstyle} mr-5`}
                                         lableStyle={lableStyle}
-                                        selectProps={{ placeholder: "Nationality" }}
-                                        {...field}
-                                        onChange={(value: string) => field.onChange(value)}
+                                        selectProps={{ placeholder: "Nationality", ...field }}
+                                        options={nationalities}
                                         label={"Nationality"}
                                         required={true}
-                                    >
-                                        <option
-                                            value={undefined}
-                                        >
-                                            {"Nationality"}
-                                        </option>
-                                        {Typesoptions.map((i) => (
-                                            <option
-                                                key={i.value}
-                                                value={i.value}
-                                            >
-                                                {i.label}
-                                            </option>
-                                        ))}
-                                    </Select>
+                                    />
+                                    
                                 )}
                             />
                             {errors.Nationality && (
@@ -283,26 +242,12 @@ function Index() {
                                     <Select
                                         selectStyle={`${inputstyle} mr-5`}
                                         lableStyle={lableStyle}
-                                        selectProps={{ placeholder: "Military Service" }}
-                                        {...field}
+                                        selectProps={{ placeholder: "Military Service" , ...field}}
+                                        options={miltiaryOptions}
                                         onChange={(value: string) => field.onChange(value)}
                                         label={"Military Service"}
                                         required={true}
-                                    >
-                                        <option
-                                            value={undefined}
-                                        >
-                                            {"Military Service"}
-                                        </option>
-                                        {Typesoptions.map((i) => (
-                                            <option
-                                                key={i.value}
-                                                value={i.value}
-                                            >
-                                                {i.label}
-                                            </option>
-                                        ))}
-                                    </Select>
+                                    />
                                 )}
                             />
                             {errors.MilitaryService && (
@@ -368,7 +313,7 @@ function Index() {
                         </div>
                     </div>
                 </div>
-                <div className="my-5 bg-white h-full   mx-10 md:mx-32 lg:mx-60 rounded-xl pt-4  pb-10 px-6 md:px-12  border-l-8   border-primary  shadow-md  shadow-slate-300">
+                <div className="my-5 bg-white h-full   mx-10 md:mx-32 lg:mx-60 rounded-xl pt-4  pb-10 px-6 md:px-12  border-l-8   border-primary  shadow  shadow-slate-300">
                     <h1 className=" text-primary text-xl md:text-2xl lg:text-3xl  mt-6">
                         Career Interests
                     </h1>
@@ -390,26 +335,11 @@ function Index() {
                                     <Select
                                         selectStyle={`${inputstyle} mr-5`}
                                         lableStyle={lableStyle}
-                                        selectProps={{ placeholder: "Job Level" }}
-                                        {...field}
-                                        onChange={(value: string) => field.onChange(value)}
+                                        selectProps={{ placeholder: "Job Level", ...field }}
                                         label={"Job Level"}
                                         required={true}
-                                    >
-                                        <option
-                                            value={undefined}
-                                        >
-                                            {"Job Level"}
-                                        </option>
-                                        {Typesoptions.map((i) => (
-                                            <option
-                                                key={i.value}
-                                                value={i.value}
-                                            >
-                                                {i.label}
-                                            </option>
-                                        ))}
-                                    </Select>
+                                        options={jobLevels}
+                                    />
                                 )}
                             />
                             {errors.JobLevel && (
@@ -424,12 +354,12 @@ function Index() {
                                 control={control}
                                 rules={{
                                     required: 'Experience Years is required',
-                                    maxLength: {
+                                    max: {
                                         value: 20,
                                         message: 'Experience Years should be at max 20 characters long',
                                     },
-                                    minLength: {
-                                        value: 5,
+                                    min: {
+                                        value: 0,
                                         message: 'Experience Years should be at min 5 characters long',
                                     },
                                 }}
@@ -458,7 +388,7 @@ function Index() {
                     </div>
 
                     <div className="flex   items-center  mx-2 md:mx-10 lg:mx-20  flex-wrap  my-7 ">
-                        <div className="w-1/2 ">
+                       {/*  <div className="w-1/2 ">
                             <Controller
                                 name="CurrentJobStatus"
                                 control={control}
@@ -495,7 +425,7 @@ function Index() {
                                     {"Current Job Status is required"}
                                 </p>
                             )}
-                        </div>
+                        </div> */}
                         <div className="w-1/2 ">
 
                         </div>
@@ -510,8 +440,8 @@ function Index() {
 
                 </div>
                 <div className=" flex">
-                    <button className=" bg-stone-500 text-secondary w-40  rounded-md h-10 m-auto  text-center" type="submit">
-                        Create Employee
+                    <button className="mb-5 bg-stone-500 text-secondary w-60  rounded-md h-10 m-auto  text-center" type="submit">
+                        Complete Your Profile
                     </button>
                 </div>
             </form >

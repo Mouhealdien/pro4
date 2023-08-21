@@ -40,7 +40,7 @@ const index = () => {
                         <div className='flex w-full border-l-primary border-l-4 rounded-md   flex-wrap max-w-sm  h-60 justify-between  border  shadow-sm my-5    '>
                                 <div className=' bg-secondary   w-full h-full flex flex-col p-10 justify-evenly ite ' >
                                         <h1 className=' text-2xl pb-2  text-primary'>{company?.name}</h1>
-                                        <div>  <FontAwesomeIcon icon={faLocationArrow} className=' text-gray-500 mr-4' /><span className='  text-primary'>{company?.cities?.map((e)=> e.name)}</span></div>
+                                        <div>  <FontAwesomeIcon icon={faLocationArrow} className=' text-gray-500 mr-4' /><span className='  text-primary'>{company?.cities.map((e)=> e?.name).join(', ')}</span></div>
                                         <div>  <FontAwesomeIcon icon={faBuilding} className=' text-gray-500  mr-4' /><span className=' text-primary'>{company?.address}</span></div>
                                         <div>  <FontAwesomeIcon icon={faMailBulk} className=' text-gray-500  mr-4 ' /><span className=' text-primary'>{company?.user?.email}</span></div>
                                         <div>  <FontAwesomeIcon icon={faUserGroup} className=' text-gray-500  mr-4' /><span className=' text-primary'>{company?.companySize}</span></div>

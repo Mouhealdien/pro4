@@ -11,44 +11,54 @@ import ImageUploader from "../../../components/ImageUploader";
 import { useAuthContext } from "../../../contexts/AuthContext";
 import { axios } from "../../../utils/axios";
 import { responseParser } from "../../../utils/responseParse";
+import { toast } from "react-toastify";
 function Index() {
-    const {user, } = useAuthContext();
+    const {user,isLoading,isCompany } = useAuthContext();
+    if (!user) {
+        return <h1>Loading...</h1>;
+    }
     const [cities, setCities] = useState([]);
+    const [industries, setIndustries] = useState([]);
     useEffect( () => {
         const fetchStuff = async () => {
             const {data :citiesResponse} = await axios.get('/cities');
-            setCities(citiesResponse);
-            //const {data: }
-            
+            const {data: industriesResponse} = await axios.get('/job-roles');
+            setCities(citiesResponse.map(e => ({
+                label: e.name,
+                value: e.id
+            })));
+            setIndustries(industriesResponse.map(e => ({
+                label:e.details,
+                value: e.id
+            })))
         };
         fetchStuff();
-    } ,[]);
+    } ,[]); 
     const companySizes = [
-        
-    ]
-    const Locationsoptions = [
-        { value: 'remote', label: 'Remote' },
-        { value: 'nonremote', label: 'Non Remote' },
-
+        {
+            "label": "from 1  to 5",
+            "value": "from 1  to 5"
+        },
+        {
+            "label": "from 6  to 10",
+            "value": "from 6  to 10"
+        },
+        {
+            "label": "from 11 to 25",
+            "value": "from 11 to 25"
+        },
+        {
+            "label": "from 20 to 100",
+            "value": "from 20 to 100"
+        },
+        {
+            "label": "more than 100",
+            "value": "more than 100"
+        }
     ];
-    const Typesoptions = [
-        { value: 'fulltime', label: 'Full time' },
-        { value: 'parttime', label: 'Part time' },
-
-    ];
-    const Categoryoptions = [
-        { value: 'bla1', label: 'Development' },
-        { value: 'bla2', label: 'Freelance' },
-
-    ];
-    const genderoptions = [
-        { value: 'male', label: 'Male' },
-        { value: 'female', label: 'Female' },
-        { value: 'noPrefrence', label: 'No Prefrence' },
-
-
-    ];
-    const inputstyle = "pl-1  text-[0.5rem] md:text-xs lg:text-sm xl:text-md rounded-[10px] border border-stone-500 bg-background border-l-8   text-gray-400 h-8  md:h-10 lg:h-12"
+    const years = [...new Array(2023-1900)].map((_,e) => ({label: (e + 1900)+"", value: e + 1900})).sort((a,b) => b.value-a.value);
+    
+    const inputstyle = "pl-1  text-[0.5rem] md:text-xs lg:text-sm xl:text-md border-[hsl(0,0%,80%)] border-b  min-h-[34px]"
     const lableStyle = "font-dosis   text-[0.5rem] md:text-xs lg:text-sm xl:text-md font-medium  "
     const selectStyle = "text-gray-700 font-dosis  text-[0.5rem] md:text-xs lg:text-sm xl:text-md  font-normal"
     const {
@@ -58,14 +68,24 @@ function Index() {
         watch,
     } = useForm<any>();
 
-    const onSubmit: SubmitHandler<any> = (data) => {
-        alert(JSON.stringify(data))
-        console.log(errors)
+    const onSubmit: SubmitHandler<any> = async (subData) => {
+        const data = {
+            bio: subData.CompanyBio,
+            address: subData.Address,
+            jobRoles: subData.IndustriesOfCompany.map(e=>e.value) ,
+            foundedDate: new Date(subData.YearFounded.value),
+            cities: subData.City.map(e=>e.value),
+            phone: subData.Phone,
+            companySize: subData.CompanySize.value,
+            website: subData.CompanyWebsite,
+        }
+        await axios.put('/companies/'+user.company.id, {data});
+        toast.success('Company Info has been updated')
     };
     return (
         <div className="bg-gray-200 px-10 text-base ">
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="my-5 bg-white h-full   mx-10 md:mx-32 lg:mx-60 rounded-xl pt-4  pb-10 px-6 md:px-12  border-l-8   border-primary  shadow-md  shadow-slate-300">
+                <div className="my-5 bg-white h-full   mx-10 md:mx-32 lg:mx-60 rounded-xl pt-4  pb-10 px-6 md:px-12  border-l-8   border-primary  shadow  shadow-slate-300">
                     <h1 className=" text-primary text-xl md:text-2xl lg:text-3xl  mt-6">
                         Company profile
 
@@ -154,7 +174,7 @@ function Index() {
                 </div>
 
 
-                <div className="my-5 bg-white h-full   mx-10 md:mx-32 lg:mx-60 rounded-xl pt-4  pb-10 px-6 md:px-12  border-l-8   border-primary  shadow-md  shadow-slate-300">
+                <div className="my-5 bg-white h-full   mx-10 md:mx-32 lg:mx-60 rounded-xl pt-4  pb-10 px-6 md:px-12  border-l-8   border-primary  shadow  shadow-slate-300">
                     <h1 className=" text-primary text-xl md:text-2xl lg:text-3xl  mt-6">
                         General info
                     </h1>
@@ -174,28 +194,12 @@ function Index() {
                                     <Select
                                         selectStyle={`${inputstyle} mr-5`}
                                         lableStyle={lableStyle}
-                                        selectProps={{ placeholder: "City" }}
-                                        {...field}
-                                        onChange={(value: string) => field.onChange(value)}
+                                        selectProps={{ placeholder: "City", ...field }}
                                         label={"City"}
+                                        isMulti
+                                        options={cities}
                                         required={true}
-                                    >
-                                        <option
-
-                                            value={undefined}
-                                        >
-                                            {"City"}
-                                        </option>
-                                        {cities.map((i) => (
-                                            <option
-                                                key={i.id}
-
-                                                value={i.id}
-                                            >
-                                                {i.name}
-                                            </option>
-                                        ))}
-                                    </Select>
+                                    />
                                 )}
                             />
                             {errors.City && (
@@ -253,28 +257,13 @@ function Index() {
                                     <Select
                                         selectStyle={`${inputstyle} mr-5`}
                                         lableStyle={lableStyle}
-                                        selectProps={{ placeholder: "Industries Of Company" }}
-                                        {...field}
+                                        selectProps={{ placeholder: "Industries Of Company",...field }}
+                                        isMulti
                                         onChange={(value: string) => field.onChange(value)}
                                         label={"Industries Of Company"}
                                         required={true}
-                                    >
-                                        <option
-
-                                            value={undefined}
-                                        >
-                                            {"Industries Of Company"}
-                                        </option>
-                                        {Typesoptions.map((i) => (
-                                            <option
-                                                key={i.value}
-
-                                                value={i.value}
-                                            >
-                                                {i.label}
-                                            </option>
-                                        ))}
-                                    </Select>
+                                        options={industries}
+                                    />
                                 )}
                             />
                             {errors.IndustriesOfCompany && (
@@ -292,28 +281,11 @@ function Index() {
                                     <Select
                                         selectStyle={`${inputstyle}`}
                                         lableStyle={lableStyle}
-                                        selectProps={{ placeholder: "Company Size" }}
-                                        {...field}
-                                        onChange={(value: string) => field.onChange(value)}
+                                        selectProps={{ placeholder: "Company Size" ,...field} }
                                         label={"Company Size"}
                                         required={true}
-                                    >
-                                        <option
-
-                                            value={undefined}
-                                        >
-                                            {"Company Size"}
-                                        </option>
-                                        {companySizes.map((i) => (
-                                            <option
-                                                key={i.value}
-
-                                                value={i.value}
-                                            >
-                                                {i.label}
-                                            </option>
-                                        ))}
-                                    </Select>
+                                        options={companySizes}
+                                    />
                                 )}
                             />
                             {errors.CompanySize && (
@@ -333,28 +305,14 @@ function Index() {
                                     <Select
                                         selectStyle={`${inputstyle} mr-5`}
                                         lableStyle={lableStyle}
-                                        selectProps={{ placeholder: "Year Founded" }}
+                                        selectProps={{ placeholder: "Year Founded",...field }}
                                         {...field}
                                         onChange={(value: string) => field.onChange(value)}
                                         label={"Year Founded"}
+
                                         required={true}
-                                    >
-                                        <option
-
-                                            value={undefined}
-                                        >
-                                            {"Year Founded"}
-                                        </option>
-                                        {Typesoptions.map((i) => (
-                                            <option
-                                                key={i.value}
-
-                                                value={i.value}
-                                            >
-                                                {i.label}
-                                            </option>
-                                        ))}
-                                    </Select>
+                                        options={years}
+                                        />
                                 )}
                             />
                             {errors.YearFounded && (

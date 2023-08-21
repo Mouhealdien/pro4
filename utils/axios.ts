@@ -11,6 +11,7 @@ export const axios = base.create({
 
 const errorHandler = (e) => {
     toast.error(e?.response?.data?.error?.message ||'Something went wrong');
+    document.body.classList.remove('loading-indicator');
     return Promise.reject({...e});
 }
 axios.interceptors.request.use(function (config) {

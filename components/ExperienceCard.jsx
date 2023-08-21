@@ -17,7 +17,7 @@ const ExperienceCard = ({ experience }) => {
                                 <ul className='text-sm border-b-2 border-b-gray-300'>
                                     <li className='pb-2 font-bold text-base'>{e.jobTitle} <span className='text-primary'>At</span> {e.companyName}</li>
                                     <li className='pb-2 font-bold text-primary'>Start Date: <span className='text-black font-[500]'>{e.startDate}</span>  </li>
-                                    <li className='pb-2 font-bold text-primary'>End Date: <span className='text-black font-[500]'> {e.endDate} </span></li>
+                                    <li className='pb-2 font-bold text-primary'>End Date: <span className='text-black font-[500]'> {e?.endDate || 'Working Now'} </span></li>
                                     <li className='pb-2 text-black font-[500]' > {e.description}</li>
                                 </ul>
                             </li>

@@ -6,17 +6,19 @@ import JobsHome from "../components/JobsHome";
 import CategoriesHome from "../components/CategoriesHome";
 import LocationHome from "../components/LocationHome";
 import Footer from "../components/Footer";
+import { useAuthContext } from "../contexts/AuthContext";
+import { useRouter } from "next/router";
 
 const HomePage = () => {
+  const {user, isCompany} = useAuthContext();
   return (
     <div>
-      <NavBar />
       <Hero />
       <CompaniesHome />
       <JobsHome />
       <CategoriesHome />
       <LocationHome />
-      <Footer />
+      
     </div>
   );
 };
