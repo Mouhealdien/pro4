@@ -37,8 +37,8 @@ const index = () => {
         jobRequirements: jobDetails?.jobRequirements,
         idComapny: jobDetails?.company.id
     }
-    const handleDeleteJob = async() => {
-        await axios.delete('/jobs/'+jobDetails?.id);
+    const handleDeleteJob = async () => {
+        await axios.delete('/jobs/' + jobDetails?.id);
         toast.success('deleted successfully');
         router.push('/job/create');
     }
@@ -47,8 +47,9 @@ const index = () => {
             job: job.id,
             profileDetail: auth.user.profileDetail.id
         };
-        await axios.post('/job-requests', {data});
-        toast.success('Applied sucessfully !!');
+        await axios.post('/job-requests', { data });
+        toast.success('Applied sucessfully !!')
+
         setAppliedBefore(true);
     };
     useEffect(() => {
@@ -56,19 +57,19 @@ const index = () => {
 
             try {
                 const { data: response } = await axios(`/jobs/${id}?populate=jobRoles,company `);
-                console.log({response});
-                if (!auth.isCompany){
-                    const {data} = await axios.get(`/job-requests?filters[profileDetail][id][$eq]=${auth.user.profileDetail.id}&filters[job][id][$eq]=${response.id}&fields[0]=id&populate[profileDetail][fields][0]=id`)
+                console.log({ response });
+                if (!auth.isCompany) {
+                    const { data } = await axios.get(`/job-requests?filters[profileDetail][id][$eq]=${auth.user.profileDetail.id}&filters[job][id][$eq]=${response.id}&fields[0]=id&populate[profileDetail][fields][0]=id`)
 
                     if (data.length > 0) {
                         setAppliedBefore(true);
                     }
                 }
                 else {
-                    const {data} = await axios.get(`/job-requests?filters[job][id][$eq]=${response.id}&fields[0]=id&populate[profileDetail][fields][0]=id`)
+                    const { data } = await axios.get(`/job-requests?filters[job][id][$eq]=${response.id}&fields[0]=id&populate[profileDetail][fields][0]=id`)
 
                     response.numberOfCandidates = data.length;
-                    
+
                 }
                 setJobDetails(response)
 
@@ -98,7 +99,7 @@ const index = () => {
                 {!isComany ? <div className=' flex flex-col items-center gap-2'>
 
                     <button onClick={handleApply} disabled={appliedBefore} className={` bg-secondary  ${!appliedBefore ? "hover:bg-primary  hover:border-secondary  hover:border-2 hover:text-secondary" : ""} transition duration-300  text-primary rounded-md px-4 py2`}>{appliedBefore ? 'Already Applied' : 'Apply'} </button>
-                    
+
                 </div> : ""}
             </div>
             {companyid === job?.idComapny && isComany ? <div className=' flex flex-col items-center gap-2'>

@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, use } from 'react'
+import React, { useState, useEffect, use, useRef } from 'react'
 import ProfileHeader from '../../../components/ProfileHeader'
 import EducationCard from '../../../components/EducationCard'
 import ExperienceCard from '../../../components/ExperienceCard'
@@ -9,7 +9,9 @@ import { axios } from "../../../utils/axios";
 import { useRouter } from 'next/router'
 import { responseParser } from '../../../utils/helper'
 import { BASE_SERVEFR_URL } from '../../../utils/constant'
-
+import Cv from '../../cv/Cv'
+import jsPDF from 'jspdf'
+import PrintTemplate from 'react-print'
 const index = () => {
   const router = useRouter();
   const id = router.query.id
@@ -34,6 +36,12 @@ const index = () => {
   }, [id]);
   console.log(user)
 
+  const handleGeneratePdf = () => {
+    router.push(`/print/${id}`)
+
+
+  };
+
   const profileInfo = {
     firstName: user?.firstName,
     lastName: user?.lastName,
@@ -55,10 +63,14 @@ const index = () => {
   }
 
   return (
-    <div className='px-2 py-2'>
+    <div className='px-2 py-2' id="printable-content">
 
       <div className='flex flex-col gap-5'>
-      
+        <button className=" bg-slate-500 text-white" onClick={handleGeneratePdf}>
+          Convert Your Profile to Pdf
+        </button>
+
+
         <ProfileHeader Fname={profileInfo.firstName} Lname={profileInfo.lastName}
           age={profileInfo.age} nationality={profileInfo.nationality}
           gender={profileInfo.gender} militaryStatus={profileInfo.militaryStatus}
@@ -75,9 +87,10 @@ const index = () => {
             <ExperienceCard experience={profileInfo?.experience} />
             <LanguagesCard languages={profileInfo?.languages} />
           </div>
+
         </div>
       </div>
-    </div>
+    </div >
   )
 }
 

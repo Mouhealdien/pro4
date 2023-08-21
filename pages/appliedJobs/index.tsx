@@ -45,8 +45,8 @@ const index = () => {
 
     fetchDataAsync()
   }, []);
-  console.log({jobs})
-  
+  console.log({ jobs })
+
 
 
   return (
@@ -56,7 +56,7 @@ const index = () => {
         {
           jobs?.length > 0 && jobs.map((e) => {
             return (
-              <AppliedJobCard status={e?.status} jobTitle={e?.job?.jobTitle} companyName={e?.job?.company?.name} img={BASE_SERVEFR_URL + e?.job?.company?.profileImg?.url} id={e?.id} />
+              <AppliedJobCard status={e?.status} jobTitle={e?.job?.jobTitle} companyName={e?.job?.company?.name} img={BASE_SERVEFR_URL + e?.job?.company?.profileImg?.url} id={e?.job?.id} />
             )
 
           })
