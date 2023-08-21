@@ -147,7 +147,7 @@ const JobsHome = () => {
           Checkout Our Latest Open Jobs.
         </p>
       </div>
-      <div className="w-full xl:px-36 px-5 flex flex-wrap justify-start">
+      <div className="w-full xl:px-36 px-5 flex flex-wrap justify-center">
         {jobs.map((item, idx) => (
           <JobsCardHome
             link={`job/${item?.id}`}
