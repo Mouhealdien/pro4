@@ -19,7 +19,7 @@ function index() {
                   const fetchDataAsync = async () => {
             
                   try {
-                    const { data: response } = await axios(`/companies/${id}?populate=profileImg,cities,cities.name,user ,jobs , jobs.jobLevel ,jobs.jobRoles , jobs.jobRequest   `);
+                    const { data: response } = await axios(`/companies/${id}?populate=profileImg,cities,cities.name,user ,jobs , jobs.jobLevel ,jobs.jobRoles , jobs.jobRequest, jobs.jobRequest.ProfileDetail  `);
                     setCompany((response) )
                     
                   } catch (error) {
@@ -64,7 +64,7 @@ function index() {
                 {
                         company?.jobs.map((e)=>{
                                 return(
-                                        <JobEditCard numOfCandidates={e.jobRequest.length} id={e.id} title={e.jobTitle} />
+                                        <JobEditCard numOfCandidates={e.jobRequest?.length} id={e.id} title={e.jobTitle} />
                                 )
                         })
                 }
