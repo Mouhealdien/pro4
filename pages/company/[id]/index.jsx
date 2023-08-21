@@ -39,7 +39,12 @@ const index = () => {
                         <img className='' src={BASE_SERVEFR_URL + company?.profileImg?.url} width={170} height={170}/>
                         <div className='flex w-full border-l-primary border-l-4 rounded-md   flex-wrap max-w-sm  h-60 justify-between  border  shadow-sm my-5    '>
                                 <div className=' bg-secondary   w-full h-full flex flex-col p-10 justify-evenly ite ' >
-                                        <h1 className=' text-2xl pb-2  text-primary'>{company?.name}</h1>
+                                        <div className=' flex flex-row justify-between'>
+                                        `<h1 className='text-2xl pb-2  text-primary'>{company?.name}</h1>
+                                         <button className='bg-primary  hover:bg-secondary  text-secondary hover:border-primary  hover:border-2 hover:text-primary transition duration-300  Hover:text-primary rounded-md px-4 py2'>Edit</button>
+                                        </div>
+                                      
+
                                         <div>  <FontAwesomeIcon icon={faLocationArrow} className=' text-gray-500 mr-4' /><span className='  text-primary'>{company?.cities.map((e)=> e?.name).join(', ')}</span></div>
                                         <div>  <FontAwesomeIcon icon={faBuilding} className=' text-gray-500  mr-4' /><span className=' text-primary'>{company?.address}</span></div>
                                         <div>  <FontAwesomeIcon icon={faMailBulk} className=' text-gray-500  mr-4 ' /><span className=' text-primary'>{company?.user?.email}</span></div>

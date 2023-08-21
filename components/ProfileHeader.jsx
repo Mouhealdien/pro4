@@ -11,7 +11,10 @@ const ProfileHeader = ({ Fname, Lname, age, nationality, gender, militaryStatus,
                 <img width={300} height={300} className=' w-28 h-28 rounded-full' src={img ? img : (gender == "Male" ? boy : girl)} />
 
                 <p className='text-lg'> {Fname} {Lname} </p>
+                <button className='bg-primary  hover:bg-secondary  text-secondary hover:border-primary  hover:border-2 hover:text-primary transition duration-300  Hover:text-primary rounded-md px-4 py2'>Edit</button>
+
             </div>
+
             <div className='flex flex-row border-b-2 border-gray-200  items-center justify-around'>
 
                 <div>
