@@ -15,45 +15,45 @@ import { axios } from "../../../utils/axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 function Index() {
-    const {user} = useAuthContext();
+    const { user } = useAuthContext();
     const [cities, setCities] = useState([]);
     const [industries, setIndustries] = useState([]);
     const nationalities = ['Syrian',
-        'Palestinian'].map(e => ({value: e, label: e}))
+        'Palestinian'].map(e => ({ value: e, label: e }))
     const [miltiaryOptions, setMiltiaryOptions] = useState([]);
     const [jobLevels, setJobLevels] = useState([]);
 
     const genderoptions = [
         'Male',
         'Female'
-    ].map(e => ({value: e, label: e}));
-    useEffect( () => {
+    ].map(e => ({ value: e, label: e }));
+    useEffect(() => {
         const fetchStuff = async () => {
-            const {data :citiesResponse} = await axios.get('/cities');
+            const { data: citiesResponse } = await axios.get('/cities');
             //const {data: industriesResponse} = await axios.get('/job-roles');
-            const {data: militaryResponse} = await axios.get('/military-services')
-            const {data: jobLevelsResponse} = await axios.get('/job-levels')
+            const { data: militaryResponse } = await axios.get('/military-services')
+            const { data: jobLevelsResponse } = await axios.get('/job-levels')
             setCities(citiesResponse.map(e => ({
                 label: e.name,
                 value: e.id
             })));
-           /*  setIndustries(industriesResponse.map(e => ({
-                label:e.details,
-                value: e.id
-            }))); */
+            /*  setIndustries(industriesResponse.map(e => ({
+                 label:e.details,
+                 value: e.id
+             }))); */
             setMiltiaryOptions(militaryResponse.map(e => ({
                 label: e.name,
                 value: e.id
             })))
             setJobLevels(jobLevelsResponse.map(e => ({
-                label:e.details,
+                label: e.details,
                 value: e.id
             })))
         };
         fetchStuff();
-    } ,[]); 
+    }, []);
 
-const inputstyle = "pl-1  text-[0.5rem] md:text-xs lg:text-sm xl:text-md border-[hsl(0,0%,80%)] border-b  min-h-[34px]"
+    const inputstyle = "pl-1  text-[0.5rem] md:text-xs lg:text-sm xl:text-md border-[hsl(0,0%,80%)] border-b  min-h-[34px]"
     const lableStyle = "font-dosis   text-[0.5rem] md:text-xs lg:text-sm xl:text-md font-medium  "
     const selectStyle = "text-gray-700 font-dosis  text-[0.5rem] md:text-xs lg:text-sm xl:text-md  font-normal"
     const {
@@ -73,7 +73,7 @@ const inputstyle = "pl-1  text-[0.5rem] md:text-xs lg:text-sm xl:text-md border-
             nationality: subData.Nationality.value,
             militaryService: subData.MilitaryService.value
         };
-        await axios.put('/profile-details/'+user.profileDetail.id, {data});
+        await axios.put('/profile-details/' + user.profileDetail.id, { data });
         toast.success('1/5 is Done, GREAT !!!')
         router.push('/employee/education/add');
     };
@@ -121,7 +121,7 @@ const inputstyle = "pl-1  text-[0.5rem] md:text-xs lg:text-sm xl:text-md border-
                             <Controller
                                 name="LastName"
                                 control={control}
-                                
+
                                 render={({ field }) => (
                                     <Input
                                         inputProps={{
@@ -192,7 +192,7 @@ const inputstyle = "pl-1  text-[0.5rem] md:text-xs lg:text-sm xl:text-md border-
                                         options={cities}
                                         label={"City"}
                                         required={true}
-                                        />
+                                    />
                                 )}
                             />
                             {errors.City && (
@@ -221,7 +221,7 @@ const inputstyle = "pl-1  text-[0.5rem] md:text-xs lg:text-sm xl:text-md border-
                                         label={"Nationality"}
                                         required={true}
                                     />
-                                    
+
                                 )}
                             />
                             {errors.Nationality && (
@@ -242,7 +242,7 @@ const inputstyle = "pl-1  text-[0.5rem] md:text-xs lg:text-sm xl:text-md border-
                                     <Select
                                         selectStyle={`${inputstyle} mr-5`}
                                         lableStyle={lableStyle}
-                                        selectProps={{ placeholder: "Military Service" , ...field}}
+                                        selectProps={{ placeholder: "Military Service", ...field }}
                                         options={miltiaryOptions}
                                         onChange={(value: string) => field.onChange(value)}
                                         label={"Military Service"}
@@ -388,7 +388,7 @@ const inputstyle = "pl-1  text-[0.5rem] md:text-xs lg:text-sm xl:text-md border-
                     </div>
 
                     <div className="flex   items-center  mx-2 md:mx-10 lg:mx-20  flex-wrap  my-7 ">
-                       {/*  <div className="w-1/2 ">
+                        {/*  <div className="w-1/2 ">
                             <Controller
                                 name="CurrentJobStatus"
                                 control={control}

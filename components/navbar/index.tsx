@@ -24,9 +24,28 @@ const NavBar = () => {
       title: "Add New Job",
       link: "/job/create",
     },
+    {
+      title: "All Employee",
+      link: "/allCandidates",
+    },
+
+  ];
+  const links = [
+    {
+      title: " jobs ",
+      link: `/allJobs`,
+    },
+    {
+      title: "Employee",
+      link: "/allCandidates",
+    },
 
   ];
   const linksuser = [
+    {
+      title: "My Profile",
+      link: `profile/${auth.user.profileDetail?.id}`,
+    },
     {
       title: "search jobs",
       link: "/allJobs",
@@ -35,6 +54,7 @@ const NavBar = () => {
       title: "applied jobs",
       link: "/appliedJobs",
     },
+
   ];
   const [opneMenue, setOpneMenue] = useState(false);
   const [activeIdx, setActiveIdx] = useState(-1);
@@ -60,7 +80,16 @@ const NavBar = () => {
                       {item.title}
                     </a>
                   </li>
-                )) : linksuser.map((item, idx) => (
+                )) : auth.user?.profileDetail ? linksuser.map((item, idx) => (
+                  <li>
+                    <a
+                      className="text-gray-500 transition hover:text-gray-500/75"
+                      href={item.link}
+                    >
+                      {item.title}
+                    </a>
+                  </li>
+                )) : links.map((item, idx) => (
                   <li>
                     <a
                       className="text-gray-500 transition hover:text-gray-500/75"
@@ -101,9 +130,9 @@ const NavBar = () => {
 
                 <div className="hidden sm:flex">
                   <button
-                  onClick={handleLogOut}
+                    onClick={handleLogOut}
                     className="rounded-md  bg-red-400 px-5 py-2.5 text-sm font-medium  text-white"
-                    
+
                   >
                     LogOut
                   </button>
@@ -171,7 +200,26 @@ const NavBar = () => {
                 </Link>
               </li>
             </div>
-          )) : linksuser.map((link, id) => (
+          )) : auth.user?.profileDetail ? linksuser.map((link, id) => (
+            <div>
+              <li
+                key={id}
+                className={`transition my-4 text-start block   hover:text-white group delay-150 hover:bg-primary  duration-500 text-sm px-0 pt-2 border-b-2 py-3 text-dark    font-semibold ${activeIdx == id ? "bg-secondary p-10 " : ""
+                  }`}
+                onClick={() => {
+                  setActiveIdx(id);
+                }}
+              >
+                <Link
+                  className="p-2 w-full text-gray-800 mb-2"
+                  href={link.link}
+                >
+                  {" "}
+                  {link.title}
+                </Link>
+              </li>
+            </div>
+          )) : links.map((link, id) => (
             <div>
               <li
                 key={id}
@@ -207,13 +255,13 @@ const NavBar = () => {
             </a>
           </div> : <div className="flex flex-col gap-5">
 
-          <button
-                  onClick={handleLogOut}
-                    className="rounded-md  bg-red-400 px-5 py-2.5 text-sm font-medium  text-white"
-                    
-                  >
-                    LogOut
-                  </button>
+            <button
+              onClick={handleLogOut}
+              className="rounded-md  bg-red-400 px-5 py-2.5 text-sm font-medium  text-white"
+
+            >
+              LogOut
+            </button>
 
           </div>}
 
