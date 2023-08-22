@@ -1,5 +1,5 @@
 import React from "react";
-import logo from '../assets/logo.png'
+
 const Logo = ({ href }) => {
   return (
     <a className="block text-primary" href={href}>
