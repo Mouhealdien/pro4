@@ -16,7 +16,7 @@ const index = () => {
         const companyid = auth.user?.company?.id
         const iscom = auth.isCompany
         console.log(router)
-        const id = router.query.id;
+        const id = +router.query.id;
         const [company, setCompany] = useState();
         useEffect(() => {
                 const fetchDataAsync = async () => {
@@ -33,7 +33,7 @@ const index = () => {
 
                 id ? fetchDataAsync() : " "
         }, [id]);
-
+        console.log(company, "dssdsds", id)
 
 
 
@@ -46,7 +46,7 @@ const index = () => {
                                         <div className=' bg-secondary   w-full h-full flex flex-col p-10 justify-evenly ite ' >
                                                 <div className=' flex flex-row justify-between'>
                                                         `<h1 className='text-2xl pb-2  text-primary'>{company?.name}</h1>
-                                                        {iscom && companyid === id ? <button className='bg-primary  hover:bg-secondary  text-secondary hover:border-primary  hover:border-2 hover:text-primary transition duration-300  Hover:text-primary rounded-md px-4 py2'><Link href="../employee/education/add"> Edit</Link></button> : ""}
+                                                        {iscom && company?.id === id ? <button className='bg-primary  hover:bg-secondary  text-secondary hover:border-primary  hover:border-2 hover:text-primary transition duration-300  Hover:text-primary rounded-md px-4 py2'><Link href="../company/edit"> Edit</Link></button> : ""}
                                                 </div>
                                                 <div>  <FontAwesomeIcon icon={faLocationArrow} className=' text-gray-500 mr-4' /><span className='  text-primary'>{company?.cities.map((e) => e?.name).join(', ')}</span></div>
                                                 <div>  <FontAwesomeIcon icon={faBuilding} className=' text-gray-500  mr-4' /><span className=' text-primary'>{company?.address}</span></div>
