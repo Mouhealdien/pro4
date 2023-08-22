@@ -80,7 +80,7 @@ const index = () => {
 
             <div className="py-10 bg-slate-200 ">
 
-                <div className="w-full xl:px-36 px-5 flex flex-wrap justify-start">
+                <div className="w-full xl:px-36 px-5 flex flex-wrap justify-center">
                     {jobs.length > 0 && jobs.map((item, idx) => (
                         <JobsCardHome
                             link={`job/${item?.id}`}
