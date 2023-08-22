@@ -45,7 +45,7 @@ const index = () => {
                   className="block max-w-[15rem] rounded-lg text-secondary transition duration-300 bg-primary hover:text-primary hover:bg-secondary hover:border-primary border shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]">
                   <div className="relative overflow-hidden bg-cover bg-no-repeat">
                     <img
-                      className="rounded-t-lg"
+                      className="rounded-t-lg w-40 h-40 "
                       src={BASE_SERVEFR_URL + slide?.profileImg?.url}
                       alt="" />
                   </div>
