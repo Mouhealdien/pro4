@@ -33,7 +33,7 @@ function MyApp({ Component, pageProps }) {
       <AuthProvider>
         {!blockedPathes.some(e => e === (router.asPath)) && <NavBar />}
         <Component {...pageProps} />
-        {!blo.some(e => e === (router.asPath)) && < Footer />}
+        {!blockedPathes.some(e => e === (router.asPath)) && < Footer />}
       </AuthProvider>
     </>
   );

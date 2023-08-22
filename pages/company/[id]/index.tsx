@@ -12,8 +12,8 @@ const index = () => {
         const auth = useContext(AuthContext);
         console.log(auth)
         const router = useRouter();
-        const userid = auth.user.id
-        const companyid = auth.user.company?.id
+        const userid = auth.user?.id
+        const companyid = auth.user?.company?.id
         const iscom = auth.isCompany
         console.log(router)
         const id = router.query.id;
