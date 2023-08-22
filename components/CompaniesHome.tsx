@@ -19,8 +19,8 @@ const CompaniesHome = () => {
 
       try {
         const { data: response } = await axios(`/companies?populate[0]=profileImg`);
-        console.log({companies: response});
-        
+        console.log({ companies: response });
+
 
 
         setCompanies((response) as any)
@@ -34,13 +34,13 @@ const CompaniesHome = () => {
     fetchDataAsync();
   }, []);
 
-  console.log({Companies});
-  
+  console.log({ Companies });
+
   return (
     <div className=" py-10  bg-white">
       <div className="mx-auto container">
         <h2 className=" text-2xl  lg:text-3xl  mb-10 text-center">
-          Join Syria's Top Companies
+          Join To Top Companies
         </h2>
 
         <SliderHome

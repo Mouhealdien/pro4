@@ -29,12 +29,12 @@ const Hero = () => {
 
           <div className="lg:py-24">
             <h2 className="text-3xl font-bold sm:text-4xl">
-              Find the Best Job In Syria
+              Find the Best Job
             </h2>
 
             <p className="mt-4 text-gray-600">
-              Searching for vacancies & career opportunities? FORSA helps you in
-              your job search in Syria
+              Searching for vacancies & career opportunities? helps you in
+              your job search
             </p>
 
             <HeroSearchInput onChange={handleSearch} onSubmit={handleSubmit} />

@@ -16,8 +16,8 @@ const index = () => {
 
   const auth = useContext(AuthContext);
   const userid = auth?.user?.profileDetail?.id
-  
-  const companyid = auth?.user.company?.id
+
+  const companyid = auth?.user?.company?.id
   const iscom = auth.isCompany
   const [user, setUser] = useState();
   const [email, setemail] = useState();
@@ -82,13 +82,13 @@ const index = () => {
         />
         <div className='flex flex-col gap-5'>
           <div className='flex flex-row  gap-5 items-baseline justify-center '>
-            <EducationCard onDelete={()=>setRefetch(p => !p)} edit={!iscom && id === userid} education={profileInfo?.education} />
+            <EducationCard onDelete={() => setRefetch(p => !p)} edit={!iscom && id === userid} education={profileInfo?.education} />
             <SkillsCard edit={!iscom && id === userid} skills={profileInfo?.skills} />
           </div>
 
           <div className='flex flex-row items-baseline gap-5 justify-center'>
-            <ExperienceCard onDelete={()=>setRefetch(p => !p)} edit={!iscom && id === userid} experience={profileInfo?.experience} />
-            <LanguagesCard onDelete={()=>setRefetch(p => !p)} edit={!iscom && id === userid} languages={profileInfo?.languages} />
+            <ExperienceCard onDelete={() => setRefetch(p => !p)} edit={!iscom && id === userid} experience={profileInfo?.experience} />
+            <LanguagesCard onDelete={() => setRefetch(p => !p)} edit={!iscom && id === userid} languages={profileInfo?.languages} />
           </div>
 
         </div>
