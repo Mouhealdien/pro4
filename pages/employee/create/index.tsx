@@ -106,7 +106,7 @@ function Index() {
                                             name: "FirstName",
                                             type: "text",
                                             placeholder: "First Name",
-                                            value: user.profileDetail?.firstName
+                                            value: user?.profileDetail?.firstName
                                         }}
                                         disable={true}
                                         inputStyle={`${inputstyle} mr-5`}
@@ -135,7 +135,7 @@ function Index() {
                                             name: "LastName",
                                             type: "text",
                                             placeholder: "Last Name",
-                                            value: user.profileDetail?.lastName
+                                            value: user?.profileDetail?.lastName
                                         }}
                                         disable={true}
                                         inputStyle={`${inputstyle} mr-5`}
