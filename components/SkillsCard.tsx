@@ -8,7 +8,7 @@ const SkillsCard = ({ skills, edit }) => {
             <div className='flex flex-row items-center  gap-1'>
                 <FontAwesomeIcon className='text-primary text-xl' icon={faCodeBranch} />
                 <h2 className='text-primary px-3 text-xl  font-bold  pb-2  '>Skills</h2>
-                {edit ? <button className='bg-primary  hover:bg-secondary  text-secondary hover:border-primary  hover:border-2 hover:text-primary transition duration-300  Hover:text-primary rounded-md px-4 py2'><Link href="../employee/skills/edit"> Edit</Link></button> : ""}
+                {edit ? <button className='bg-primary  hover:bg-secondary  text-secondary hover:border-primary  hover:border-2 hover:text-primary transition duration-300  Hover:text-primary rounded-md px-4 py2'><Link href="/employee/skills/edit"> Edit</Link></button> : ""}
 
             </div>
             <ul className='  mx-10 flex flex-row flex-wrap gap-2'>

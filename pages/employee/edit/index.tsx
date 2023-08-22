@@ -36,7 +36,7 @@ function Index() {
             //const {data: industriesResponse} = await axios.get('/job-roles');
             const { data: militaryResponse } = await axios.get('/military-services')
             const { data: jobLevelsResponse } = await axios.get('/job-levels')
-            const { data: employee } = await axios(`/profile-details/${user?.profileDetail?.id}?populate=educations,experiences,languages,workingCities,militaryService,jobLevel,profileImage ,user`);
+            const { data: employee } = await axios(`/profile-details/${user?.profileDetail?.id}?populate=educations,experiences,languages,workingCities,militaryService,jobLevel,profileImage,user`);
             setemp(employee)
             setCities(citiesResponse.map(e => ({
                 label: e.name,
@@ -69,18 +69,28 @@ function Index() {
     } = useForm<any>();
     const router = useRouter();
     const onSubmit: SubmitHandler<any> = async (subData) => {
+        let oldId = emp.profileImage.id
+        if (subData.profileImg) {    
+            const fd = new FormData();
+            fd.append('files', subData.profileImg)
+            const {data :images} = await axios.post('/upload', fd)
+            oldId = images[0].id
+        }
         const data = {
-            yearsOfExperience: subData.ExperienceYears,
-            jobLevel: subData.JobLevel.value,
-            workingCities: subData.City.map(e => e.value),
-            gender: subData.Gender,
-            birthDate: subData.BirthDay,
-            nationality: subData.Nationality.value,
-            militaryService: subData.MilitaryService.value
+            ...emp,
+            yearsOfExperience: subData?.ExperienceYears,
+            jobLevel: subData?.JobLevel?.value,
+            workingCities: subData?.City?.map(e => e.value),
+            gender: subData?.Gender,
+            birthDate: subData?.BirthDay,
+            nationality: subData?.Nationality?.value,
+            militaryService: subData?.MilitaryService?.value,
+            profileImage: oldId
+
         };
         await axios.put('/profile-details/' + user.profileDetail.id, { data });
-        toast.success('1/5 is Done, GREAT !!!')
-        router.push('/employee/education/add');
+        toast.success('Updated profile successfully')
+        router.push('/profile/'+user.profileDetail.id);
     };
 
     return (
@@ -184,15 +194,12 @@ function Index() {
                             <Controller
                                 name="City"
                                 control={control}
-                                rules={{
-                                    required: 'city is required',
-                                }}
 
                                 render={({ field }) => (
                                     <Select
                                         selectStyle={`${inputstyle} mr-5`}
                                         lableStyle={lableStyle}
-                                        selectProps={{ placeholder: emp.workingCities?.map(e => e?.name + " - "), ...field }}
+                                        selectProps={{  ...field ,value: emp.workingCities?.map(e => ({value: e.id, label: e.name}))}}
                                         isMulti
                                         options={cities}
                                         label={"Working Cities"}
@@ -213,10 +220,6 @@ function Index() {
                             <Controller
                                 name="Nationality"
                                 control={control}
-                                rules={{
-                                    required: 'Nationality is required',
-                                }}
-
                                 render={({ field }) => (
                                     <Select
                                         selectStyle={`${inputstyle} mr-5`}
@@ -239,10 +242,7 @@ function Index() {
                             <Controller
                                 name="MilitaryService"
                                 control={control}
-                                rules={{
-                                    required: 'Military Service is required',
-                                }}
-
+                                
                                 render={({ field }) => (
                                     <Select
                                         selectStyle={`${inputstyle} mr-5`}
@@ -269,7 +269,7 @@ function Index() {
                             <Controller
                                 name="Gender"
                                 control={control}
-                                rules={{ required: true }}
+                                
                                 render={({ field }) => (
                                     <RadioGroup
                                         options={genderoptions}
@@ -294,9 +294,7 @@ function Index() {
                             <Controller
                                 name="BirthDay"
                                 control={control}
-                                rules={{
-                                    required: true
-                                }}
+                                
                                 render={({ field }) => (
                                     <DateInput
                                         Datestyle={`${inputstyle} mr-5`}
@@ -362,7 +360,7 @@ function Index() {
 
                             <Controller
                                 control={control}
-                                rules={{ required: false }}
+                                
                                 name="profileImg"
                                 render={({ field: { onChange } }) => (
                                     <ImageUploader label={"Profile Image"}
@@ -395,9 +393,7 @@ function Index() {
                             <Controller
                                 name="JobLevel"
                                 control={control}
-                                rules={{
-                                    required: 'Job Level is required',
-                                }}
+                                
 
                                 render={({ field }) => (
                                     <Select
@@ -420,17 +416,7 @@ function Index() {
                             <Controller
                                 name="ExperienceYears"
                                 control={control}
-                                rules={{
-                                    required: 'Experience Years is required',
-                                    max: {
-                                        value: 20,
-                                        message: 'Experience Years should be at max 20 characters long',
-                                    },
-                                    min: {
-                                        value: 0,
-                                        message: 'Experience Years should be at min 5 characters long',
-                                    },
-                                }}
+                                
                                 render={({ field }) => (
                                     <Input
                                         inputProps={{
@@ -467,7 +453,7 @@ function Index() {
                 </div>
                 <div className=" flex">
                     <button className="mb-5 bg-stone-500 text-secondary w-60  rounded-md h-10 m-auto  text-center" type="submit">
-                        Complete Your Profile
+                        update
                     </button>
                 </div>
             </form >

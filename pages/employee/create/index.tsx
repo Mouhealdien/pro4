@@ -64,6 +64,10 @@ function Index() {
     } = useForm<any>();
     const router = useRouter();
     const onSubmit: SubmitHandler<any> = async (subData) => {
+        const fd = new FormData();
+        fd.append('files', subData.profileImg)
+        const {data :images} = await axios.post('/upload', fd)
+        
         const data = {
             yearsOfExperience: subData.ExperienceYears,
             jobLevel: subData.JobLevel.value,
@@ -71,7 +75,8 @@ function Index() {
             gender: subData.Gender,
             birthDate: subData.BirthDay,
             nationality: subData.Nationality.value,
-            militaryService: subData.MilitaryService.value
+            militaryService: subData.MilitaryService.value,
+            profileImage: images[0]?.id
         };
         await axios.put('/profile-details/' + user.profileDetail.id, { data });
         toast.success('1/5 is Done, GREAT !!!')

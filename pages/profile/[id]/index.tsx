@@ -12,18 +12,18 @@ import { BASE_SERVEFR_URL } from '../../../utils/constant'
 import { AuthContext } from '../../../contexts/AuthContext'
 const index = () => {
   const router = useRouter();
-  const id = router.query.id
+  const id = +router.query.id
 
   const auth = useContext(AuthContext);
-  const userid = auth.user.id
+  const userid = auth.user.profileDetail.id
+  
   const companyid = auth.user.company?.id
   const iscom = auth.isCompany
-  console.log(id)
   const [user, setUser] = useState();
   const [email, setemail] = useState();
+  const [refetch, setRefetch] = useState(true);
   useEffect(() => {
     const fetchDataAsync = async () => {
-      console.log(id)
       try {
         const response = await axios(`/profile-details/${id}?populate=educations,experiences,languages,workingCities,militaryService,jobLevel,profileImage ,user`);
         setemail(response.data.email)
@@ -36,7 +36,7 @@ const index = () => {
     };
 
     fetchDataAsync();
-  }, [id]);
+  }, [id, refetch]);
   console.log(user)
 
   const handleGeneratePdf = () => {
@@ -82,13 +82,13 @@ const index = () => {
         />
         <div className='flex flex-col gap-5'>
           <div className='flex flex-row  gap-5 items-baseline justify-center '>
-            <EducationCard edit={!iscom && id === userid} education={profileInfo?.education} />
+            <EducationCard onDelete={()=>setRefetch(p => !p)} edit={!iscom && id === userid} education={profileInfo?.education} />
             <SkillsCard edit={!iscom && id === userid} skills={profileInfo?.skills} />
           </div>
 
           <div className='flex flex-row items-baseline gap-5 justify-center'>
-            <ExperienceCard edit={!iscom && id === userid} experience={profileInfo?.experience} />
-            <LanguagesCard edit={!iscom && id === userid} languages={profileInfo?.languages} />
+            <ExperienceCard onDelete={()=>setRefetch(p => !p)} edit={!iscom && id === userid} experience={profileInfo?.experience} />
+            <LanguagesCard onDelete={()=>setRefetch(p => !p)} edit={!iscom && id === userid} languages={profileInfo?.languages} />
           </div>
 
         </div>

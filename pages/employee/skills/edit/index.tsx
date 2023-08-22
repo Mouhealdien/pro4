@@ -42,8 +42,8 @@ function Index() {
         await axios.put('/profile-details/' + user.profileDetail.id, {
             data
         });
-        toast.success('DONE !!!, Let us explore which jobs suits you');
-        router.push('/allJobs')
+        toast.success('DONE !!!');
+        router.push('/profile/'+user.profileDetail.id)
     };
 
     return (

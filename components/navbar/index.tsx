@@ -49,7 +49,7 @@ const NavBar = () => {
   const linksuser = [
     {
       title: "My Profile",
-      link: `http://localhost:3000/profile/${auth.user.profileDetail?.id}`,
+      link: `http://localhost:3000/profile/${auth?.user?.profileDetail?.id}`,
     },
     {
       title: "jobs",

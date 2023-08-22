@@ -71,6 +71,10 @@ function Index() {
     } = useForm<any>();
 
     const onSubmit: SubmitHandler<any> = async (subData) => {
+        const fd = new FormData();
+        fd.append('files', subData.profileImg)
+        const {data :images} = await axios.post('/upload', fd)
+        
         const data = {
             bio: subData.CompanyBio,
             address: subData.Address,
@@ -80,12 +84,13 @@ function Index() {
             phone: subData.Phone,
             companySize: subData.CompanySize.value,
             website: subData.CompanyWebsite,
-            profileImg: subData.profileImg
+            profileImg: images[0]?.id
         }
-        console.log(data)
+        console.log(subData)
+        
         await axios.put('/companies/' + user.company.id, { data });
         toast.success('Company Info has been updated')
-        router.push('/company/' + user.company.id);
+        //router.push('/company/' + user.company.id);
 
     };
     return (

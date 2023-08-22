@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 import { axios } from "../../../../utils/axios";
 import { useAuthContext } from "../../../../contexts/AuthContext";
 import { toast } from "react-toastify";
+import { useSearchParams } from "next/navigation";
 function Index() {
     const router = useRouter();
     const {user} = useAuthContext();
@@ -37,7 +38,9 @@ function Index() {
         formState: { errors, isSubmitting },
         watch,
     } = useForm<any>();
-
+    const searchParams= useSearchParams();
+    const isEdit = searchParams.get('edit')
+    
     const onSubmit: SubmitHandler<any> = async (subData) => {
         const data = {
             profileDetail: user.profileDetail.id,
@@ -49,8 +52,16 @@ function Index() {
             jobRoles: subData.JobRoles.map(e => e.value)
         }
         await axios.post('/experiences', {data});
-        toast.success('3/5 Completed, there are only 2 left');
-        router.push('/employee/Languages/add');
+        if (isEdit) {
+
+            toast.success('Updated !');
+            router.push('/profile/'+user.profileDetail.id);
+        }
+        else {
+            toast.success('3/5 Completed, there are only 2 left');
+            router.push('/employee/Languages/add');
+
+        }
     };
     const startDate = watch('FromDate');
     const endDate = watch('ToDate');

@@ -9,7 +9,7 @@ import { axios } from '../../utils/axios';
 const index = () => {
 
   const [Companies, setCompanies] = useState([]);
-  const [search, setsearch] = useState();
+  const [search, setsearch] = useState('');
   const handleSearch = (e) => {
     setsearch(e.target.value);
     console.log(search);
@@ -19,11 +19,7 @@ const index = () => {
     const fetchDataAsync = async () => {
 
       try {
-        const { data: response } = await axios(`/companies?populate[0]=profileImg`);
-        console.log(response);
-
-
-
+        const { data: response } = await axios(`/companies?populate[0]=profileImg&filters[name][$contains]=${search}`);
         setCompanies((response) as any)
 
       } catch (error) {
@@ -33,7 +29,7 @@ const index = () => {
     };
 
     fetchDataAsync();
-  }, []);
+  }, [search]);
   console.log(Companies)
   return (
     <div className=' px-10  justify-center felx flex-col  items-center'>
