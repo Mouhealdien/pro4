@@ -15,9 +15,9 @@ const index = () => {
   const id = +router.query.id
 
   const auth = useContext(AuthContext);
-  const userid = auth.user.profileDetail.id
+  const userid = auth?.user?.profileDetail?.id
   
-  const companyid = auth.user.company?.id
+  const companyid = auth?.user.company?.id
   const iscom = auth.isCompany
   const [user, setUser] = useState();
   const [email, setemail] = useState();
