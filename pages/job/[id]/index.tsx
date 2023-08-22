@@ -13,8 +13,8 @@ const index = () => {
     const auth = useContext(AuthContext);
     console.log(auth)
     const router = useRouter();
-    const userid = auth.user.id
-    const companyid = auth.user.company?.id
+    const userid = auth.user?.id
+    const companyid = auth.user?.company?.id
     const [appliedBefore, setAppliedBefore] = useState(false);
     const isComany = auth.isCompany
     const id = router.query.id;
@@ -89,7 +89,7 @@ const index = () => {
         <div className='flex flex-row h-36 px-4 bg-primary items-center justify-evenly'>
             <div className='flex flex-col items-center gap-2'>
                 <h2 className=' text-white text-3xl'>{job.jobTitle}</h2>
-                <h3 className='text-white'>Created At: {job.jobDate}</h3>
+
                 {companyid === job?.idComapny && isComany ?
                     <div className='  flex flex-row gap-5'>
                         <button onClick={handleDeleteJob} className='bg-red-600 transition duration-300 hover:bg-primary hover:text-red-600 hover:border-red-600 hover:border-2 text-secondary rounded-md px-4 py2'>Delete job</button>

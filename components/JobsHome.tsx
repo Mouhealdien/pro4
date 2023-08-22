@@ -153,7 +153,7 @@ const JobsHome = () => {
             link={`job/${item?.id}`}
             code={item?.id}
             experience={item?.yearOfExperience}
-            image={BASE_SERVEFR_URL + "" + item?.company?.profileImg.url}
+            image={BASE_SERVEFR_URL + "" + item?.company?.profileImg?.url}
             level={item?.age}
             location={item?.address}
             role={item?.jobRoles[0].details}
