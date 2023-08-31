@@ -11,16 +11,16 @@ import { BASE_SERVEFR_URL } from '../../../../utils/constant';
 const index = () => {
 
   const [users, setUsers] = useState([]);
-    const router = useRouter();
-    const id = router.query.id;
+  const router = useRouter();
+  const id = router.query.id;
   useEffect(() => {
     const fetchDataAsync = async () => {
 
       try {
-        const {data} = await axios.get(`/job-requests?filters[job][id][$eq]=${id}&fields[0]=id&populate=profileDetail,profileDetail.educations,profileDetail.workingCities,profileDetail.profileImage`)
+        const { data } = await axios.get(`/job-requests?filters[job][id][$eq]=${id}&fields[0]=id&populate=profileDetail,profileDetail.educations,profileDetail.workingCities,profileDetail.profileImage`)
         const response = await axios(`/profile-details?populate=educations,workingCities,profileImage`);
 
-        
+
         setUsers(data.map(e => e.profileDetail));
 
       } catch (error) {
@@ -39,7 +39,7 @@ const index = () => {
     <div>
 
       <div className=' w-[100%] px-10 pt-5 flex flex-col lg:flex-row items-center gap-4 lg:items-start   '>
-        <div className=' flex flex-row flex-wrap gap-3 justify-center'>
+        <div className=' flex flex-row flex-wrap gap-3 justify-center items-center  h-full w-full  pb-72'>
           {
             users?.length > 0 && users.map((e) => {
               return (
